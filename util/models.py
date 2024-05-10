@@ -25,12 +25,15 @@ def get_all_moves(row, field, turn, board):
     possibleMoves = []
     r = 0
     c = 0
+    s = 0
     if turn == "r":
         c = 0
-        r= 6
-    else:
+        r = 6
+        s = 1
+    elif turn == "b":
         c = 7
         r = 1
+        s = -1
 #---------------------------------------------------------------------------------------------
 
     if field.isWhopper:
@@ -82,7 +85,7 @@ def get_all_moves(row, field, turn, board):
 
 
 #----------------------------------------------------------------------------------------------------
-
+    else:
         # check if the column is on the edge of the board
         if not field.index - 1 < 0:
             possibleMoves.append([row.index, field.index - 1])  # nach links
@@ -91,21 +94,19 @@ def get_all_moves(row, field, turn, board):
         # andere Regelungen bei der ersten und letzten Reihe
         if row.index == c:
             possibleMoves.append([row.index + 1 * s, field.index + 1])  # normaler Zug
-            possibleMoves.append([row.index + 1, field.index + 2])  # zum Schlagen ru
-            possibleMoves.append([row.index + 1, field.index])  # zum Schlagen lu
+            possibleMoves.append([row.index + 1 * s, field.index + 2])  # zum Schlagen ru/ro
+            possibleMoves.append([row.index + 1 * s, field.index])  # zum Schlagen lu/lo
         elif row.index == r:
             if field.index != 0 or field.index != 7:
-                possibleMoves.append([row.index + 1, field.index - 1])  # normaler Zug
-            elif diaCalc(turn, board[row.index + 1], field.index):
-                possibleMoves.append([row.index + 1, field.index])  # zum Schlagen ru
-            elif diaCalc(turn, board[row.index + 1], field.index - 2):
-                possibleMoves.append([row.index + 1, field.index - 2])  # zum Schlagen lu
+                possibleMoves.append([row.index + 1 * s, field.index - 1])  # normaler Zug
+            elif diaCalc(turn, board[row.index + 1 * s], field.index):
+                possibleMoves.append([row.index + 1 * s, field.index])  # zum Schlagen ru/ro
+            elif diaCalc(turn, board[row.index + 1 * s], field.index - 2):
+                possibleMoves.append([row.index + 1 * s, field.index - 2])  # zum Schlagen lu/lo
         else:
-            possibleMoves.append([row.index + 1, field.index])
-            possibleMoves.append([row.index + 1, field.index + 1])
-            possibleMoves.append([row.index + 1, field.index - 1])
-
-
+            possibleMoves.append([row.index + 1 * s, field.index])
+            possibleMoves.append([row.index + 1 * s, field.index + 1])
+            possibleMoves.append([row.index + 1 * s, field.index - 1])
 
 
 def createSpielsteinFromString(s: str):

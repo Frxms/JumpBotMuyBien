@@ -37,6 +37,9 @@ def get_all_moves(row, field, turn, board):
 #---------------------------------------------------------------------------------------------
 
     if field.isWhopper:
+        # todo: to make it usable for both colors, use (0,5,6) for blue / (7, 2, 1) for red
+        # todo: bei jedem Zug checken, ob da ein Turm der selben Farbe steht
+        # when in first row
         if row.index == 0:
             possibleMoves.append([row.index + 2, field.index])
             possibleMoves.append([row.index + 2, field.index + 2])
@@ -47,6 +50,7 @@ def get_all_moves(row, field, turn, board):
             else:
                 possibleMoves.append([row.index + 1, field.index - 1])
                 possibleMoves.append([row.index + 1, field.index + 3])
+        # when in row 5
         elif row.index == 5:
             if field.index <= 1:
                 possibleMoves.append([row.index + 2, field.index])
@@ -54,6 +58,7 @@ def get_all_moves(row, field, turn, board):
             elif field.index >= 6:
                 possibleMoves.append([row.index + 1, field.index - 2])
                 possibleMoves.append(([row.index + 2, field.index - 2]))
+        # when in row 6
         elif row.index == 6:
             if field.index <= 2:
                 possibleMoves.append([row.index + 1, field.index + 1])
@@ -87,6 +92,7 @@ def get_all_moves(row, field, turn, board):
 #----------------------------------------------------------------------------------------------------
     else:
         # check if the column is on the edge of the board
+        # todo: ist das nicht genau falsch herum??
         if not field.index - 1 < 0:
             possibleMoves.append([row.index, field.index - 1])  # nach links
         elif not field.index + 1 >= len(row):

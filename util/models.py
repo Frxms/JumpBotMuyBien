@@ -34,8 +34,6 @@
 # #---------------------------------------------------------------------------------------------
 #
 #     if field.isWhopper:
-#         # todo: to make it usable for both colors, use (0,5,6) for blue / (7, 2, 1) for red
-#         # todo: bei jedem Zug checken, ob da ein Turm der selben Farbe steht
 #         # when in first row
 #         if row.index == 0:
 #             possibleMoves.append([row.index + 2, field.index])
@@ -101,9 +99,7 @@
 #         # letzte Reihe
 #         elif row.index == r:
 #             if field.index != 0 or field.index != 7:
-#                 # todo check ob eigener Turm hier steht, oder gegnerische Figur
 #                 possibleMoves.append([row.index + 1 * s, field.index - 1])  # normaler Zug
-#             # todo elif falsch
 #             elif diaCalc(turn, board[row.index + 1 * s], field.index):
 #                 possibleMoves.append([row.index + 1 * s, field.index])  # zum Schlagen ru/ro
 #             elif diaCalc(turn, board[row.index + 1 * s], field.index - 2):
@@ -125,7 +121,6 @@
 #
 #----------------------------------------------------------------------------------------------
 # if field.isWhopper:
-#     # todo: to make it usable for both colors, use (0,5,6) for blue / (7, 2, 1) for red
 #     # when in first row
 #     if row.index == 0:
 #         possibleMoves.append(firstRowTower(row, field, board, turn))

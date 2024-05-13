@@ -1,6 +1,7 @@
 import re
 from util.engine import getAllMoves
 
+
 def createVis(FEN):
     boardArray = []
     lines = FEN.split("/")
@@ -15,26 +16,14 @@ def createVis(FEN):
         boardArray.append(finished)
     return boardArray
 
+
 def calcMove(board, turn):
     possibleMoves = []
     for row in board:
         for column in row:
-            possibleMoves.append(move for move in get_all_moves(row, column, turn, board))
+            if board[row][column][-1] == turn:
+                possibleMoves.append(move for move in getAllMoves(row, column, turn, board))
     return possibleMoves
-
-
-# check ob rechts-unten eine Figur steht
-def diaCalc(turn, row, cIndex):
-    if(turn == "r"):
-        if row[cIndex] == "b" or row[cIndex] == "rb":
-            return True
-        else:
-            return False
-    elif(turn == "b"):
-        if row[cIndex] == "r" or row[cIndex] == "br":
-            return True
-        else:
-            return False
 
 
 FEN = "r01r0r01r0/1r0rr1r0r0r01/3r04/2b05/4r0b02/8/1b0b0b0b0b0b01/1b0b0b0b01 b"
@@ -47,4 +36,3 @@ allMoves = calcMove(board, turn)
 print(allMoves)
 
 #Formatierung
-

@@ -1,6 +1,5 @@
 import re
-from util.models import get_all_moves
-
+from util.engine import getAllMoves
 
 def createVis(FEN):
     boardArray = []
@@ -42,7 +41,8 @@ FEN = "r01r0r01r0/1r0rr1r0r0r01/3r04/2b05/4r0b02/8/1b0b0b0b0b0b01/1b0b0b0b01 b"
 splitted = FEN.split(" ")
 turn = splitted[1]
 board = createVis(splitted[0])
-print (board)
+print(board)
+print(board[1][2][-1])
 allMoves = calcMove(board, turn)
 print(allMoves)
 

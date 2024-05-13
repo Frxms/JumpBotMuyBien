@@ -11,3 +11,8 @@
 - [ ] Unit Tests
 - [ ] Benchmarks 
 
+## possible Whopper moves:
+1. 2l + 1up
+2. 1l + 2up
+3. 1r + 2up
+4. 2r + 1up

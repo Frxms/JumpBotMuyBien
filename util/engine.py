@@ -93,15 +93,18 @@ def twoUp(row, field, board, turn):
     # red
     if turn == "br" or turn == "rr":
         if 0 < row < 5:
-            if field - 1 >= 0 and field + 1 < len(board[row]):
+            # if field - 1 > 0 and field < len(board[row]) - 1:
+            if 0 < field < 7:
                 if legalMoveCheck(board[row + 2, field + 1], turn):
                     moves.append([row + 2, field + 1])
                 if legalMoveCheck(board[row + 2, field - 1], turn):
                     moves.append([row + 2, field - 1])
-            elif field - 1 < 0:
+            # elif field - 1 <= 0:
+            elif field == 0:
                 if legalMoveCheck(board[row + 2, field + 1], turn):
                     moves.append([row + 2, field + 1])
-            elif field + 1 >= len(board[row]) - 1:
+            # elif field >= len(board[row]) - 1:
+            elif field == 7:
                 if legalMoveCheck(board[row + 2, field - 1], turn):
                     moves.append([row + 2, field - 1])
         elif row == 0:
@@ -122,39 +125,71 @@ def twoUp(row, field, board, turn):
     # blue
     elif turn == "rb" or turn == "bb":
         if 2 < row < 7:
-            if field - 1 >= 0 and field + 1 < len(board[row]):
-                moves.append([row])
-            elif field - 1 < 0:
-                pass
-            elif field + 1 >= len(board[row]) - 1:
-                pass
+            # if field - 1 > 0 and field < len(board[row]) - 1:
+            if 0 < field < 7:
+                if legalMoveCheck(board[row - 2, field - 1], turn):
+                    moves.append([row - 2, field - 1])
+                if legalMoveCheck(board[row - 2, field + 1], turn):
+                    moves.append([row - 2, field + 1])
+            # elif field - 1 <= 0:
+            elif field == 0:
+                if legalMoveCheck(board[row - 2, field + 1], turn):
+                    moves.append([row - 2, field + 1])
+            # elif field >= len(board[row]) - 1:
+            elif field == 7:
+                if legalMoveCheck(board[row - 2, field - 1], turn):
+                    moves.append([row - 2, field - 1])
         elif row == 7:
             if legalMoveCheck(board[row - 2, field], turn):
                 moves.append([row - 2, field])
             if legalMoveCheck(board[row - 2, field + 2], turn):
                 moves.append([row - 2, field + 2])
         elif row == 2:
-            pass
+            if 2 <= field <= 5:
+                if legalMoveCheck(board[row - 2, field - 2], turn):
+                    moves.append([row - 2, field - 2])
+                if legalMoveCheck(board[row - 2, field], turn):
+                    moves.append([row - 2, field])
+            elif field < 2:
+                if legalMoveCheck(board[row - 2, field], turn):
+                    moves.append([row - 2, field])
+            elif field > 5:
+                if legalMoveCheck(board[row - 2, field - 2], turn):
+                    moves.append([row - 2, field - 2])
+
+    return moves
 
 
 def hardTurn(row, field, board, turn):
     moves = []
     # red
     if turn == "br" or turn == "rr":
-        if row == 0:
+        if 0 < row < 6:
+            if 2 <= field <= 5:
+                if legalMoveCheck(board[row + 1, field + 2], turn):
+                    moves.append([row + 1, field + 2])
+                if legalMoveCheck(board[row + 1, field - 2], turn):
+                    moves.append([row + 1, field - 2])
+            elif field < 2:
+                if legalMoveCheck(board[row + 1, field + 2], turn):
+                    moves.append([row + 1, field + 2])
+            elif field > 5:
+                if legalMoveCheck(board[row + 1, field - 2], turn):
+                    moves.append([row + 1, field - 2])
+        elif row == 0:
             pass
         elif row == 6:
             pass
-        else:
-            pass
     # blue
     elif turn == "rb" or turn == "bb":
-        if row == 7:
+        if 1 < row < 7:
+            pass
+        elif row == 7:
             pass
         elif row == 1:
             pass
-        else:
-            pass
+
+    return moves
 
 def legalMoveCheck(targetField, turn):
     if turn == "b":

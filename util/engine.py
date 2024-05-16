@@ -270,6 +270,7 @@ def getAllMoves(row, field, turn, board):
             moves.append([row, field + 1])
 
     elif len(currentField) > 1:
+        # todo: change append
         moves.append(hardTurn(row, field, board, turn))
         moves.append(twoUp(row, field, board, turn))
 

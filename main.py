@@ -22,7 +22,7 @@ def calcMove(board, turn):
     for row in board:
         for column in row:
             if board[row][column][-1] == turn:
-                possibleMoves.append(move for move in getAllMoves(row, column, turn, board))
+                possibleMoves.append((f"{row}-{column}", move) for move in getAllMoves(row, column, turn, board))
     return possibleMoves
 
 

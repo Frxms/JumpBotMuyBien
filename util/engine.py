@@ -272,3 +272,7 @@ def getAllMoves(row, field, turn, board):
     elif len(currentField) > 1:
         moves.append(hardTurn(row, field, board, turn))
         moves.append(twoUp(row, field, board, turn))
+
+    formatted_moves = [(f"{move[0]}-{move[1]}") for move in moves]
+    return formatted_moves
+

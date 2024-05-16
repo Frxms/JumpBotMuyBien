@@ -177,17 +177,61 @@ def hardTurn(row, field, board, turn):
                 if legalMoveCheck(board[row + 1, field - 2], turn):
                     moves.append([row + 1, field - 2])
         elif row == 0:
-            pass
+            if 1 <= field <= 4:
+                if legalMoveCheck(board[row + 1, field - 1], turn):
+                    moves.append([row + 1, field - 1])
+                if legalMoveCheck(board[row + 1, field + 3], turn):
+                    moves.append([row + 1, field + 3])
+            elif field < 1:
+                if legalMoveCheck(board[row + 1, field + 3], turn):
+                    moves.append([row + 1, field + 3])
+            elif field > 4:
+                if legalMoveCheck(board[row + 1, field - 1], turn):
+                    moves.append([row + 1, field - 1])
         elif row == 6:
-            pass
+            if 3 <= field <= 4:
+                if legalMoveCheck(board[row + 1, field - 3], turn):
+                    moves.append([row + 1, field - 3])
+                if legalMoveCheck(board[row + 1, field + 1], turn):
+                    moves.append([row + 1, field + 1])
+            elif field < 3:
+                if legalMoveCheck(board[row + 1, field + 1], turn):
+                    moves.append([row + 1, field + 1])
+            elif field > 4:
+                if legalMoveCheck(board[row + 1, field - 3], turn):
+                    moves.append([row + 1, field - 3])
     # blue
     elif turn == "rb" or turn == "bb":
         if 1 < row < 7:
-            pass
+            if 2 <= field <= 5:
+                if legalMoveCheck(board[row - 1, field - 2], turn):
+                    moves.append([row - 1, field - 2])
+                if legalMoveCheck(board[row - 1, field + 2], turn):
+                    moves.append([row - 1, field + 2])
+            elif field < 2:
+                if legalMoveCheck(board[row - 1, field + 2], turn):
+                    moves.append([row - 1, field + 2])
+            elif field > 5:
+                if legalMoveCheck(board[row - 1, field - 2], turn):
+                    moves.append([row - 1, field - 2])
         elif row == 7:
-            pass
+            if 1 <= field <= 4:
+                if legalMoveCheck(board[row - 1, field - 1], turn):
+                    moves.append([row - 1, field - 1])
+                if legalMoveCheck(board[row - 1, field + 3], turn):
+                    moves.append([row - 1, field + 3])
+            if field < 1:
+                if legalMoveCheck(board[row - 1, field + 3], turn):
+                    moves.append([row - 1, field + 3])
+            if field > 4:
+                if legalMoveCheck(board[row - 1, field - 1], turn):
+                    moves.append([row - 1, field - 1])
         elif row == 1:
-            pass
+            if 3 <= field <= 4:
+                if legalMoveCheck(board[row - 1, field - 3], turn):
+                    moves.append([row - 1, field - 3])
+                if legalMoveCheck(board[row - 1, field + 1], turn):
+                    moves.append([row - 1, field + 1])
 
     return moves
 

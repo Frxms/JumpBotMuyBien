@@ -4,23 +4,21 @@ from util.engine import getAllMoves
 import pydevd_pycharm
 
 
-def generateFEN(board, move, turn):
-    letter_to_index = {
-        "A": 0,
-        "B": 1,
-        "C": 2,
-        "D": 3,
-        "E": 4,
-        "F": 5,
-        "G": 6,
-        "H": 7
-    }
-    move = move.split(" - ")
-    move[0] = move[0].replace(move[0][0], str(letter_to_index[move[0][0]]))
-    move[1] = move[1].replace(move[1][0], str(letter_to_index[move[1][0]]))
-    board[int(move[0][0])][int(move[0][1]) + 1] = ""
-    board[int(move[1][0])][int(move[1][1]) + 1] = turn + str(board[int(move[1][0])][int(move[1][1])])
-    print(board)
+def generateFEN(board, move, turn):  # startingPoints[i][0], startingPoints[i][0], move[0], move[2]
+    print("Before: ")
+    for line in board:
+        print(line)
+    if len(board[move[0]][move[1]]) == 2:  # wenn turm
+        board[move[2]][move[3]] = board[move[0]][move[1]][1]
+        board[move[0]][move[1]] = board[move[0]][move[1]][
+            0]  # Turm wird zu Bauer #TODO: Wie rum? oben geworfen oder unten? darf Turm auf turm schießen
+    else:
+        board[move[2]][move[3]] = board[move[2]][move[3]] + board[move[0]][move[1]]
+        board[move[0]][move[1]] = ""
+
+    print("After: ")
+    for line in board:
+        print(line)
     FEN_rows = []
     for row in board:
         rows = ""
@@ -76,34 +74,39 @@ def calcMove(board, turn):
         for j, column in enumerate(row):
             if board[i][j] != "" and board[i][j][-1] == turn:
                 possibleMoves.append(getAllMoves(i, j, turn, board))
-                print(possibleMoves)
+                #print(possibleMoves)
                 startingPoints.append([j, i])
     possibleMoves2 = []
     for i, moves in enumerate(possibleMoves):
-        for move in moves:  # startingPoints[i][0-1] move[0]move[2]
+        for move in moves:  # startingPoints[i][0], startingPoints[i][0], move[0], move[2]
+            possibleMoves2.append([startingPoints[i][1], startingPoints[i][0], move[0], move[1]])
             #print(f"{alph[startingPoints[i][0]]}{num[startingPoints[i][1]]} - {move[0]}{move[2]}")
             #print(f"{alph[startingPoints[i][0]]}{num[startingPoints[i][1]]} - {alph[int(move[2])]}{num[int(move[0])]}")
-            print(refactor_to_readable(startingPoints, i, move))
+            print(refactor_to_readable(possibleMoves2[-1]))
 
-    return possibleMoves
+    return possibleMoves2
 
 
-def refactor_to_readable(startingPoints, index, move):
+def refactor_to_readable(points):
     alph = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
     num = ['8', '7', '6', '5', '4', '3', '2', '1']
-    return f"{alph[startingPoints[index][0]]}{num[startingPoints[index][1]]} - {alph[int(move[2])]}{num[int(move[0])]}"
+    return f"{alph[points[1]]}{num[points[0]]} - {alph[points[3]]}{num[points[2]]}"
 
 
 if __name__ == "__main__":
-    FEN = "1r0r0r01r0/1r0rr1r0r0r01/3r04/2b05/4r0b02/8/1b0b0b0b0b0b01/1b0b0b0b01 b"  #36 Züge
+    FEN = "r01r0r01r0/1r0rr1r0r0r01/3r04/2b05/4r0b02/8/1b0b0b0b0b0b01/1b0b0b0b01 r"  #36 Züge
     a = [['X', '', 'r', 'r', 'r', '', 'r', 'X'], ['', 'r', 'rr', '', 'r', 'r', 'r', ''],
          ['', '', '', 'r', '', '', '', ''], ['', '', 'b', '', '', '', '', ''], ['', '', '', '', 'r', 'b', '', ''],
          ['', '', '', '', '', '', '', ''], ['', 'b', 'b', 'b', 'b', 'b', 'b', ''],
          ['X', '', 'b', 'b', 'b', 'b', '', 'X']]
-    print(generateFEN(a, "C5 - C6", "r"))
     FEN2 = "3b02/2b05/1b06/1r0rr2b01/8/5r02/1r0r03b01/3r02 b"  #15 Züge
     splitted = FEN.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
-    print(board)
-    calcMove(board, turn)
+    #print(board)
+    moves = calcMove(board, turn)
+    print(moves)
+    chosen_one = random.choice(moves)
+    print(refactor_to_readable(chosen_one), chosen_one)
+    #print(generateFEN(board, chosen_one, turn))
+    print(generateFEN(board, [1, 2, 2, 4], turn))

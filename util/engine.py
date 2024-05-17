@@ -155,5 +155,5 @@ def getAllMoves(row, field, turn, board):
             moves.append(move)
     #print(moves)
     formatted_moves = []
-    formatted_moves = [f"{move[0]}-{move[1]}" for move in moves]
+    formatted_moves = [(move[0], move[1]) for move in moves]
     return formatted_moves

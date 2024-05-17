@@ -31,11 +31,16 @@ def createVis(FEN):
 
 
 def calcMove(board, turn):
+    alph = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
     possibleMoves = []
     for i, row in enumerate(board):
         for j, column in enumerate(row):
             if board[i][j] != "" and board[i][j][-1] == turn:
-                print(getAllMoves(i, j, turn, board))
+                possibleMoves.append(getAllMoves(i, j, turn, board))
+                print(possibleMoves)
+                for moves in possibleMoves:
+                    for move in moves:
+                        print(f"{alph[int(j)]}{int(i)} - {alph[move[1]], move[0]}")
                 #possibleMoves.extend([f"{int(i)}-{int(j)}, {move}" for move in getAllMoves(i, j, turn, board)])
                 # possibleMoves.append(f"{int(i)}-{int(j)} :: {getAllMoves(i, j, turn, board)}")
                 #.append(f"{int(i)}-{int(j)}, {move}" for move in getAllMoves(i, j, turn, board))

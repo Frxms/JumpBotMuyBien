@@ -50,7 +50,6 @@ def checkFront(row, field, board, turn):
         return [row - 1, field]
 
 
-
 def checkSides(row, field, board, turn, sides):
     if sides:
         #check if figure on the left and not whoppable or enemy figure or out of board
@@ -123,13 +122,13 @@ def legalMoveCheck(targetField, turn):
 def getAllMoves(row, field, turn, board):
     moves = []
     currentField = board[row][field]
-
-    if len(currentField) <= 1:
+    # normal Figure
+    if currentField != "X" and len(currentField) <= 1:
         front = checkFront(row, field, board, turn)
         diag = diaCalc(row, field, board, turn)
         left = checkSides(row, field, board, turn, True)
         right = checkSides(row, field, board, turn, False)
-        if front != False:
+        if not front:
             moves.append(front)
         for i in diag:
             moves.append(i)
@@ -137,13 +136,13 @@ def getAllMoves(row, field, turn, board):
             moves.append([row, field - 1])
         if right:
             moves.append([row, field + 1])
-
-    elif len(currentField) > 1:
+    # tower
+    elif currentField != "X" and len(currentField) > 1:
         for move in hardTurn(row, field, board, turn):
             moves.append(move)
         for move in twoUp(row, field, board, turn):
             moves.append(move)
-
+    print(moves)
     formatted_moves = [(f"{move[0]}-{move[1]}") for move in moves]
     return formatted_moves
 

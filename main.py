@@ -20,7 +20,7 @@ def generateFEN(board, move, turn):  # startingPoints[i][0], startingPoints[i][0
     for line in board:
         print(line)
     FEN_rows = []
-    for row in board:
+    for row in reversed(board):
         rows = ""
         empty = 0
         for column in row:
@@ -32,18 +32,24 @@ def generateFEN(board, move, turn):  # startingPoints[i][0], startingPoints[i][0
                 if empty > 0:
                     rows += str(empty)
                     empty = 0
-                rows += column + "0"
+                if len(column) > 1:
+                    rows += column
+                else:
+                    rows += column + "0"
         if empty > 0:
             rows += str(empty)
         FEN_rows.append(rows)
+    if turn == "r":
+        return "/".join(FEN_rows) + " " + "b"
+    else:
+        return "/".join(FEN_rows) + " " + "r"
 
-    return "/".join(FEN_rows) + " " + turn
 
 
 def createVis(FEN):
     boardArray = []
     lines = FEN.split("/")
-    for index, row in enumerate(lines):
+    for index, row in enumerate(reversed(lines)):
         line = re.split(r'(r0|b0|rr|bb|rb|br)', row)
         finished = []
         for index2, x in enumerate(line):
@@ -80,8 +86,6 @@ def calcMove(board, turn):
     for i, moves in enumerate(possibleMoves):
         for move in moves:  # startingPoints[i][0], startingPoints[i][0], move[0], move[2]
             possibleMoves2.append([startingPoints[i][1], startingPoints[i][0], move[0], move[1]])
-            #print(f"{alph[startingPoints[i][0]]}{num[startingPoints[i][1]]} - {move[0]}{move[2]}")
-            #print(f"{alph[startingPoints[i][0]]}{num[startingPoints[i][1]]} - {alph[int(move[2])]}{num[int(move[0])]}")
             print(refactor_to_readable(possibleMoves2[-1]))
 
     return possibleMoves2
@@ -94,13 +98,14 @@ def refactor_to_readable(points):
 
 
 if __name__ == "__main__":
-    FEN = "r01r0r01r0/1r0rr1r0r0r01/3r04/2b05/4r0b02/8/1b0b0b0b0b0b01/1b0b0b0b01 r"  #36 Züge
+    #r01r0r01r0/1r0rr1r0r0r01/3r04/2b05/4r0b02/8/1b0b0b0b0b0b01/1b0b0b0b01 r
+    FEN1 = "6/1b06/8/2b01bbb0rb1/1rbr0rr1r0r01/8/b07/6 b"  #36 Züge
+    FEN2 = "6/8/6rr1/8/8/8/b0b0b05/6 r"
     a = [['X', '', 'r', 'r', 'r', '', 'r', 'X'], ['', 'r', 'rr', '', 'r', 'r', 'r', ''],
          ['', '', '', 'r', '', '', '', ''], ['', '', 'b', '', '', '', '', ''], ['', '', '', '', 'r', 'b', '', ''],
          ['', '', '', '', '', '', '', ''], ['', 'b', 'b', 'b', 'b', 'b', 'b', ''],
          ['X', '', 'b', 'b', 'b', 'b', '', 'X']]
-    FEN2 = "3b02/2b05/1b06/1r0rr2b01/8/5r02/1r0r03b01/3r02 b"  #15 Züge
-    splitted = FEN.split(" ")
+    splitted = FEN2.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
     #print(board)
@@ -109,4 +114,4 @@ if __name__ == "__main__":
     chosen_one = random.choice(moves)
     print(refactor_to_readable(chosen_one), chosen_one)
     #print(generateFEN(board, chosen_one, turn))
-    print(generateFEN(board, [1, 2, 2, 4], turn))
+    print(generateFEN(board, chosen_one, turn))

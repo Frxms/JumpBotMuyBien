@@ -23,14 +23,14 @@ class Spielstein:
 def diaCalc(row, field, board, turn):
     moves = []
     if turn == "r":
-        if board[row + 1][field - 1] != "" and board[row + 1][field - 1][-1] == "b":
+        if field - 1 >= 0 and board[row + 1][field - 1] != "" and board[row + 1][field - 1][-1] == "b":
             moves.append([row + 1, field - 1])
-        if board[row + 1][field + 1] != "" and board[row + 1][field + 1][-1] == "b":
+        if field + 1 < len(board[row + 1]) and board[row + 1][field + 1] != "" and board[row + 1][field + 1][-1] == "b":
             moves.append([row + 1, field + 1])
     elif turn == "b":
-        if board[row - 1][field - 1] != "" and board[row - 1][field - 1][-1] == "r":
+        if field - 1 >= 0 and board[row - 1][field - 1] != "" and board[row - 1][field - 1][-1] == "r":
             moves.append([row - 1, field - 1])
-        if board[row - 1][field + 1] != "" and board[row - 1][field + 1][-1] == "r":
+        if field + 1 < len(board[row - 1]) and board[row - 1][field + 1] != "" and board[row - 1][field + 1][-1] == "r":
             moves.append([row - 1, field + 1])
     return moves
 
@@ -54,15 +54,11 @@ def checkFront(row, field, board, turn):
 def checkSides(row, field, board, turn, sides):
     if sides:
         #check if figure on the left and not whoppable or enemy figure or out of board
-        if board[row][field - 1] != "" and (
-                board[row][field - 1] != turn or len(board[row][field - 1]) > 1 or field - 1 < 0 or board[row][
-            field - 1] == "X"):
+        if field - 1 < 0 or (board[row][field - 1] != "" and (board[row][field - 1] != turn) or len(board[row][field - 1]) > 1 or board[row][field - 1] == "X"):
             return False
     else:
         # check if figure on the right and not whoppable or enemy figure or out of board
-        if board[row][field + 1] != "" and (
-                board[row][field + 1] != turn or len(board[row][field + 1]) > 1 or field + 1 >= len(board[row]) or
-                board[row][field + 1] == "X"):
+        if field + 1 >= len(board[row]) or (board[row][field + 1] != "" and (board[row][field + 1] != turn) or len(board[row][field + 1]) > 1 or board[row][field + 1] == "X"):
             return False
 
     return True
@@ -72,19 +68,19 @@ def twoUp(row, field, board, turn):
     moves = []
     # red
     if turn == "r":
-        if (legalMoveCheck(board[row + 2][field + 1], turn)
-                and (field + 1 < len(board[row + 2]) or not board[row + 2][field + 1] == "X")):
+        if (field + 1 < len(board[row + 2]) and not board[row + 2][field + 1] == "X"
+                and legalMoveCheck(board[row + 2][field + 1], turn)):
             moves.append([row + 2, field + 1])
-        if (legalMoveCheck(board[row + 2][field - 1], turn)
-                and (field - 1 >= 0 or not board[row + 2][field - 1] == "X")):
+        if (field - 1 >= 0 and not board[row + 2][field - 1] == "X"
+                and legalMoveCheck(board[row + 2][field - 1], turn)):
             moves.append([row + 2, field - 1])
     # blue
     elif turn == "b":
-        if (legalMoveCheck(board[row - 2][field - 1], turn)
-                and (field - 1 >= 0 or not board[row - 2][field - 1] == "X")):
+        if (field - 1 >= 0 and not board[row - 2][field - 1] == "X"
+                and legalMoveCheck(board[row - 2][field - 1], turn)):
             moves.append([row - 2, field - 1])
-        if (legalMoveCheck(board[row - 2][field + 1], turn)
-                and (field + 1 < len(board[row - 2]) or not board[row - 2][field + 1] == "X")):
+        if (field + 1 < len(board[row - 2]) and not board[row - 2][field + 1] == "X"
+                and legalMoveCheck(board[row - 2][field + 1], turn)):
             moves.append([row - 2, field + 1])
     return moves
 
@@ -93,33 +89,31 @@ def hardTurn(row, field, board, turn):
     moves = []
     # red
     if turn == "r":
-        print(board[row + 2][field + 1])
-
-        if (legalMoveCheck(board[row + 1][field + 2], turn)
-                and (field + 2 < len(board[row + 1]) or not board[row + 1][field + 2] == "X")):
+        if (field + 2 < len(board[row + 1]) and not board[row + 1][field + 2] == "X"
+                and legalMoveCheck(board[row + 1][field + 2], turn)):
             moves.append([row + 1, field + 2])
-        if (legalMoveCheck(board[row + 1][field - 2], turn)
-                and (field >= 0 or not board[row + 1][field - 2] == "X")):
+        if (field >= 0 and not board[row + 1][field - 2] == "X"
+                and legalMoveCheck(board[row + 1][field - 2], turn)):
             moves.append([row + 1, field - 2])
     # blue
     elif turn == "b":
-        if (legalMoveCheck(board[row - 1][field - 2], turn)
-                and (field - 2 >= 0 or not board[row - 1][field - 2] == "X")):
+        if (field - 2 >= 0 and not board[row - 1][field - 2] == "X"
+                and legalMoveCheck(board[row - 1][field - 2], turn)):
             moves.append([row - 1, field - 2])
-        if (legalMoveCheck(board[row - 1][field + 2], turn)
-                and (field + 2 < len(board[row - 1]) or not board[row - 1][field + 2] == "X")):
+        if (field + 2 < len(board[row - 1]) and not board[row - 1][field + 2] == "X"
+                and legalMoveCheck(board[row - 1][field + 2], turn)):
             moves.append([row - 1, field + 2])
     return moves
 
 
 def legalMoveCheck(targetField, turn):
     if turn == "b":
-        if targetField == "" or targetField == "r" or targetField == "br" or targetField == "rr":
+        if targetField == "" or targetField == "r" or targetField == "br" or targetField == "rr" or targetField == "b":
             return True
         else:
             return False
     elif turn == "r":
-        if targetField == "" or targetField == "b" or targetField == "rb" or targetField == "bb":
+        if targetField == "" or targetField == "b" or targetField == "rb" or targetField == "bb" or targetField == "r":
             return True
         else:
             return False
@@ -130,8 +124,6 @@ def legalMoveCheck(targetField, turn):
 
 def getAllMoves(row, field, turn, board):
     moves = []
-    alph = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
-    num = ['8', '7', '6', '5', '4', '3', '2', '1']
     currentField = board[row][field]
     # normal Figure
     if currentField != "X" and len(currentField) <= 1:

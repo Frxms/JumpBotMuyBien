@@ -1,31 +1,25 @@
 import unittest
 from main import *
-from models import *
+from collections import Counter
 
 class MyTestCase(unittest.TestCase):
-    FEN = "r01r0r01r0/1r0rr1r0r0r01/3r04/2b05/4r0b02/8/1b0b0b0b0b0b01/1b0b0b0b01"
-    def test_createVis(self):
-        self.assertEqual(createVis(FEN), [['r', '', 'r', 'r', '', 'r'], ['', 'r', 'rr', '', 'r', 'r', 'r', ''], ['', '', '', 'r', '', '', '', ''], ['', '', 'b', '', '', '', '', ''], ['', '', '', '', 'r', 'b', '', ''], ['', '', '', '', '', '', '', ''], ['', 'b', 'b', 'b', 'b', 'b', 'b', ''], ['', 'b', 'b', 'b', 'b', '']])
+    FEN = "b0b01b0b0b0/1b0b02b0b01/3b0b03/2b05/3r04/2r05/1r01rr1r0r01/r0r02r0r0 b"
+    def test_calc_move(self):
+        myList = calcMove(createVis(self.FEN), "r", True)
+        expected = ['B8 - B7', 'B8 - C8', 'D8 - D7', 'D8 - C8', 'D8 - E8', 'E8 - E7', 'E8 - D8', 'E8 - F8', 'G8 - G7',
+                    'G8 - F8', 'B7 - B6', 'B7 - A7', 'C7 - E6', 'C7 - A6', 'C7 - D5', 'C7 - B5', 'E7 - E6', 'E7 - D7',
+                    'E7 - F7', 'F7 - F6', 'F7 - E7', 'F7 - G7', 'G7 - G6', 'G7 - F7', 'G7 - H7', 'D6 - D5', 'D6 - C5',
+                    'D6 - C6', 'D6 - E6', 'E4 - E3', 'E4 - D4']
+        print(myList)
+        try:
+            assert Counter(myList) == Counter(expected), "Lists are not equal"
 
-    def test_calcMove(self):
-        board = createVis(FEN)
-        self.assertEqual(calcMove(board, "b"), [[]])
+        except AssertionError as e:
+            print(e)
+            print("Expected: ", expected)
+            print("Actual: ", myList)
+            self.fail()
 
-    def test_diaCalc(self):
-        self.assertTrue(diaCalc("b", ['', 'r', 'rr', '', 'r', 'r', 'r', ''], 2))
-        self.assertFalse(diaCalc("b", ['', 'r', 'rr', '', 'r', 'r', 'r', ''], 1))
-        self.assertTrue(diaCalc("r", ['', 'b', 'bb', '', 'b', 'b', 'b', ''], 2))
-        self.assertFalse(diaCalc("r", ['', 'b', 'bb', '', 'b', 'b', 'b', ''], 1))
-
-    def test_createSpielstein(self):
-        self.assertEqual(Spielstein("r").farbe, "r")
-        self.assertEqual(Spielstein("r", "b", True).farbe2, "b")
-        self.assertEqual(Spielstein("r", "b", True).farbe, "r")
-        self.assertTrue(Spielstein("r", "b", True).isWhopper)
-        self.assertFalse(Spielstein("r").isWhopper)
-
-    def test_get_all_moves(self):
-        self.assertTrue()
 
 if __name__ == '__main__':
     unittest.main()

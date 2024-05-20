@@ -68,18 +68,18 @@ def twoUp(row, field, board, turn):
     moves = []
     # red
     if turn == "r":
-        if (field + 1 < len(board[row + 2]) and not board[row + 2][field + 1] == "X"
+        if (row < 6 and field + 1 < len(board[row + 2]) and not board[row + 2][field + 1] == "X"
                 and legalMoveCheck(board[row + 2][field + 1], turn)):
             moves.append([row + 2, field + 1])
-        if (field - 1 >= 0 and not board[row + 2][field - 1] == "X"
+        if (row < 6 and field - 1 >= 0 and not board[row + 2][field - 1] == "X"
                 and legalMoveCheck(board[row + 2][field - 1], turn)):
             moves.append([row + 2, field - 1])
     # blue
     elif turn == "b":
-        if (field - 1 >= 0 and not board[row - 2][field - 1] == "X"
+        if (row > 1 and field - 1 >= 0 and not board[row - 2][field - 1] == "X"
                 and legalMoveCheck(board[row - 2][field - 1], turn)):
             moves.append([row - 2, field - 1])
-        if (field + 1 < len(board[row - 2]) and not board[row - 2][field + 1] == "X"
+        if (row > 1 and field + 1 < len(board[row - 2]) and not board[row - 2][field + 1] == "X"
                 and legalMoveCheck(board[row - 2][field + 1], turn)):
             moves.append([row - 2, field + 1])
     return moves
@@ -89,18 +89,18 @@ def hardTurn(row, field, board, turn):
     moves = []
     # red
     if turn == "r":
-        if (field + 2 < len(board[row + 1]) and not board[row + 1][field + 2] == "X"
+        if (row + 1 < len(board) and field + 2 < len(board[row + 1]) and not board[row + 1][field + 2] == "X"
                 and legalMoveCheck(board[row + 1][field + 2], turn)):
             moves.append([row + 1, field + 2])
-        if (field >= 0 and not board[row + 1][field - 2] == "X"
+        if (row + 1 < len(board) and field - 2 >= 0 and not board[row + 1][field - 2] == "X"
                 and legalMoveCheck(board[row + 1][field - 2], turn)):
             moves.append([row + 1, field - 2])
     # blue
     elif turn == "b":
-        if (field - 2 >= 0 and not board[row - 1][field - 2] == "X"
+        if (row - 1 >= 0 and field - 2 >= 0 and not board[row - 1][field - 2] == "X"
                 and legalMoveCheck(board[row - 1][field - 2], turn)):
             moves.append([row - 1, field - 2])
-        if (field + 2 < len(board[row - 1]) and not board[row - 1][field + 2] == "X"
+        if (row - 1 >= 0 and field + 2 < len(board[row - 1]) and not board[row - 1][field + 2] == "X"
                 and legalMoveCheck(board[row - 1][field + 2], turn)):
             moves.append([row - 1, field + 2])
     return moves

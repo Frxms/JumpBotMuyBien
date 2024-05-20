@@ -54,11 +54,15 @@ def checkFront(row, field, board, turn):
 def checkSides(row, field, board, turn, sides):
     if sides:
         #check if figure on the left and not whoppable or enemy figure or out of board
-        if field - 1 < 0 or (board[row][field - 1] != "" and (board[row][field - 1] != turn) or len(board[row][field - 1]) > 1 or board[row][field - 1] == "X"):
+        if field - 1 < 0 or (
+                board[row][field - 1] != "" and (board[row][field - 1] != turn) or len(board[row][field - 1]) > 1 or
+                board[row][field - 1] == "X"):
             return False
     else:
         # check if figure on the right and not whoppable or enemy figure or out of board
-        if field + 1 >= len(board[row]) or (board[row][field + 1] != "" and (board[row][field + 1] != turn) or len(board[row][field + 1]) > 1 or board[row][field + 1] == "X"):
+        if field + 1 >= len(board[row]) or (
+                board[row][field + 1] != "" and (board[row][field + 1] != turn) or len(board[row][field + 1]) > 1 or
+                board[row][field + 1] == "X"):
             return False
 
     return True

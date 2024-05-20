@@ -105,11 +105,12 @@ if __name__ == "__main__":
     #r01r0r01r0/1r0rr1r0r0r01/3r04/2b05/4r0b02/8/1b0b0b0b0b0b01/1b0b0b0b01 r
     FEN1 = "1b04/2b03b01/b01rr5/r02b01b02/1b06/1r02b03/8/1r01r0r0r0 b"  #36 Züge
     FEN2 = "6/rr7/6r01/8/8/8/b0b0b05/6 r"
+    FEN3 = "3b02/2b05/1b06/1r0rr2b02/8/5r02/1r0r03b01/3r02 b"
     a = [['X', '', 'r', 'r', 'r', '', 'r', 'X'], ['', 'r', 'rr', '', 'r', 'r', 'r', ''],
          ['', '', '', 'r', '', '', '', ''], ['', '', 'b', '', '', '', '', ''], ['', '', '', '', 'r', 'b', '', ''],
          ['', '', '', '', '', '', '', ''], ['', 'b', 'b', 'b', 'b', 'b', 'b', ''],
          ['X', '', 'b', 'b', 'b', 'b', '', 'X']]
-    splitted = FEN1.split(" ")
+    splitted = FEN3.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
     #print(board)

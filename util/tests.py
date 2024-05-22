@@ -1,6 +1,7 @@
 import unittest
 from main import *
 
+
 class mainTests(unittest.TestCase):
     def test_earlyGame(self):
         fen = "b01b0b01b0/1b0bb1b0b0b01/3b04/2r05/4b0r02/8/1r0r0r0r0r0r01/1r0r0r0r01 b"
@@ -9,7 +10,8 @@ class mainTests(unittest.TestCase):
         myList = sorted(calcMove(createVis(splitted[0]), turn, True))
         expected = sorted(["B2-A2", "B2-B3", "B1-B2", "B1-C1", "C2-A3", "C2-B4", "C2-D4", "C2-E3", "D3-C3", "D3-C4",
                            "D3-D4", "D3-E3", "D1-C1", "D1-D2", "D1-E1", "E2-D2", "E2-E3", "E2-F2", "E1-D1", "E1-E2",
-                           "E1-F1", "F2-E2", "F2-F3", "F2-G2", "G2-F2", "G2-G3", "G2-H2", "G1-F1", "G1-G2", "E5-D5", "E5-E6"])
+                           "E1-F1", "F2-E2", "F2-F3", "F2-G2", "G2-F2", "G2-G3", "G2-H2", "G1-F1", "G1-G2", "E5-D5",
+                           "E5-E6"])
 
         try:
             assert myList == expected, "Lists are not equal"
@@ -74,6 +76,7 @@ class EarlyGame(unittest.TestCase):
             print("Actual: ", myList)
             self.fail()
 
+
 class EndGame(unittest.TestCase):
     def test_own_endgame(self):
         fen = "6/rr7/6r01/8/8/8/b0b0b05/6 r"
@@ -98,7 +101,7 @@ class EndGame(unittest.TestCase):
         splitted = fen.split(" ")
         turn = splitted[1]
         myList = sorted(calcMove(createVis(splitted[0]), turn, True))
-        expected = sorted(["C6-B6", "C6-D6", "F6-E6", "F6-G6","C2-B2", "C2-D2", "F2-E2", "F2-G2"])
+        expected = sorted(["C6-B6", "C6-D6", "F6-E6", "F6-G6", "C2-B2", "C2-D2", "F2-E2", "F2-G2"])
 
         print(myList)
 
@@ -110,6 +113,7 @@ class EndGame(unittest.TestCase):
             print("Expected: ", expected)
             print("Actual: ", myList)
             self.fail()
+
 
 class EdgeCases(unittest.TestCase):
     def test_own_edgecases(self):

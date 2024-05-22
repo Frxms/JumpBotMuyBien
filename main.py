@@ -1,7 +1,6 @@
 import random
 import re
 from util.engine import getAllMoves
-import pydevd_pycharm
 
 
 def generateFEN(board, move, turn):  # startingPoints[i][0], startingPoints[i][0], move[0], move[2]
@@ -100,6 +99,37 @@ def refactor_to_readable(points):
     num = ['8', '7', '6', '5', '4', '3', '2', '1']
     return f"{alph[points[1]]}{num[points[0]]}-{alph[points[3]]}{num[points[2]]}"
 
+def perfTest():
+    import time
+    fen = "b01b0b01b0/1b0bb1b0b0b01/3b04/2r05/4b0r02/8/1r0r0r0r0r0r01/1r0r0r0r01 b"
+    splitted = fen.split(" ")
+    turn = splitted[1]
+    start_time = time.time()
+    for i in range(1000):
+        calcMove(createVis(splitted[0]), turn, True)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"early Game took: {elapsed_time} seconds")
+
+    fen = "b02b01b0/3b01b02/b02b02b01/b01b05/5r02/1r02r02r0/2rrr02r01/r03r01 b"
+    splitted = fen.split(" ")
+    turn = splitted[1]
+    start_time = time.time()
+    for i in range(1000):
+        calcMove(createVis(splitted[0]), turn, True)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"mid Game took: {elapsed_time} seconds")
+    
+    fen = "3b02/2b05/1b06/1r0rr2b02/8/5r02/1r0r03b01/3r02 b"
+    splitted = fen.split(" ")
+    turn = splitted[1]
+    start_time = time.time()
+    for i in range(1000):
+        calcMove(createVis(splitted[0]), turn, True)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"end Game took: {elapsed_time} seconds")
 
 if __name__ == "__main__":
     #r01r0r01r0/1r0rr1r0r0r01/3r04/2b05/4r0b02/8/1b0b0b0b0b0b01/1b0b0b0b01 r
@@ -120,3 +150,4 @@ if __name__ == "__main__":
     print(refactor_to_readable(chosen_one), chosen_one)
     #print(generateFEN(board, chosen_one, turn))
     print(generateFEN(board, chosen_one, turn))
+    perfTest()

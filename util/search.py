@@ -1,130 +1,75 @@
 class Node:
-    def __init__(self, key, score=None):
+    def __init__(self, move):
         self.children = []
-        self.value = key
-        self.score = score
+        self.value = move
 
     def __repr__(self):
-        return f"Key: {self.value} Score: {self.score}"
+        return f"Key: {self.value} Score: {self.score}, Children: {self.children}"
 
     def add_child(self, node):
         self.children.append(node)
 
+    def get_leafs(self):
+        leafs = []
+        stack = [self]
+        while stack:
+            current_node = stack.pop()
+            if not current_node.children:
+                leafs.append(current_node)
+            else:
+                stack.extend(current_node.children)
+        return leafs
 
-class BinaryTree:
-    def __init__(self):
-        self.root = None
 
-    def insert(self, key, score=None):
+class Tree:
+    def __init__(self, root=None):
+        self.root = root
+
+    def get_leafs(self):
         if self.root is None:
-            self.root = Node(key, score)
-        else:
-            self._insert(self.root, key, score)
+            return []
+        return self.root.get_leafs()
 
-    def _insert(self, root, key, score):
-        if key < root.value:
-            if root.left is None:
-                root.left = Node(key, score)
-            else:
-                self._insert(root.left, key, score)
-        else:
-            if root.right is None:
-                root.right = Node(key, score)
-            else:
-                self._insert(root.right, key, score)
-
-    def search(self, key):
-        return self._search(self.root, key)
-
-    def _search(self, root, key):
-        if root is None or root.value == key:
-            return root
-        if key < root.value:
-            return self._search(root.left, key)
-        return self._search(root.right, key)
+    def insert(self, parent_value, new_node):
+        # ggf nur leafs durchsuchen wegen runtime
+        if self.root is None:
+            self.root = new_node
+            return True
+        queue = [self.root]
+        while queue:
+            current_node = queue.pop(0)
+            if current_node.value == parent_value:
+                current_node.add_child(new_node)
+                return True
+            queue.extend(current_node.children)
+        return False
 
     def minimax(self, node, depth, alpha, beta, maximizing_player):
+        if depth == 0:  #&& isGameOver(node):
+            return eval(node)
+
         if node is None:
             return 0  # In case the node is None, return 0
 
-        if node.left is None and node.right is None:  # Leaf node
+        if len(node.children) == 0:
             return node.score
 
         if maximizing_player:
-            max_eval = float('-inf')
-            if node.left:
-                eval_left = self.minimax(node.left, depth + 1, False)
-                max_eval = max(max_eval, eval_left)
-                alpha = max(alpha, eval_left)
-            if node.right:
-                eval_right = self.minimax(node.right, depth + 1, False)
-                max_eval = max(max_eval, eval_right)
-            node.score = max_eval
+            max_eval = alpha
+            for child in node.children:
+                max_eval = max(max_eval, self.minimax(child, depth - 1, max_eval, beta, False))
+                if max_eval >= beta:
+                    break
             return max_eval
+
         else:
-            min_eval = float('inf')
-            if node.left:
-                eval_left = self.minimax(node.left, depth + 1, True)
-                min_eval = min(min_eval, eval_left)
-            if node.right:
-                eval_right = self.minimax(node.right, depth + 1, True)
-                min_eval = min(min_eval, eval_right)
-            node.score = min_eval
+            min_eval = beta
+            for child in node.children:
+                min_eval = min(min_eval, self.minimax(child, depth - 1, alpha, min_eval, True))
+                if min_eval <= alpha:
+                    break
             return min_eval
 
 
-# def minimax(state, depth, is_maximizing_player):
-#     if terminal_state(state):
-#         return utility(state)
-#
-#     if is_maximizing_player:
-#         max_eval = -infinity
-#         for each child in children(state):
-#             eval = minimax(child, depth - 1, False)
-#             max_eval = max(max_eval, eval)
-#         return max_eval
-#     else:
-#         min_eval = infinity
-#         for each child in children(state):
-#             eval = minimax(child, depth - 1, True)
-#             min_eval = min(min_eval, eval)
-#         return min_eval
-#
-# def rightNode(node):
-#     return node.right
-#
-# def leftNode(node):
-#     return node.left
-#
-# commands = [rightNode, leftNode]
-#
-# def isGameOver(pos): #temporary
-#     return False
-# def minimax(pos, depth, maximizing_player):
-#     if depth == 0 or isGameOver(pos):
-#         return pos
-#     if maximizing_player:
-#         max_eval = -float("inf")
-#         for call in commands:
-#             eval = minimax(call(pos), depth - 1, False)
-#             max_eval = max(max_eval, eval)
-#         return max_eval
-#     else:
-#         min_eval = float("inf")
-#         for call in commands:
-#             eval = minimax(call(pos), depth - 1, True)
-#             min_eval = min(min_eval, eval)
-#         return min_eval
-
-
 if __name__ == '__main__':
-    tree = BinaryTree()
-    tree.insert(10, None)
-    tree.insert(5, None)
-    tree.insert(20, None)
-    tree.insert(3, 3)  # Leaf node with score 3
-    tree.insert(7, 5)  # Leaf node with score 5
-    tree.insert(15, 2)  # Leaf node with score 2
-    tree.insert(25, 9)  # Leaf node with score 9
-
-    print(tree.minimax(tree.root, 2, True))
+    tree = Tree()

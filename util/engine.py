@@ -123,7 +123,6 @@ def legalMoveCheck(targetField, turn):
             return False
     return False
 
-
 #------------------------------------------------------------------------------
 
 def getAllMoves(row, field, turn, board):

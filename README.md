@@ -29,6 +29,5 @@ Blau ist negative bei EVAL
 2. Making the same move 3 times
 3. Reaching the other end
 4. no more pieces
-5. 
 
 

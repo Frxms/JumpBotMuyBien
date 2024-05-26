@@ -123,6 +123,7 @@ def legalMoveCheck(targetField, turn):
             return False
     return False
 
+
 #------------------------------------------------------------------------------
 
 def getAllMoves(row, field, turn, board):
@@ -152,3 +153,32 @@ def getAllMoves(row, field, turn, board):
     formatted_moves = []
     formatted_moves = [(move[0], move[1]) for move in moves]
     return formatted_moves
+
+def calcMove(board, turn, readable=False):
+    possibleMoves = []
+    startingPoints = []
+    for i, row in enumerate(board):
+        for j, column in enumerate(row):
+            if board[i][j] != "" and board[i][j][-1] == turn:
+                possibleMoves.append(getAllMoves(i, j, turn, board))
+                #print(possibleMoves)
+                startingPoints.append([j, i])
+    possibleMoves2 = []
+    readableMoves = []
+    for i, moves in enumerate(possibleMoves):
+        for move in moves:  # startingPoints[i][0], startingPoints[i][0], move[0], move[2]
+            possibleMoves2.append([startingPoints[i][1], startingPoints[i][0], move[0], move[1]])
+            #print(refactor_to_readable(possibleMoves2[-1]))
+            readableMoves.append(refactor_to_readable(possibleMoves2[-1]))
+
+    if readable:
+        return readableMoves
+
+
+    return possibleMoves2
+
+
+def refactor_to_readable(points):
+    alph = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    num = ['8', '7', '6', '5', '4', '3', '2', '1']
+    return f"{alph[points[1]]}{num[points[0]]}-{alph[points[3]]}{num[points[2]]}"

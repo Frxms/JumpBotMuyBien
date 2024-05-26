@@ -1,10 +1,15 @@
+from typing import Any, List
+from util.engine import calcMove
+from util.generator import generateBoard
+
+
 class Node:
-    def __init__(self, move):
+    def __init__(self, value):
         self.children = []
-        self.value = move
+        self.value = value
 
     def __repr__(self):
-        return f"Key: {self.value} Score: {self.score}, Children: {self.children}"
+        return f"Key: {self.value}, Children: {self.children}"
 
     def add_child(self, node):
         self.children.append(node)
@@ -69,6 +74,34 @@ class Tree:
                 if min_eval <= alpha:
                     break
             return min_eval
+
+
+def createTree(parent: Node, depth: int, turn: str, tree: Tree) -> Any:
+    if depth == 0:
+        return
+    pboard = parent.value
+    if recEndgame(pboard, turn):
+        moves = calcMove(pboard, turn)
+    else:
+        return
+
+    for move in moves:
+        nboard = generateBoard(pboard, move, turn)
+        node = Node(nboard)
+        tree.insert(pboard, node)
+    if turn == "b":
+        turn = "r"
+    else:
+        turn = "b"
+    depth -= 1
+    for child in parent.get_leafs():
+        createTree(child, depth, turn, tree)
+
+
+def recEndgame(board: List, turn):
+    # if board.__getitem__("r"):
+    #     pass
+    return True
 
 
 if __name__ == '__main__':

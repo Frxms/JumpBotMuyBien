@@ -26,7 +26,7 @@ Blau ist negative bei EVAL
 
 ## Game ending conditions:
 1. A player that cannot make a legal move loses
-2. Making the same move 3 times
+2. Making the same move 3 times (remis) (for later)
 3. Reaching the other end
 4. no more pieces
 

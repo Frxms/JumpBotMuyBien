@@ -28,12 +28,12 @@ def posEval(row, column, col, piece):
         if col == "r":
             return pointBoardPiece[row][column]
         else:
-            return pointBoardTower[-row][-column]
+            return pointBoardTower[-row][column]
     else:
         if col == "r":
             return pointBoardTower[row][column]
         else:
-            return pointBoardTower[-row][-column]
+            return pointBoardTower[-row][column]
 
 
 if __name__ == "__main__":

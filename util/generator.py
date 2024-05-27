@@ -43,17 +43,31 @@ def generateFEN(boardc, move, turn):  # startingPoints[i][0], startingPoints[i][
     else:
         return "/".join(FEN_rows) + " " + "r"
 
+
 def generateBoard(boardc, move, turn):
     board = copy.deepcopy(boardc)
-    if len(board[move[0]][move[1]]) == 2:  # wenn turm
-        board[move[2]][move[3]] = board[move[0]][move[1]][1]
-        board[move[0]][move[1]] = board[move[0]][move[1]][0]
-        # Turm wird zu Bauer #TODO: Wie rum? oben geworfen oder unten? darf Turm auf turm schießen
-    else:
-        board[move[2]][move[3]] = board[move[2]][move[3]] + board[move[0]][move[1]]
+    if move == [5, 5, 6, 4]:
+        a = 0
+    if len(board[move[0]][move[1]]) == 2:
+        if len(board[move[2]][move[3]]) == 2:   # turm schlägt turm
+            board[move[2]][move[3]] = board[move[2]][move[3]][0] + board[move[0]][move[1]][1]
+            board[move[0]][move[1]] = board[move[0]][move[1]][0]
+        else:   # turm schlägt bauer oder leeres feld
+            board[move[2]][move[3]] = board[move[0]][move[1]][1]
+            board[move[0]][move[1]] = board[move[0]][move[1]][0]
+
+    elif len(board[move[2]][move[3]]) == 2:     # bauer schlägt turm
+        board[move[2]][move[3]] = board[move[2]][move[3]][0] + board[move[0]][move[1]]
+        board[move[0]][move[1]] = ""
+    else:   # bauer geht auf ein bauer oder leeres Feld
+        if board[move[2]][move[3]] == turn:
+            board[move[2]][move[3]] = board[move[0]][move[1]] + board[move[2]][move[3]]
+        else:
+            board[move[2]][move[3]] = board[move[0]][move[1]]
         board[move[0]][move[1]] = ""
 
     return board
+
 
 def createVis(FEN):
     boardArray = []

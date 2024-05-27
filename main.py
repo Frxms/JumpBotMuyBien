@@ -76,19 +76,20 @@ def main():
     fen = "6/rr7/8/8/8/8/bb7/6 r"
     fen2 = "6/rr7/2r05/8/8/8/bb7/6 r"
 
-    splitted = fen2.split(" ")
+    splitted = fen.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
     print(board)
     node = Node(board)
-    if recEndgame(board):
-        moves = calcMove(board, turn)
-    else:
+    if not recEndgame(board):
         return
     tree = Tree(node)
     createTree(parent=tree.root, depth=2, turn=turn, tree=tree)
     print(tree.root)
-    print(minimax(tree.root, 2, -1000000, 1000000, True))
+    search_value = minimax(tree.root, 2, -1000000, 1000000, True)
+    child: Node = tree.get_root_children(search_value)
+    print(child.move)
+
 
     # for move in moves:
     #     new_board = generateBoard(board, move, turn)

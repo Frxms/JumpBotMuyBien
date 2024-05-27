@@ -30,4 +30,7 @@ Blau ist negative bei EVAL
 3. Reaching the other end
 4. no more pieces
 
+## Minimax algorithm
+1. red is max Player
+2. blue is min Player
 

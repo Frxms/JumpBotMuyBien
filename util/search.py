@@ -1,17 +1,19 @@
 from typing import Any, List
-from util.engine import calcMove
+from util.engine import calcMove, refactor_to_readable
 from util.generator import generateBoard
 from util.evaluate import evaluate
 
 
 class Node:
     def __init__(self, value):
+        self.value = tuple(value) if isinstance(value, list) else value  # Ensure the value is hashable
         self.children = []
-        self.value = value
         self.eval = 0
+        self.move = ""
 
     def __repr__(self):
-        return f"Key: {self.value}, Children: {self.children}"
+        return "\n".join(self.value)
+
 
     def add_child(self, node):
         self.children.append(node)
@@ -31,11 +33,20 @@ class Node:
 class Tree:
     def __init__(self, root=None):
         self.root = root
+        self.nodes = {}
+
 
     def get_leafs(self):
         if self.root is None:
             return []
         return self.root.get_leafs()
+
+    def get_root_children(self, minmaxVal):
+        if self.root is None:
+            return []
+        for child in self.root.children:
+            if child.eval == minmaxVal:
+                return child
 
     def insert(self, parent_value, new_node):
         # ggf nur leafs durchsuchen wegen runtime
@@ -82,6 +93,32 @@ def minimax(node, depth, alpha, beta, maximizing_player):
         node.eval = min_eval
         return min_eval
 
+def minimaxOther(node: Node, depth: int, maximizing_player: bool):
+    if depth == 0:  #&& isGameOver(node):
+        node.eval = evaluate(node.value)
+        return node.eval
+
+    if len(node.children) == 0:
+        node.eval = evaluate(node.value)
+        return node.eval
+
+    if node is None:
+        return 0  # In case the node is None, return 0
+
+    if maximizing_player:
+        max_eval = -100000
+        for child in node.children:
+            max_eval = max(max_eval, minimaxOther(child, depth - 1, False))
+        node.eval = max_eval
+        return max_eval
+
+    else:
+        min_eval = 100000
+        for child in node.children:
+            min_eval = min(min_eval, minimaxOther(child, depth - 1, False))
+        node.eval = min_eval
+        return min_eval
+
 
 def createTree(parent: Node, depth: int, turn: str, tree: Tree) -> Any:
     if depth == 0:
@@ -97,6 +134,7 @@ def createTree(parent: Node, depth: int, turn: str, tree: Tree) -> Any:
     for move in moves:
         nboard = generateBoard(pboard, move, turn)
         node = Node(nboard)
+        node.move = refactor_to_readable(move)
         tree.insert(pboard, node)
     if turn == "b":
         turn = "r"
@@ -121,4 +159,5 @@ if __name__ == '__main__':
     a = [['X', '', '', '', '', '', '', 'X'], ['b', '', '', '', '', '', '', ''], ['', '', '', '', '', '', '', ''],
          ['', '', '', '', '', '', '', ''], ['', '', '', '', '', '', '', ''], ['', '', '', '', '', '', '', ''],
          ['', '', '', '', '', '', '', ''], ['X', '', '', '', '', '', '', 'X']]
+    fen = "1r0r02r0/2r02r02/8/1bb4r01/3brb03/1b03r02/4b03/b01b03"
     print(recEndgame(a))

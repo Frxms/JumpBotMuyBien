@@ -126,6 +126,7 @@ def legalMoveCheck(targetField, turn):
 
 #------------------------------------------------------------------------------
 
+
 def getAllMoves(row, field, turn, board):
     moves = []
     currentField = board[row][field]
@@ -154,6 +155,7 @@ def getAllMoves(row, field, turn, board):
     formatted_moves = [(move[0], move[1]) for move in moves]
     return formatted_moves
 
+
 def calcMove(board, turn, readable=False):
     possibleMoves = []
     startingPoints = []
@@ -173,7 +175,6 @@ def calcMove(board, turn, readable=False):
 
     if readable:
         return readableMoves
-
 
     return possibleMoves2
 

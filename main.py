@@ -1,6 +1,6 @@
 from util.engine import calcMove, refactor_to_readable
 from util.generator import createVis, generateFEN
-from util.search import Node, Tree, createTree, recEndgame
+from util.search import Node, Tree, createTree, recEndgame, minimax
 
 
 def perfTest():
@@ -74,18 +74,22 @@ def allMoves(fen):
 def main():
     fen1 = "6/rr7/6r01/8/8/8/b0b0b05/6 r"
     fen = "6/rr7/8/8/8/8/bb7/6 r"
+    fen2 = "6/rr7/2r05/8/8/8/bb7/6 r"
 
-    splitted = fen.split(" ")
+    splitted = fen2.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
+    print(board)
     node = Node(board)
-    if recEndgame(board, turn):
+    if recEndgame(board):
         moves = calcMove(board, turn)
     else:
         return
     tree = Tree(node)
-    createTree(parent=tree.root, depth=1, turn=turn, tree=tree)
-    print("a")
+    createTree(parent=tree.root, depth=2, turn=turn, tree=tree)
+    print(tree.root)
+    print(minimax(tree.root, 2, -1000000, 1000000, True))
+
     # for move in moves:
     #     new_board = generateBoard(board, move, turn)
     #     if not boards:

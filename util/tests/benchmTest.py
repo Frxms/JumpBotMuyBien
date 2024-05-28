@@ -1,8 +1,8 @@
 from util.engine import calcMove
 from util.generator import createVis
 from util.evaluate import evaluate
-from util.tests.minmaxTestFunc import (minimax1Move, minimax1Move1, minimax2Moves, minimax3Moves,
-                                       alphabeta2Moves, alphabeta3Moves, alphabeta1Move, alphabeta1Move1)
+from util.tests.minmaxTestFunc import (minimax1Move, minimax1Move1, minimax2Moves,
+                                       alphabeta2Moves, alphabeta1Move, alphabeta1Move1)
 
 import time
 
@@ -84,17 +84,33 @@ def minimaxPerformance():
     minimax1Move()
     minimax1Move1()
     minimax2Moves()
-    # minimax3Moves()
+
 
 def alphabetaPerformance():
     alphabeta1Move()
     alphabeta1Move1()
     alphabeta2Moves()
-    # alphabeta3Moves()
 
-if __name__ == "__main__":
+
+def testBothPerformances():
     print("minimax Algorithm")
-    alphabetaPerformance()
+    minimaxPerformance()
     print("*****************************************************")
     print("Alpha-Beta Algorithm:")
+    alphabetaPerformance()
+
+def testAllPerformances():
+    print("Move generation test:")
+    movePerformance()
+    print("********************************************************")
+    print("Evaluation test:")
+    evalPerformance()
+    print("********************************************************")
+    print("minimax Algorithm:")
     minimaxPerformance()
+    print("********************************************************")
+    print("Alpha-Beta Algorithm:")
+    alphabetaPerformance()
+
+if __name__ == "__main__":
+    testAllPerformances()

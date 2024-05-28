@@ -115,7 +115,7 @@ def minimaxOther(node: Node, depth: int, maximizing_player: bool):
     else:
         min_eval = 100000
         for child in node.children:
-            min_eval = min(min_eval, minimaxOther(child, depth - 1, False))
+            min_eval = min(min_eval, minimaxOther(child, depth - 1, True))
         node.eval = min_eval
         return min_eval
 

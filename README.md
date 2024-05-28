@@ -10,11 +10,11 @@
     * `get_steps()`
 - [ ] Same Size Array
 - [ ] Concurrency
-- [ ] Min-Max Algorythm
-- [ ] Alpha-Beta Algorythm
-- [ ] Visualizer (maybe later)
-- [ ] Unit Tests
-- [ ] Benchmarks
+- [X] Min-Max Algorythm
+- [X] Alpha-Beta Algorythm
+- [X] Visualizer (maybe later)
+- [X] Unit Tests
+- [X] Benchmarks
 
 Blau ist negative bei EVAL
 
@@ -34,3 +34,5 @@ Blau ist negative bei EVAL
 1. red is max Player
 2. blue is min Player
 
+## TODO: 
+- implement automatic max player and min player call 

@@ -1,5 +1,6 @@
 import unittest
 from main import *
+from util.engine import calcMove
 
 
 class mainTests(unittest.TestCase):

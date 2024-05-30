@@ -1,7 +1,7 @@
 import time
 from util.engine import calcMove
 from util.generator import createVis
-from util.search import Node, recEndgame, Tree, createTree, minimaxOther, minimax
+from util.search import Node, recEndgame, Tree, createTree, minimax, alphaBeta, global_count, global_count_minimax, printGlobal
 
 
 def alphabeta1Move(fen1="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01/r01r0r0r0r0 b"):
@@ -26,7 +26,7 @@ def alphabeta1Move(fen1="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01
 
     start_time = time.time()
 
-    search_value = minimax(tree.root, 2, -10000, 10000, False)
+    search_value = alphaBeta(tree.root, 2, -10000, 10000, False)
     child: Node = tree.get_root_children(search_value)
 
     end_time = time.time()
@@ -60,7 +60,7 @@ def alphabeta1Move1(fen2="2b03/r07/3r04/6rr1/4bb3/2b04bb/3rr1rr2/5r0 b"):
 
     start_time = time.time()
 
-    search_value = minimax(tree.root, 2, -10000, 10000, False)
+    search_value = alphaBeta(tree.root, 2, -10000, 10000, False)
     child: Node = tree.get_root_children(search_value)
 
     end_time = time.time()
@@ -92,7 +92,7 @@ def alphabeta2Moves(fen3="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 
 
     start_time = time.time()
 
-    search_value = minimax(tree.root, 3, -10000, 10000, True)
+    search_value = alphaBeta(tree.root, 3, -10000, 10000, True)
     child: Node = tree.get_root_children(search_value)
 
     end_time = time.time()
@@ -123,7 +123,7 @@ def minimax1Move(fen1="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01/r
 
     start_time = time.time()
 
-    search_value = minimaxOther(tree.root, 2, False)
+    search_value = minimax(tree.root, 2, False)
     child: Node = tree.get_root_children(search_value)
 
     end_time = time.time()
@@ -157,7 +157,7 @@ def minimax1Move1(fen2="2b03/r07/3r04/6rr1/4bb3/2b04bb/3rr1rr2/5r0 b"):
 
     start_time = time.time()
 
-    search_value = minimaxOther(tree.root, 2, False)
+    search_value = minimax(tree.root, 2, False)
     child: Node = tree.get_root_children(search_value)
 
     end_time = time.time()
@@ -189,7 +189,7 @@ def minimax2Moves(fen3="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r"
 
     start_time = time.time()
 
-    search_value = minimaxOther(tree.root, 3, True)
+    search_value = minimax(tree.root, 3, True)
     child: Node = tree.get_root_children(search_value)
 
     end_time = time.time()
@@ -198,7 +198,7 @@ def minimax2Moves(fen3="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r"
     print(f"2 moves to win took: {elapsed_time} seconds. F3-F2 --> res: {child.move}")
 
 
-def minimaxTest(fen3="1b01b01b0/1b06/3b04/8/4b0r02/2b03r01/3r0r03/r03r01 b"):
+def minimaxTest(fen3="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestmove = "D6-D7", depth = 3):
     splitted = fen3.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
@@ -211,7 +211,7 @@ def minimaxTest(fen3="1b01b01b0/1b06/3b04/8/4b0r02/2b03r01/3r0r03/r03r01 b"):
 
     start_time1 = time.time()
 
-    createTree(parent=tree.root, depth=3, turn=turn, tree=tree)
+    createTree(parent=tree.root, depth=depth, turn=turn, tree=tree)
     # print(tree.root)
 
     end_time1 = time.time()
@@ -220,15 +220,52 @@ def minimaxTest(fen3="1b01b01b0/1b06/3b04/8/4b0r02/2b03r01/3r0r03/r03r01 b"):
 
     start_time = time.time()
 
-    search_value = minimaxOther(tree.root, 3, False if turn == "b" else True)
+    search_value = minimax(tree.root, depth, False if turn == "b" else True)
     child: Node = tree.get_root_children(search_value)
 
     end_time = time.time()
 
     elapsed_time = end_time - start_time
-    print(f"2 moves to win took: {elapsed_time} seconds --> res: {child.move}")
+    print(f"3 moves to win took: {elapsed_time} seconds {bestmove} --> res: {child.move}")
     print("-----------------------------")
 
+def alphaBetaTest(fen3="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestmove = "D6-D7", depth = 3):
+    splitted = fen3.split(" ")
+    turn = splitted[1]
+    board = createVis(splitted[0])
+    # print(board)
+    node = Node(board)
+    if not recEndgame(board):
+        print("Game already ended")
+        return
+    tree = Tree(node)
+
+    start_time1 = time.time()
+
+    createTree(parent=tree.root, depth=depth, turn=turn, tree=tree)
+    # print(tree.root)
+
+    end_time1 = time.time()
+    elapsed_time1 = end_time1 - start_time1
+    print(f"2 move to win tree took {elapsed_time1}")
+
+    start_time = time.time()
+
+    search_value = alphaBeta(tree.root, depth, -10000, 10000, False if turn == "b" else True)
+    child: Node = tree.get_root_children(search_value)
+
+    end_time = time.time()
+
+    elapsed_time = end_time - start_time
+    print(f"3 moves to win took: {elapsed_time} seconds {bestmove} --> res: {child.move}")
+    print("-----------------------------")
+
+def bothTests(fen, bestMove, depth):
+    minimaxTest(fen, bestMove, depth)
+    alphaBetaTest(fen, bestMove, depth)
+    printGlobal()
 
 if __name__ == "__main__":
-    minimaxTest()
+    fen = "6/4b01b01/8/5b01b0/2b04r0/1b04r01/5r01rr/1r04 b"
+    bestMove = "C5-C6"
+    bothTests(fen, bestMove, 4)

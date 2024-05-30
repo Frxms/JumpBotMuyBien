@@ -18,6 +18,7 @@
 
 Blau ist negative bei EVAL
 
+## Alpha-Beta-KI:
 ## Board Evalutation Criteria
 1. turn => positive points, other => negative points 
 2. pieces = 1 point, tower = 3 points  --> check if element.length is bigger 1
@@ -36,3 +37,27 @@ Blau ist negative bei EVAL
 
 ## TODO: 
 - implement automatic max player and min player call 
+- Maybe new Tree Structure idk
+- Benchmarks verbessern (Unterschiede in Anzahl der untersuchten Stellungen zeigen)
+- Projektwiki aktualisieren
+
+## Erweiterte KI:
+- 3-5 weitere KI Techniken implementieren (darunter 1-2 komplexe)
+Komplexe Beispiele:
+- Aspiration Windows
+- Board durch Bitboard ersetzen 
+  - sehr sinnvoll, weil wir eine sehr schlechte Laufzeit haben
+- vllt auch concurrency beim Tree create ?
+- Transposition Table scheint mir auch sehr sinnvoll
+weniger Komplexe:
+- Zugsortierung
+
+Screencast:
+Deliverables:
+1. ein kurzer Report:
+- Welche KI-Techniken haben Sie umgesetzt, wie haben Sie sie implementiert?(Begründete Designentscheidungen)
+- tabellarische Präsentation der Performancetests. Unbedingt auch Ihre Rechnerkonfiguration spezifizieren. 
+- Wie hat sich die Bewertungsfunktion über den bisherigen Verlauf des Semesters entwickelt?
+- Was planen Sie für den 4. Meilenstein?
+2. Screencast, der demonstriert, wie Sie Ihre Performancetests durchführen, z.B. durch recording der Konsole.
+3. Dokumentation der Performance Ihrer aktuellen KI im Wiki.

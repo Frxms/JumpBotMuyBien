@@ -3,6 +3,8 @@ from util.engine import calcMove, refactor_to_readable
 from util.generator import generateBoard
 from util.evaluate import evaluate
 
+global_count = 0
+global_count_minimax = 0
 
 class Node:
     def __init__(self, value):
@@ -10,10 +12,10 @@ class Node:
         self.children = []
         self.eval = 0
         self.move = ""
+        self.parent = None
 
     def __repr__(self):
         return "\n".join(self.value)
-
 
     def add_child(self, node):
         self.children.append(node)
@@ -30,15 +32,17 @@ class Node:
         return leafs
 
 
+
 class Tree:
     def __init__(self, root=None):
         self.root = root
         self.nodes = {}
 
-
     def get_leafs(self):
         if self.root is None:
             return []
+        elif not self.root.children:
+            return [self.root]
         return self.root.get_leafs()
 
     def get_root_children(self, minmaxVal):
@@ -62,43 +66,65 @@ class Tree:
             queue.extend(current_node.children)
         return False
 
+    def newInsert(self, parent, node):
+        if self.root is None:
+            self.root = node
+        leafs = self.get_leafs()
+        for leaf in leafs:
+            if leaf.parent == parent:
+                parent.add_child(node)
+            elif leaf.value == parent:
+                leaf.add_child(node)
+            else:
+                return print("insert Problem!")
 
-def minimax(node, depth, alpha, beta, maximizing_player):
+
+def alphaBeta(node, depth, alpha, beta, maximizing_player):
+    global global_count
     if depth == 0:  #&& isGameOver(node):
         node.eval = evaluate(node.value)
+
+        global_count += 1
         return node.eval
 
     if len(node.children) == 0:
         node.eval = evaluate(node.value)
+        global_count += 1
         return node.eval
 
     if node is None:
         return 0  # In case the node is None, return 0
 
     if maximizing_player:
+        global_count += 1
         max_eval = alpha
         for child in node.children:
-            max_eval = max(max_eval, minimax(child, depth - 1, max_eval, beta, False))
+            max_eval = max(max_eval, alphaBeta(child, depth - 1, max_eval, beta, False))
             if max_eval >= beta:
                 break
         node.eval = max_eval
         return max_eval
 
     else:
+        global_count += 1
         min_eval = beta
         for child in node.children:
-            min_eval = min(min_eval, minimax(child, depth - 1, alpha, min_eval, True))
+            min_eval = min(min_eval, alphaBeta(child, depth - 1, alpha, min_eval, True))
             if min_eval <= alpha:
                 break
         node.eval = min_eval
         return min_eval
 
-def minimaxOther(node: Node, depth: int, maximizing_player: bool):
+
+def minimax(node: Node, depth: int, maximizing_player: bool):
+    global global_count_minimax
     if depth == 0:  #&& isGameOver(node):
+        global_count_minimax += 1
         node.eval = evaluate(node.value)
         return node.eval
 
     if len(node.children) == 0:
+        global_count_minimax += 1
         node.eval = evaluate(node.value)
         return node.eval
 
@@ -106,16 +132,18 @@ def minimaxOther(node: Node, depth: int, maximizing_player: bool):
         return 0  # In case the node is None, return 0
 
     if maximizing_player:
+        global_count_minimax += 1
         max_eval = -100000
         for child in node.children:
-            max_eval = max(max_eval, minimaxOther(child, depth - 1, False))
+            max_eval = max(max_eval, minimax(child, depth - 1, False))
         node.eval = max_eval
         return max_eval
 
     else:
+        global_count_minimax += 1
         min_eval = 100000
         for child in node.children:
-            min_eval = min(min_eval, minimaxOther(child, depth - 1, True))
+            min_eval = min(min_eval, minimax(child, depth - 1, True))
         node.eval = min_eval
         return min_eval
 
@@ -153,6 +181,12 @@ def recEndgame(board: List):
         return False
     #     pass
     return True
+
+def printGlobal():
+    print("minimax:")
+    print(global_count_minimax)
+    print("alphabeta:")
+    print(global_count)
 
 
 if __name__ == '__main__':

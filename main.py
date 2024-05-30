@@ -1,5 +1,5 @@
 from util.generator import createVis
-from util.search import Node, Tree, createTree, recEndgame, minimax
+from util.search import Node, Tree, createTree, recEndgame, alphaBeta
 
 
 def main():

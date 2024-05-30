@@ -28,6 +28,7 @@ def testNewInsert(parent: Node, depth: int, turn: str, tree: Tree) -> Any:
 
     depth -= 1
     tree.currentBottom = tree.get_leafs()
+    # the tree.currentBottom, should be the same for all sub nodes
     for child in tree.currentBottom:
         testNewInsert(child, depth, turn, tree)
 

@@ -1,25 +1,21 @@
 from util.generator import createVis
-from util.search import Node, Tree, createTree, recEndgame, alphaBeta
+from util.search import recEndgame, alphaBeta
+from util.Tree import Tree, createTree, Node
 
 
-def main():
-    fen1 = "6/rr7/6r01/8/8/8/b0b0b05/6 r"
-    fen = "6/rr7/8/8/8/8/bb7/6 r"
-    fen2 = "6/rr7/2r05/8/8/8/bb7/6 r"
-
+def main(fen="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestMove = "D6-D7", depth = 3):
     splitted = fen.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
-    print(board)
     node = Node(board)
     if not recEndgame(board):
+        print("Game already ended")
         return
     tree = Tree(node)
-    createTree(parent=tree.root, depth=2, turn=turn, tree=tree)
-    print(tree.root)
-    search_value = alphaBeta(tree.root, 2, -1000000, 1000000, True)
+    createTree(parent=tree.root, depth=depth, turn=turn, tree=tree)
+    search_value = alphaBeta(tree.root, depth, -10000, 10000, False if turn == "b" else True)
     child: Node = tree.get_root_children(search_value)
-    print(child.move)
+    print(f"{bestMove} --> {child.move}")
 
 
 if __name__ == "__main__":

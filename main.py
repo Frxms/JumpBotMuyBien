@@ -17,7 +17,7 @@ def main():
     tree = Tree(node)
     createTree(parent=tree.root, depth=2, turn=turn, tree=tree)
     print(tree.root)
-    search_value = minimax(tree.root, 2, -1000000, 1000000, True)
+    search_value = alphaBeta(tree.root, 2, -1000000, 1000000, True)
     child: Node = tree.get_root_children(search_value)
     print(child.move)
 

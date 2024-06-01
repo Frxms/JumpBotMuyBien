@@ -45,12 +45,13 @@ Blau ist negative bei EVAL
 - 3-5 weitere KI Techniken implementieren (darunter 1-2 komplexe)
 Komplexe Beispiele:
 - Aspiration Windows
-- Board durch Bitboard ersetzen 
+- Board durch Bitboard ersetzen (Quelle: https://github.com/cglouch/snakefish)
   - sehr sinnvoll, weil wir eine sehr schlechte Laufzeit haben
 - vllt auch concurrency beim Tree create ?
 - Transposition Table scheint mir auch sehr sinnvoll
 weniger Komplexe:
 - Zugsortierung
+- verbesserung des Inserts
 
 Screencast:
 Deliverables:
@@ -61,3 +62,6 @@ Deliverables:
 - Was planen Sie für den 4. Meilenstein?
 2. Screencast, der demonstriert, wie Sie Ihre Performancetests durchführen, z.B. durch recording der Konsole.
 3. Dokumentation der Performance Ihrer aktuellen KI im Wiki.
+
+BitBoard Dokumentation
+- 

@@ -20,10 +20,17 @@ class GameBoard:
 
 
     # 0b0000000000000000000000000000000000000000000000001111111101111110
+<<<<<<< HEAD
     def gameStart(self):
         self.pieces[Color.BLUE][Piece.PAWN] = np.uint64(0x000000000000FF7E)
         self.pieces[Color.BLUE][Piece.TOWER] = np.uint64(0b0000000000000000)    # "bb" Tower
         self.pieces[Color.BLUE][Piece.TWOCOLTOWER] = np.uint64(0b0000000000000000)  # "rb" Tower
+=======
+    def gameStart(self):    # board at the start of the game
+        self.pieces[Color.BLUE][Color.BLUE.PAWN] = np.uint64(0x000000000000FF7E)
+        self.pieces[Color.BLUE][Piece.TOWER] = np.uint64(0b0000000000000000)
+        self.pieces[Color.BLUE][Piece.TWOCOLTOWER] = np.uint64(0b0000000000000000)
+>>>>>>> origin/bitboard-approach
 
         self.pieces[Color.BLUE][Piece.PAWN] = np.uint64(0xFF7E000000000000)
         self.pieces[Color.BLUE][Piece.TOWER] = np.uint64(0x0000000000000000)    # "rr" Tower

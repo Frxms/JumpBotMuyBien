@@ -3,7 +3,7 @@ from enum import IntEnum
 class Color(IntEnum):
     BLUE = 0
     RED = 1
-    class
+
 
 class Piece(IntEnum):
     PAWN = 0

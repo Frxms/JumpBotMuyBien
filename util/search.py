@@ -14,8 +14,8 @@ class Node:
         self.move = ""
         self.parent = None
 
-    def __repr__(self):
-        return "\n".join(self.value)
+    # def __repr__(self):
+    #     return "\n".join(self.value)
 
     def add_child(self, node):
         self.children.append(node)

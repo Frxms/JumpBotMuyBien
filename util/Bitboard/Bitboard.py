@@ -14,7 +14,7 @@ class GameBoard:
 
 
     # 0b0000000000000000000000000000000000000000000000001111111101111110
-    def gameStart(self):
+    def gameStart(self):    # board at the start of the game
         self.pieces[Color.BLUE][Color.BLUE.PAWN] = np.uint64(0x000000000000FF7E)
         self.pieces[Color.BLUE][Piece.TOWER] = np.uint64(0b0000000000000000)
         self.pieces[Color.BLUE][Piece.TWOCOLTOWER] = np.uint64(0b0000000000000000)

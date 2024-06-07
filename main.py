@@ -1,6 +1,9 @@
+from util.Bitboard import Bitboard
 from util.generator import createVis
 from util.search import Node, Tree, createTree, recEndgame, alphaBeta
-
+from util.Bitboard.Bitboard import GameBoard
+from util.Bitboard.moves import get_bits
+from util.Bitboard.constants import Color, Piece
 
 def main():
     fen1 = "6/rr7/6r01/8/8/8/b0b0b05/6 r"
@@ -21,6 +24,11 @@ def main():
     child: Node = tree.get_root_children(search_value)
     print(child.move)
 
+def test():
+    board = GameBoard(Color.BLUE)
+    for value in get_bits(board.pieces[Color.BLUE][Piece.PAWN]):
+        print(value)
+
 
 if __name__ == "__main__":
-    main()
+    test()

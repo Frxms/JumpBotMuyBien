@@ -1,5 +1,6 @@
 from enum import IntEnum
 
+
 class Color(IntEnum):
     BLUE = 0
     RED = 1
@@ -10,6 +11,7 @@ class Piece(IntEnum):
     TOWER = 1
     TWOCOLTOWER = 2
 
+
 class Row(IntEnum):
     ONE = 0
     TWO = 1
@@ -19,6 +21,7 @@ class Row(IntEnum):
     SIX = 5
     SEVEN = 6
     EIGHT = 7
+
 
 class Column(IntEnum):
     A = 0

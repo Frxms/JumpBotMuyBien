@@ -31,13 +31,14 @@ class GameBoard:
 
     # 0b0000000000000000000000000000000000000000000000001111111101111110
     # 0b0000000000000000100000000000000000000000000000000000000000000000
+    # msb is h8, lsb is a1, bit at msb - 7 is h7
     def gameStart(self):
         self.pieces[Color.RED][Piece.PAWN] = np.uint64(0x7EFF000000000000)
-        # self.pieces[Color.RED][Piece.PAWN] \
-        #     = np.uint64(0b0000000000000000000000000000000000000000000000000000000000000000)
+        self.pieces[Color.RED][Piece.PAWN] \
+            # = np.uint64(0b0000000000000000000000000000000000000000000000000000000000000000)
         self.pieces[Color.RED][Piece.TOWER] = np.uint64(0x0000000000000000)  # "rr" Tower
         # self.pieces[Color.RED][Piece.TOWER] \
-        #     = np.uint64(0b1000000110100000100000000000000000000000000000000000000000000001)
+        #     = np.uint64(0b1000000010100000100000000000000000000000000000000000000000000001)
         self.pieces[Color.RED][Piece.TWOCOLTOWER] = np.uint64(0x0000000000000000)  # "br" Tower
 
         self.pieces[Color.BLUE][Piece.PAWN] = np.uint64(0x000000000000FF7E)

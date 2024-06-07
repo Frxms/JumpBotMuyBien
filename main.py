@@ -26,6 +26,7 @@ def main():
 
 def test():
     board = GameBoard(Color.BLUE)
+    board.gameStart()
     for value in get_bits(board.pieces[Color.BLUE][Piece.PAWN]):
         print(value)
 

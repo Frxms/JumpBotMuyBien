@@ -20,8 +20,7 @@ def get_bits(board):    # returns every piece as its own bb
     ], dtype=np.uint8)
     while board != empty_board:
         ls1b = board & -board
-        res = index64[(ls1b * debruijn) >> np.uint8(58)]
-        res = np.uint8(res)
+        res = np.uint8(index64[(ls1b * debruijn) >> np.uint8(58)])
         yield res
         board ^= to_bitboard(res)
 
@@ -36,8 +35,8 @@ h_column = np.uint64(0x8080808080808080)
 
 def move_normal(board : Bitboard, index):
     piece = to_bitboard(index)
-    left = (piece & ~AColumn) >> 1
-    right = (piece & ~HColumn) << 1
+    left = (piece & ~a_column) >> 1
+    right = (piece & ~h_column) << 1
     up = piece << 8
 
     left_move = (left & ~board.pieces[board.color][Piece.PAWN]) == np.uint64(0)

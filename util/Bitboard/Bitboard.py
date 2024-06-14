@@ -1,4 +1,5 @@
 import numpy as np
+import re
 
 from util.Bitboard import bbHelperFunc
 from util.Bitboard.bbHelperFunc import corner_check
@@ -6,12 +7,14 @@ from util.Bitboard.constants import Color, Row, Column, Piece
 
 
 class GameBoard:
-    def __init__(self, color):
+    def __init__(self, fen="b01b0b01b0/1b0b0b0b0b0b01/8/8/8/8/1r0r0r0r0r0r01/1r0r0r0r0r0r01 b"):
         self.pieces = np.zeros((2, 3), dtype=np.uint64)
         # 2 sides with 2 different types of pieces stored as unique 64 integers
         self.eachSide = np.zeros(2, dtype=np.uint64)
         self.board = np.zeros(0)
-        self.color = Color.RED
+        split_fen = fen.split(" ")
+        self.color = self.set_col(split_fen[1])
+        self.current_game_board(split_fen[0])
 
     def __str__(self):
         board =[]
@@ -32,6 +35,21 @@ class GameBoard:
             board.append("\n")
         board = ''.join(board)
         print(board)
+
+    def current_game_board(self, fen: str): # hier mit from_position in die richtige Position einfügen
+        # gleichzeitig in mehrere Bitboards eintragen (All, Farbe, Piece/Tower/TwoColTower)
+        lines = fen.split("/")
+        for index, row in enumerate(lines):
+            line = re.split(r'(r0|b0|rr|bb|rb|br)', row)
+            for index2, field in enumerate(line):
+                pass
+
+
+    def set_col(self, color):
+        if color == "b":
+            return Color.BLUE
+        else:
+            return Color.RED
 
     # 0b0000000000000000000000000000000000000000000000000111111001111110
     # 0b0000000000000000100000000000000000000000000000000000000000000000
@@ -86,6 +104,6 @@ class GameBoard:
 # [0 0]
 # [0 0]]
 if __name__ == '__main__':
-    game = GameBoard(Color.BLUE)
+    game = GameBoard()
     game.gameStart()
     game.__str__()

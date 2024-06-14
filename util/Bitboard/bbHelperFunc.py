@@ -7,7 +7,7 @@ def is_set(bb, field):
 
 def corner_check(field):
     corner_restriction = np.uint64(0x8100000000000081)
-    return (to_bitboard(field) & ~corner_restriction) != EMPTY_BB
+    return None if (to_bitboard(field) & ~corner_restriction) != EMPTY_BB else True
 
 
 def to_bitboard(index): # returns the piece in a bb

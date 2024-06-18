@@ -62,8 +62,6 @@ class GameBoard:
                     self.board |= bb
                     self.eachSide[color] |= bb
                     self.pieces[color][piece_type] |= bb
-                else:
-                    print("empty String")
 
 
     def set_col(self, color):
@@ -124,6 +122,6 @@ class GameBoard:
 # [0 0]
 # [0 0]]
 if __name__ == '__main__':
-    game = GameBoard("4rr1/r04rr2/4r03/8/8/8/8/2bb3 r")
+    game = GameBoard("5b0/r07/8/8/8/8/8/6 r")
     # game.gameStart()
     game.__str__()

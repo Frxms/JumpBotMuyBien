@@ -7,10 +7,10 @@ from util.Bitboard.constants import Color, Piece
 
 def main():
     fen1 = "6/rr7/6r01/8/8/8/b0b0b05/6 r"
-    fen = "6/rr7/8/8/8/8/bb7/6 r"
-    fen2 = "6/rr7/2r05/8/8/8/bb7/6 r"
+    fen = "b0b0b0b0b0b0/1b0b0b0b0b0b01/8/8/8/8/1r0r0r0r0r0r01/r0r0r0r0r0r0 b"
+    fen2 = "6/rr7/4r03/8/8/8/bb7/6 r"
 
-    splitted = fen.split(" ")
+    splitted = fen2.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
     print(board)
@@ -31,4 +31,4 @@ def test():
 
 
 if __name__ == "__main__":
-    test()
+    main()

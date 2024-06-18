@@ -72,4 +72,10 @@ def attack_normal(board, index):
 
 
 def tower_moves(board: Bitboard, index):
-    pass
+    piece = to_bitboard(index)
+    left_short = (piece & ~a_column) << np.uint8(6)
+    left_high = (piece & ~a_column) << np.uint8(15)
+    right_short = (piece & ~h_column) << np.uint8(10)
+    right_high = (piece & ~h_column) << np.uint8(17)
+    # check needed for corners and b/g columns
+    # and then check whether the target spot is occupied by a friendly tower

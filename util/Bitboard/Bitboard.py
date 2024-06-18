@@ -54,7 +54,7 @@ class GameBoard:
                 bb = to_bitboard(index)
                 if bb & np.uint64(0x8100000000000081) != np.uint64(0):
                     counter += 1
-                elif field.isdigit():
+                if field.isdigit():
                     counter += int(field)
                 elif field in piece_mapping:
                     counter += 1
@@ -124,6 +124,6 @@ class GameBoard:
 # [0 0]
 # [0 0]]
 if __name__ == '__main__':
-    game = GameBoard("6/5rr2/4r03/8/8/8/bb7/6 r")
+    game = GameBoard("4rr1/r04rr2/4r03/8/8/8/8/2bb3 r")
     # game.gameStart()
     game.__str__()

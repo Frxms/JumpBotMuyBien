@@ -43,15 +43,16 @@ Blau ist negative bei EVAL
 
 ## Erweiterte KI:
 - 3-5 weitere KI Techniken implementieren (darunter 1-2 komplexe)
+
 Komplexe Beispiele:
 - Aspiration Windows
 - Board durch Bitboard ersetzen (Quelle: https://github.com/cglouch/snakefish)
   - sehr sinnvoll, weil wir eine sehr schlechte Laufzeit haben
-- vllt auch concurrency beim Tree create ?
 - Transposition Table scheint mir auch sehr sinnvoll
-weniger Komplexe:
+
+Weniger Komplexe:
 - Zugsortierung
-- verbesserung des Inserts
+- verbesserung des Inserts (vllt auch concurrency beim Tree create/insert?)
 
 Screencast:
 Deliverables:

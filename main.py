@@ -24,6 +24,11 @@ def main():
     child: Node = tree.get_root_children(search_value)
     print(child.move)
 
+def bbmain():
+    game = GameBoard("5b0/r07/8/8/8/8/8/6 r")
+    # game.gameStart()
+    game.__str__()
+
 def test():
     board = GameBoard(Color.BLUE)
     board.gameStart()
@@ -31,4 +36,4 @@ def test():
 
 
 if __name__ == "__main__":
-    main()
+    bbmain()

@@ -117,11 +117,3 @@ class GameBoard:
                 return "rr"
             elif piece == Piece.TWOCOLTOWER:
                 return "br"
-
-#[[0 0]
-# [0 0]
-# [0 0]]
-if __name__ == '__main__':
-    game = GameBoard("5b0/r07/8/8/8/8/8/6 r")
-    # game.gameStart()
-    game.__str__()

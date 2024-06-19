@@ -53,6 +53,7 @@ Komplexe Beispiele:
 Weniger Komplexe:
 - Zugsortierung
 - verbesserung des Inserts (vllt auch concurrency beim Tree create/insert?)
+- zufällige auswahl von moves, falls es einen anderen move mit der gleichen eval Punktzahl existiert
 
 Screencast:
 Deliverables:

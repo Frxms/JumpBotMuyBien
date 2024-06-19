@@ -2,7 +2,7 @@ from util.Bitboard import Bitboard
 from util.generator import createVis
 from util.search import Node, Tree, createTree, recEndgame, alphaBeta
 from util.Bitboard.Bitboard import GameBoard
-from util.Bitboard.moves import get_bits
+from util.Bitboard.moves import get_bits, gen_moves
 from util.Bitboard.constants import Color, Piece
 
 def main():
@@ -29,11 +29,15 @@ def bbmain():
     # game.gameStart()
     game.__str__()
 
-def test():
-    board = GameBoard(Color.BLUE)
-    board.gameStart()
+def piece_test():
+    board = GameBoard("5b0/r07/8/8/8/8/8/6 r")
+    # board.gameStart()
     print(get_bits(board.get_pieceboard(Piece.PAWN, Color.BLUE)))
+
+def get_moves():
+    board = GameBoard("5b0/r07/8/8/8/8/8/6 r")
+    gen_moves(board)
 
 
 if __name__ == "__main__":
-    bbmain()
+    test()

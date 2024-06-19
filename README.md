@@ -52,8 +52,16 @@ Komplexe Beispiele:
 
 Weniger Komplexe:
 - Zugsortierung
-- verbesserung des Inserts (vllt auch concurrency beim Tree create/insert?)
-- zufällige auswahl von moves, falls es einen anderen move mit der gleichen eval Punktzahl existiert
+- Erweitern der Bewertungsfunktion (Zentrumskontrolle, Piece Square Tables, Mobilität/Felderkontrolle, vllt TWOCOLTOEWR noch mehr Punkte geben)
+- Verbesserung des Inserts (vllt auch concurrency beim Tree create/insert?)
+- zufällige Auswahl von moves, falls es einen anderen move mit der gleichen eval Punktzahl existiert
+- vielleicht noch Effizienzerhöhung durch
+  (# Precompute the KING_MOVES array at import time
+KING_MOVES = np.fromiter(
+    (compute_king_moves(i) for i in range(64)),
+    dtype=np.uint64,
+    count=64
+)) aus snakefish
 
 Screencast:
 Deliverables:

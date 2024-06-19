@@ -16,66 +16,68 @@ index64 = np.array([
     50, 31, 19, 15, 30, 14, 13, 12
 ], dtype=np.uint8)
 empty_board = np.uint64(0)
-a_column = np.uint64(0x0101010101010101)
-h_column = np.uint64(0x8080808080808080)
-corner_restriction = np.uint64(0x8100000000000081)
+a_column = np.uint64(0x8101010101010181)
+ab_column = np.uint64(0x8303030303030383)
+h_column = np.uint64(0x8180808080808081)
+gh_column = np.uint64(0xC1C0C0C0C0C0C0C1)
+corner = np.uint64(0x8100000000000081)
 
-def get_bits(board):    # returns every piece as its own bb
+
+def get_bits(bb: np.uint64):    # returns every piece as its own bb
     results = []
-    while board != empty_board:
-        lsb = board & -board
+    while bb != empty_board:
+        lsb = bb & -bb
         results.append(lsb)
-        board ^= lsb
+        bb ^= lsb
     return results
+
 
 #field class that splits into rows and columns by /8 and get index after - mod
 #returns bitboard for that
 #compare current board with field board to get position and surroundings of current bit
 #bit shift so see options
 
-def gen_moves(board: Bitboard, piece: Piece):
+#
+def gen_moves(board: Bitboard):
+    # piece: Piece, index: np.uint64
+    piece = []
+    for p in Piece:
+        piece = get_bits(board[board.color][p])
+        for piece_bb in piece:
+            piece_moves(board, piece_bb, p)
+
+
+def piece_moves(board: Bitboard, piece_bb: np.uint64, piece: Piece):
     if piece == Piece.PAWN:
-        pass # todo pawn impl
-    elif piece == Piece.TOWER:
-        pass
-    elif piece == Piece.TWOCOLTOWER:
-        pass
+        move_bb = pawn_moves(board, piece_bb)
+    elif piece == Piece.TOWER | Piece.TWOCOLTOWER:
+        move_bb = tower_moves(piece_bb) & ~board.pieces[board.color][Piece.ALLTOWERS]
 
 
-def move_normal(board : Bitboard, index):
-    piece = to_bitboard(index)
-    left = (piece & ~a_column) >> 1
-    right = (piece & ~h_column) << 1
-    up = piece << 8
-
-    left_move = (left & ~board.pieces[board.color][Piece.PAWN]) == np.uint64(0)
-    right_move = (right & ~board.pieces[board.color][Piece.PAWN]) == np.uint64(0)
-    up_move = (up & ~board.pieces[board.color][Piece.PAWN]) == np.uint64(0)
-
-def stack_normal(board : Bitboard, index):
-    piece = to_bitboard(index)
-    left = (piece & ~a_column) >> 1
-    right = (piece & ~h_column) << 1
-    up = piece << 8
-
-    left_move = (left & ~board.pieces[board.color][Piece.PAWN]) != np.uint64(0)
-    right_move = (right & ~board.pieces[board.color][Piece.PAWN]) != np.uint64(0)
-    up_move = (up & ~board.pieces[board.color][Piece.PAWN]) != np.uint64(0)
-def attack_normal(board, index):
-    piece = to_bitboard(index)
-    left_up = (piece & ~a_column) << 7
-    right_up = (piece & ~h_column) << 9
-
-    mycolor = board.color.value ^ 1
-    left_up_move = (left_up & board.pieces[mycolor][Piece.PAWN]) != np.uint64(0)
-    right_up_move = (left_up & board.pieces[mycolor][Piece.PAWN]) != np.uint64(0)
+def pawn_moves(board: Bitboard, piece_bb: np.uint64):
+    normal = pawn_normal(piece_bb) & ~board.pieces[board.color][Piece.ALLTOWERS]
+    normal &= ~board.each_side[board.opp_color]
+    diag = pawn_diag(piece_bb) & ~board.each_side[board.color]
+    return normal | diag
 
 
-def tower_moves(board: Bitboard, index):
-    piece = to_bitboard(index)
-    left_short = (piece & ~a_column) << np.uint8(6)
-    left_high = (piece & ~a_column) << np.uint8(15)
-    right_short = (piece & ~h_column) << np.uint8(10)
-    right_high = (piece & ~h_column) << np.uint8(17)
-    # check needed for corners and b/g columns
-    # and then check whether the target spot is occupied by a friendly tower
+def pawn_normal(piece_bb: np.uint64):
+    right = (piece_bb & ~h_column) << np.uint8(1)
+    left = (piece_bb & ~a_column) >> np.uint(1)
+    up = piece_bb << np.uint8(8)
+    return right | left | up
+
+
+def pawn_diag(piece_bb: np.uint64):
+    left_up = (piece_bb & ~a_column) << np.uint8(7)
+    right_up = (piece_bb & ~h_column) << np.uint8(9)
+    return left_up | right_up
+
+
+    # check needed for corners and b/g columns and then check whether the target spot is occupied by a friendly tower
+def tower_moves(piece_bb: np.uint64):
+    left_wide = (piece_bb & ~ab_column) << np.uint8(6)
+    left_high = (piece_bb & ~a_column) << np.uint8(15)
+    right_wide = (piece_bb & ~gh_column) << np.uint8(10)
+    right_high = (piece_bb & ~h_column) << np.uint8(17)
+    return left_wide | left_high | right_wide | right_high

@@ -7,13 +7,14 @@ from util.Bitboard.constants import Color, Row, Column, Piece
 
 class GameBoard:
     def __init__(self, fen="b0b0b0b0b0b0/1b0b0b0b0b0b01/8/8/8/8/1r0r0r0r0r0r01/r0r0r0r0r0r0 b"):
-        self.pieces = np.zeros((2, 3), dtype=np.uint64)
+        self.pieces = np.zeros((2, 4), dtype=np.uint64)
         # 2 sides with 2 different types of pieces stored as unique 64 integers
-        self.eachSide = np.zeros(2, dtype=np.uint64)
+        self.each_side = np.zeros(2, dtype=np.uint64)
         self.board = np.uint64(0)
         split_fen = fen.split(" ")
         self.color = self.set_col(split_fen[1])
         self.current_game_board(split_fen[0])
+        self.opp_color = Color.RED if self.color == Color.BLUE else Color.BLUE
 
     def __str__(self):
         board =[]
@@ -60,8 +61,10 @@ class GameBoard:
                     counter += 1
                     color, piece_type = piece_mapping[field]
                     self.board |= bb
-                    self.eachSide[color] |= bb
+                    self.each_side[color] |= bb
                     self.pieces[color][piece_type] |= bb
+                    if piece_type == Piece.TOWER | Piece.TWOCOLTOWER:
+                        self.pieces[color][Piece.ALLTOWERS] |= bb
 
 
     def set_col(self, color):
@@ -73,15 +76,17 @@ class GameBoard:
     # 0b0000000000000000000000000000000000000000000000000111111001111110
     # msb is h8, lsb is a1, bit at msb - 7 is h7
     def gameStart(self):
-        self.eachSide[Color.RED] = np.uint64(0x7E7E000000000000)
+        self.each_side[Color.RED] = np.uint64(0x7E7E000000000000)
         self.pieces[Color.RED][Piece.PAWN] = np.uint64(0x7E7E000000000000)
         self.pieces[Color.RED][Piece.TOWER] = np.uint64(0x0000000000000000)  # "rr" Tower
         self.pieces[Color.RED][Piece.TWOCOLTOWER] = np.uint64(0x0000000000000000)  # "br" Tower
+        self.pieces[Color.RED][Piece.ALLTOWERS] = np.uint64(0x0000000000000000)
 
-        self.eachSide[Color.BLUE] = np.uint64(0x0000000000007E7E)
+        self.each_side[Color.BLUE] = np.uint64(0x0000000000007E7E)
         self.pieces[Color.BLUE][Piece.PAWN] = np.uint64(0x0000000000007E7E)
         self.pieces[Color.BLUE][Piece.TOWER] = np.uint64(0b0000000000000000)    # "bb" Tower
         self.pieces[Color.BLUE][Piece.TWOCOLTOWER] = np.uint64(0b0000000000000000)  # "rb" Tower
+        self.pieces[Color.BLUE][Piece.ALLTOWERS] = np.uint64(0x0000000000000000)
 
     def get_pieceboard(self, piece, color=None):
         if color is None:

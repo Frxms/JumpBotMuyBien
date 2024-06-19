@@ -10,6 +10,7 @@ class Piece(IntEnum):
     PAWN = 0
     TOWER = 1
     TWOCOLTOWER = 2
+    ALLTOWERS = 3
 
 
 class Row(IntEnum):

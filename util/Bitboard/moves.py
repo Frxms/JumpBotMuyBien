@@ -46,6 +46,7 @@ def gen_moves(board: Bitboard):
         piece = get_bits(board[board.color][p])
         for piece_bb in piece:
             legal_moves.append((piece_bb, p, piece_moves(board, piece_bb, p)))
+    return legal_moves
 
 
 def piece_moves(board: Bitboard, piece_bb: np.uint64, piece: Piece):

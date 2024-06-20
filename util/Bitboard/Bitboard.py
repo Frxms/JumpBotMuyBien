@@ -10,7 +10,7 @@ class GameBoard:
         self.pieces = np.zeros((2, 4), dtype=np.uint64)
         # 2 sides with 2 different types of pieces stored as unique 64 integers
         self.each_side = np.zeros(2, dtype=np.uint64)
-        self.board = np.uint64(0)
+        self.board = np.uint64(0) 
         split_fen = fen.split(" ")
         self.color = self.set_col(split_fen[1])
         self.current_game_board(split_fen[0])

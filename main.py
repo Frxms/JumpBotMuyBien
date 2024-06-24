@@ -28,19 +28,9 @@ def main_2_arrays():
 
 
 def main_bitboard():
-    fen1 = "b04b0/r07/8/8/8/8/8/6 b"
-    fen2 = "b05/8/8/8/8/8/3b04/6 b"
-    fen3 = "6/r07/8/8/8/8/b07/6 b"
-    fen4 = "6/r07/8/8/8/8/b07/r05 b"
-    fen5 = "6/8/8/8/8/8/8/2r03 r"
-    fen6 = "b05/r07/8/8/8/8/8/6 r"
-    fen7 = "6/8/8/8/8/6bb1/8/6 b"
-    fen8 = "6/3bb4/8/2b05/8/8/8/6 b"
-    fen9 = "6/3bb4/8/8/8/8/8/6 b"
-    fen10 = "6/3bb4/8/2rr5/8/8/8/6 b"
-    board = GameBoard(fen7)
+    fen = "b0b0b0b0b0b0/1b0b0b0b0b0b01/8/8/8/8/1r0r0r0r0r0r01/r0r0r0r0r0r0 b"
+    board = GameBoard(fen)
     board.__str__()
-    print(board.pieces[board.color][Piece.ALLTOWERS])
     print(gen_moves(board))
 
 

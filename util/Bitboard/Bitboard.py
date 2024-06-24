@@ -63,7 +63,7 @@ class GameBoard:
                     self.board |= bb
                     self.each_side[color] |= bb
                     self.pieces[color][piece_type] |= bb
-                    if piece_type == Piece.TOWER | Piece.TWOCOLTOWER:
+                    if piece_type in {Piece.TOWER, Piece.TWOCOLTOWER}:
                         self.pieces[color][Piece.ALLTOWERS] |= bb
 
 

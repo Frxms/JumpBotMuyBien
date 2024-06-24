@@ -34,9 +34,13 @@ def main_bitboard():
     fen4 = "6/r07/8/8/8/8/b07/r05 b"
     fen5 = "6/8/8/8/8/8/8/2r03 r"
     fen6 = "b05/r07/8/8/8/8/8/6 r"
-    fen7 = "6/3bb4/8/8/8/8/8/6 b"
+    fen7 = "6/8/8/8/8/6bb1/8/6 b"
+    fen8 = "6/3bb4/8/2b05/8/8/8/6 b"
+    fen9 = "6/3bb4/8/8/8/8/8/6 b"
+    fen10 = "6/3bb4/8/2rr5/8/8/8/6 b"
     board = GameBoard(fen7)
     board.__str__()
+    print(board.pieces[board.color][Piece.ALLTOWERS])
     print(gen_moves(board))
 
 

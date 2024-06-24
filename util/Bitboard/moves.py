@@ -15,7 +15,7 @@ def gen_moves(board: Bitboard):
     # piece: Piece, index: np.uint64
     piece = []
     legal_moves = []
-    for p in Piece:
+    for p in {Piece.PAWN, Piece.ALLTOWERS}:
         piece = get_bits(board.pieces[board.color][p])
         for piece_bb in piece:
             legal_moves.append((piece_bb, p, piece_moves(board, piece_bb, p)))
@@ -26,7 +26,7 @@ def gen_moves(board: Bitboard):
 def piece_moves(board: Bitboard, piece_bb: np.uint64, piece: Piece):
     if piece == Piece.PAWN:
         return pawn_moves(board, piece_bb)
-    elif piece in {Piece.TOWER, Piece.TWOCOLTOWER}:
+    elif piece == Piece.ALLTOWERS:
         tower_moveset = blue_tower_moves(piece_bb) if board.color == Color.BLUE else red_tower_moves(piece_bb)
         return tower_moveset & ~board.pieces[board.color][Piece.ALLTOWERS]
 
@@ -71,7 +71,7 @@ def blue_tower_moves(piece_bb: np.uint64):
     left_high = (piece_bb & ~a_column) << np.uint8(15)
     right_wide = (piece_bb & ~gh_column) << np.uint8(10)
     right_high = (piece_bb & ~h_column) << np.uint8(17)
-    return left_wide | left_high | right_wide | right_high
+    return (left_wide | left_high | right_wide | right_high) & ~corner
 
 
 def red_tower_moves(piece_bb: np.uint64):
@@ -79,4 +79,4 @@ def red_tower_moves(piece_bb: np.uint64):
     left_high = (piece_bb & ~h_column) >> np.uint8(15)
     right_wide = (piece_bb & ~ab_column) >> np.uint8(10)
     right_high = (piece_bb & ~a_column) >> np.uint8(17)
-    return left_wide | left_high | right_wide | right_high
+    return (left_wide | left_high | right_wide | right_high) & ~corner

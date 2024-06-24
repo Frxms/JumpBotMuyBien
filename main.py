@@ -15,16 +15,15 @@ def main_2_arrays():
     splitted = fen2.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
-    print(board)
     node = Node(board)
     if not recEndgame(board):
+        print("Game already ended")
         return
     tree = Tree(node)
-    createTree(parent=tree.root, depth=2, turn=turn, tree=tree)
-    print(tree.root)
-    search_value = alphaBeta(tree.root, 2, -1000000, 1000000, True)
+    createTree(parent=tree.root, depth=depth, turn=turn, tree=tree)
+    search_value = alphaBeta(tree.root, depth, -10000, 10000, False if turn == "b" else True)
     child: Node = tree.get_root_children(search_value)
-    print(child.move)
+    print(f"{bestMove} --> {child.move}")
 
 
 def main_bitboard():

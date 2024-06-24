@@ -1,7 +1,8 @@
 import time
-from util.engine import calcMove
+
+from util.Tree import Node, createTree, Tree
 from util.generator import createVis
-from util.search import Node, recEndgame, Tree, createTree, minimax, alphaBeta, global_count, global_count_minimax, printGlobal
+from util.search import recEndgame, minimax, alphaBeta, printGlobal
 
 
 def alphabeta1Move(fen1="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01/r01r0r0r0r0 b"):
@@ -260,12 +261,13 @@ def alphaBetaTest(fen3="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestmove = "D
     print(f"3 moves to win took: {elapsed_time} seconds {bestmove} --> res: {child.move}")
     print("-----------------------------")
 
-def bothTests(fen, bestMove, depth):
+def bothTests(fen="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestMove = "D6-D7", depth = 3):
     minimaxTest(fen, bestMove, depth)
     alphaBetaTest(fen, bestMove, depth)
     printGlobal()
 
 if __name__ == "__main__":
-    fen = "6/4b01b01/8/5b01b0/2b04r0/1b04r01/5r01rr/1r04 b"
-    bestMove = "C5-C6"
-    bothTests(fen, bestMove, 4)
+    # fen = "6/4b01b01/8/5b01b0/2b04r0/1b04r01/5r01rr/1r04 b"
+    # bestMove = "C5-C6"
+    # bothTests(fen, bestMove, 3)
+    bothTests()

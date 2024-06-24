@@ -3,7 +3,7 @@ from util.Bitboard.bbHelperFunc import reverse_mask
 from util.generator import createVis
 from util.search import Node, Tree, createTree, recEndgame, alphaBeta
 from util.Bitboard.Bitboard import GameBoard
-from util.Bitboard.moves import get_bits, gen_moves, blue_a_column, blue_h_column, blue_ab_column, blue_gh_column
+from util.Bitboard.moves import get_bits, gen_moves, a_column, h_column, ab_column, gh_column
 from util.Bitboard.constants import Color, Piece
 import numpy as np
 
@@ -29,12 +29,12 @@ def main_2_arrays():
 
 def main_bitboard():
     fen1 = "b04b0/r07/8/8/8/8/8/6 b"
-    fen2 = "6/r07/8/8/8/8/3b04/6 b"
+    fen2 = "b05/8/8/8/8/8/3b04/6 b"
     fen3 = "6/r07/8/8/8/8/b07/6 b"
     fen4 = "6/r07/8/8/8/8/b07/r05 b"
     fen5 = "6/8/8/8/8/8/8/2r03 r"
     fen6 = "b05/r07/8/8/8/8/8/6 r"
-    board = GameBoard(fen6)
+    board = GameBoard(fen2)
     board.__str__()
     print(gen_moves(board))
 
@@ -49,11 +49,6 @@ def get_moves():
     board = GameBoard("b04b0/r07/8/8/8/8/8/6 r")
     gen_moves(board)
 
-def reverse():
-    print(reverse_mask(blue_a_column))
-    print(reverse_mask(blue_ab_column))
-    print(reverse_mask(blue_gh_column))
-    print(reverse_mask(blue_h_column))
 
 if __name__ == "__main__":
-    reverse()
+    main_bitboard()

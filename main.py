@@ -45,5 +45,4 @@ def main_bitboard(depth=3, best_move="C1-H1"):
 
 
 if __name__ == "__main__":
-    # main_bitboard()
-    endgame_test()
+    main_bitboard()

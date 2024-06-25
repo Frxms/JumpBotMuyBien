@@ -1,5 +1,8 @@
 from typing import List
 
+import numpy as np
+
+from util.Bitboard import Bitboard
 from util.engine import refactor_to_readable, calcMove
 from util.generator import generateBoard
 
@@ -77,17 +80,18 @@ class Tree:
             else:
                 print("could not store node")
 
-    def create_bb_tree(self, parent: Node, depth: int, turn: str):
+    def create_bb_tree(self, parent: Node, board: Bitboard, depth: int):
         if depth == 0:
             return
         pboard = parent.value
-        if rec_endgame(pboard):
-            moves = calcMove(pboard, turn)
-            if not moves:
-                return
+        if not board.is_endgame():
+            # calculate the next moves
+            # if not moves:
+            #     return
+            pass
         else:
             return
-        self.create_bb_tree(parent, depth - 1, turn)
+        self.create_bb_tree(parent, board, depth)
 
 
 def create_tree(parent: Node, depth: int, turn: str, tree: Tree):

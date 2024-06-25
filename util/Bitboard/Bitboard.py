@@ -124,8 +124,13 @@ class GameBoard:
                 return "br"
 
     def is_endgame(self):
-        pass
-
+        bottom_row = np.uint64(0xFF)
+        top_row = np.uint64(0xFF00000000000000)
+        if (((self.each_side[Color.RED] & bottom_row) > 0
+                or (self.each_side[Color.BLUE] & top_row) > 0)
+                or self.each_side[Color.RED] == 0 or self.each_side[Color.BLUE] == 0):
+            return True
+        return False
 
     def generate_fen_with_move(self):
         pass

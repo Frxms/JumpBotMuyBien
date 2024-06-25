@@ -1,3 +1,5 @@
+import warnings
+
 import numpy as np
 
 EMPTY_BB = np.uint64(0)
@@ -18,10 +20,12 @@ def corner_check(field):
 def get_bits(bb: np.uint64):    # returns every piece as its own bb
     empty_board = np.uint64(0)
     results = []
-    while bb != empty_board:
-        lsb = bb & -bb
-        results.append(lsb)
-        bb ^= lsb
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+        while bb != empty_board:
+            lsb = bb & -bb
+            results.append(lsb)
+            bb ^= lsb
     return results
 
 
@@ -50,6 +54,6 @@ field_mapper = np.array([
 
 def get_index(bb: np.uint64, flag: bool):
     if flag:
-        print(field_mapper[np.uint8(np.log2(bb))])
+        return field_mapper[np.uint8(np.log2(bb))]
     else:
-        print(np.uint8(np.log2(bb)))
+        return np.uint8(np.log2(bb))

@@ -27,26 +27,23 @@ def main_2_arrays(depth=3, best_move="C1-H1"):
     print(f"{best_move} --> {child.move}")
 
 
-def main_bitboard():
+def main_bitboard(depth=3, best_move="C1-H1"):
     fen = "b0b0b0b0b0b0/1b0b0b0b0b0b01/8/8/8/8/1r0r0r0r0r0r01/r0r0r0r0r0r0 b"
+    fen1 = "b04b0/r07/8/8/8/8/8/6 r"
     board = GameBoard(fen)
     board.__str__()
-    print(gen_moves(board))
+    print(gen_moves(board, True))
     # todo um weitere moves zu generieren und um moves anzuwenden, immer mit board arbeiten
     node = Node(board)
     if board.is_endgame():
         print("Game already ended")
         return
     tree = Tree(node)
+    tree.create_bb_tree(tree.root, board, depth)
 
 
-
-def get_moves():
-    board = GameBoard("b04b0/r07/8/8/8/8/8/6 r")
-    gen_moves(board)
 
 
 if __name__ == "__main__":
     # main_bitboard()
-    print(get_index(np.uint64(0b1000000000000), False))
-    print(get_index(np.uint64(0b1000000000000), True))
+    endgame_test()

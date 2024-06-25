@@ -11,16 +11,21 @@ gh_column = np.uint64(0xC1C0C0C0C0C0C0C1)
 corner = np.uint64(0x8100000000000081)
 
 
-def gen_moves(board: Bitboard):
-    # piece: Piece, index: np.uint64
-    piece = []
+# returns set of (starting bit, goal bit, moveset String) when true
+#  and else a set of (starting bit, piece type, all moves in bb)
+def gen_moves(board: Bitboard, moveset_flag: bool):
     legal_moves = []
+    moveset = []
     for p in {Piece.PAWN, Piece.ALLTOWERS}:
-        piece = get_bits(board.pieces[board.color][p])
-        for piece_bb in piece:
+        for piece_bb in get_bits(board.pieces[board.color][p]):
             legal_moves.append((piece_bb, p, piece_moves(board, piece_bb, p)))
-    for move in legal_moves:
-        piece_index = get_index(piece_bb, False)
+    if moveset_flag:
+        for move in legal_moves:
+            piece_index = get_index(move[0], True)
+            for target in get_bits(move[2]):
+                moveset_str = piece_index + "-" + get_index(target, True)
+                moveset.append((move[0], target, moveset_str))
+        return moveset
     return legal_moves
 # todo mit yield umsetzten ist wahrscheinlich schneller
 

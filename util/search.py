@@ -1,11 +1,11 @@
 from typing import Any, List
-from util.Tree import Node, recEndgame
+from util.Tree import Node, rec_endgame
 from util.evaluate import evaluate
 
 global_count = 0
 global_count_minimax = 0
 
-def alphaBeta(node, depth, alpha, beta, maximizing_player):
+def alpha_beta(node, depth, alpha, beta, maximizing_player):
     global global_count
     if depth == 0:  #&& isGameOver(node):
         node.eval = evaluate(node.value)
@@ -25,7 +25,7 @@ def alphaBeta(node, depth, alpha, beta, maximizing_player):
         global_count += 1
         max_eval = alpha
         for child in node.children:
-            max_eval = max(max_eval, alphaBeta(child, depth - 1, max_eval, beta, False))
+            max_eval = max(max_eval, alpha_beta(child, depth - 1, max_eval, beta, False))
             if max_eval >= beta:
                 break
         node.eval = max_eval
@@ -35,7 +35,7 @@ def alphaBeta(node, depth, alpha, beta, maximizing_player):
         global_count += 1
         min_eval = beta
         for child in node.children:
-            min_eval = min(min_eval, alphaBeta(child, depth - 1, alpha, min_eval, True))
+            min_eval = min(min_eval, alpha_beta(child, depth - 1, alpha, min_eval, True))
             if min_eval <= alpha:
                 break
         node.eval = min_eval
@@ -74,7 +74,7 @@ def minimax(node: Node, depth: int, maximizing_player: bool):
         return min_eval
 
 
-def printGlobal():
+def print_global():
     print("minimax:")
     print(global_count_minimax)
     print("alphabeta:")
@@ -85,4 +85,4 @@ if __name__ == '__main__':
          ['', '', '', '', '', '', '', ''], ['', '', '', '', '', '', '', ''], ['', '', '', '', '', '', '', ''],
          ['', '', '', '', '', '', '', ''], ['X', '', '', '', '', '', '', 'X']]
     fen = "1r0r02r0/2r02r02/8/1bb4r01/3brb03/1b03r02/4b03/b01b03"
-    print(recEndgame(a))
+    print(rec_endgame(a))

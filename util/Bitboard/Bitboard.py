@@ -122,3 +122,10 @@ class GameBoard:
                 return "rr"
             elif piece == Piece.TWOCOLTOWER:
                 return "br"
+
+    def is_endgame(self):
+        pass
+
+
+    def generate_fen_with_move(self):
+        pass

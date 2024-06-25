@@ -1,16 +1,16 @@
 import time
 from typing import Any
-from util.Tree import Node, Tree, createTree
+from util.Tree import Node, Tree, create_tree
 from util.engine import calcMove, refactor_to_readable
 from util.generator import generateBoard, createVis
-from util.search import recEndgame, minimax
+from util.search import rec_endgame, minimax
 
 
 def testNewInsert(parent: Node, depth: int, turn: str, tree: Tree) -> Any:
     if depth == 0:
         return
     pboard = parent.value
-    if recEndgame(pboard):
+    if rec_endgame(pboard):
         moves = calcMove(pboard, turn)
         if not moves:
             return
@@ -20,7 +20,7 @@ def testNewInsert(parent: Node, depth: int, turn: str, tree: Tree) -> Any:
         nboard = generateBoard(pboard, move, turn)
         node = Node(nboard)
         node.move = refactor_to_readable(move)
-        tree.newInsert(parent, node)
+        tree.new_insert(parent, node)
     if turn == "b":
         turn = "r"
     else:
@@ -37,7 +37,7 @@ def testRun(fen="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestMove = "D6-D7", 
     turn = splitted[1]
     board = createVis(splitted[0])
     node = Node(board)
-    if not recEndgame(board):
+    if not rec_endgame(board):
         print("Game already ended")
         return
     tree = Tree(node)
@@ -54,12 +54,12 @@ def oldInsertTest(fen="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestMove = "D6
     turn = splitted[1]
     board = createVis(splitted[0])
     node = Node(board)
-    if not recEndgame(board):
+    if not rec_endgame(board):
         print("Game already ended")
         return
     tree = Tree(node)
     start = time.time()
-    createTree(parent=tree.root, depth=depth, turn=turn, tree=tree)
+    create_tree(parent=tree.root, depth=depth, turn=turn, tree=tree)
     end = time.time()
     print(f"it took {end - start} seconds")
     search_value = minimax(tree.root, 4, False if turn == "b" else True)

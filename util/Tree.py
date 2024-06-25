@@ -4,7 +4,6 @@ from util.engine import refactor_to_readable, calcMove
 from util.generator import generateBoard
 
 
-
 class Node:
     def __init__(self, value):
         self.value = tuple(value) if isinstance(value, list) else value  # Ensure the value is hashable
@@ -67,7 +66,7 @@ class Tree:
         return False
 
 
-    def newInsert(self, parent: Node, node: Node):
+    def new_insert(self, parent: Node, node: Node):
         if self.root is None:
             self.root = node
             return True
@@ -78,11 +77,24 @@ class Tree:
             else:
                 print("could not store node")
 
-def createTree(parent: Node, depth: int, turn: str, tree: Tree):
+    def create_bb_tree(self, parent: Node, depth: int, turn: str):
+        if depth == 0:
+            return
+        pboard = parent.value
+        if rec_endgame(pboard):
+            moves = calcMove(pboard, turn)
+            if not moves:
+                return
+        else:
+            return
+        self.create_bb_tree(parent, depth - 1, turn)
+
+
+def create_tree(parent: Node, depth: int, turn: str, tree: Tree):
     if depth == 0:
         return
     pboard = parent.value
-    if recEndgame(pboard):
+    if rec_endgame(pboard):
         moves = calcMove(pboard, turn)
         if not moves:
             return
@@ -100,9 +112,10 @@ def createTree(parent: Node, depth: int, turn: str, tree: Tree):
         turn = "b"
     depth -= 1
     for child in parent.get_leafs():
-        createTree(child, depth, turn, tree)
+        create_tree(child, depth, turn, tree)
 
-def recEndgame(board: List):
+
+def rec_endgame(board: List):
     if "r" in board[7] or "b" in board[0]:
         return False
     if not (any('r' in cell or 'rr' in cell for row in board for cell in row) and any(
@@ -110,3 +123,7 @@ def recEndgame(board: List):
         return False
     #     pass
     return True
+
+
+# todo so implementieren, dass man es nicht in ein FEN umstrukturiert;
+#  nur ganz am Anfang als String annehmen und dann den richtigen move zurückgeben

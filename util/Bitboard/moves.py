@@ -2,7 +2,7 @@ import numpy as np
 
 from util.Bitboard import Bitboard
 from util.Bitboard.constants import Color, Piece, Row, Column
-from util.Bitboard.bbHelperFunc import to_bitboard, reverse_mask, get_bits
+from util.Bitboard.bbHelperFunc import to_bitboard, reverse_mask, get_bits, get_index
 
 a_column = np.uint64(0x8101010101010181)
 ab_column = np.uint64(0x8303030303030383)
@@ -19,6 +19,8 @@ def gen_moves(board: Bitboard):
         piece = get_bits(board.pieces[board.color][p])
         for piece_bb in piece:
             legal_moves.append((piece_bb, p, piece_moves(board, piece_bb, p)))
+    for move in legal_moves:
+        piece_index = get_index(piece_bb, False)
     return legal_moves
 # todo mit yield umsetzten ist wahrscheinlich schneller
 

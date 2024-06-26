@@ -71,5 +71,23 @@ def test_tree_insert():
         tree.insert(board, new_node)
         board.unmove(reverse_set)
 
+def clientRun(fen: str, depth=3):
+    splitted = fen.split(" ")
+    turn = splitted[1]
+    board = createVis(splitted[0])
+    for row in board:
+        print(row)
+    node = Node(board)
+    if not recEndgame(board):
+        return
+    tree = Tree(node)
+    createTree(parent=tree.root, depth=depth, turn=turn, tree=tree)
+    #print(tree.root)
+    search_value = alphaBeta(tree.root, depth, -1000000, 1000000, False if turn == "b" else True)
+    child: Node = tree.get_root_children(search_value)
+    print(child.move)
+    return child.move
+
+
 if __name__ == "__main__":
     test_tree_insert()

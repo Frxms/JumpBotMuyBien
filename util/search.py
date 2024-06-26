@@ -5,11 +5,12 @@ from util.evaluate import evaluate
 global_count = 0
 global_count_minimax = 0
 
+
 def alpha_beta(node, depth, alpha, beta, maximizing_player):
     global global_count
     if depth == 0:  #&& isGameOver(node):
         node.eval = evaluate(node.value)
-
+        #quiescenceSearch
         global_count += 1
         return node.eval
 
@@ -40,6 +41,27 @@ def alpha_beta(node, depth, alpha, beta, maximizing_player):
                 break
         node.eval = min_eval
         return min_eval
+
+def quiescenceSearch(alpha, beta, node):
+    pat = evaluate(node.value)
+    #fail hard
+    if (pat >= beta):
+        return beta
+
+    #fail soft
+    if(alpha < pat):
+        alpha = pat
+
+    # generate all capture Moves
+
+    for move in allCaptureMoves:
+        score = quiescenceSearch(-beta, -alpha, child)
+        if score >= beta:
+            return beta
+        if score > alpha:
+            alpha = score
+
+    return alpha
 
 
 def minimax(node: Node, depth: int, maximizing_player: bool):

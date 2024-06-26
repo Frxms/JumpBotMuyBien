@@ -148,7 +148,3 @@ def rec_endgame(board: List):
         return False
     #     pass
     return True
-
-
-# todo so implementieren, dass man es nicht in ein FEN umstrukturiert;
-#  nur ganz am Anfang als String annehmen und dann den richtigen move zurückgeben

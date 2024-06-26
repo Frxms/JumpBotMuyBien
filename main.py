@@ -1,7 +1,7 @@
 import copy
 
 from util.Bitboard import Bitboard
-from util.Bitboard.bbHelperFunc import reverse_mask, get_index
+from util.Bitboard.bbHelperFunc import reverse_mask, get_index, set_bits
 from util.Tree import Tree, create_tree
 from util.generator import createVis
 from util.search import Node, rec_endgame, alpha_beta
@@ -64,6 +64,4 @@ def test_tree_insert(depth=2):
 
 if __name__ == "__main__":
     # test_tree_insert()
-    byte_array = np.array([np.uint64(0b101010)], dtype='uint64').view('uint8')
-    count = np.count_nonzero(np.unpackbits(byte_array))
-    print(count)
+    print(set_bits(0b101010101010101010101010101010))

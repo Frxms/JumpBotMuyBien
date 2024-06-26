@@ -44,6 +44,13 @@ def get_bits(bb: np.uint64):    # returns every piece as its own bb
     return results
 
 
+def set_bits(bb: np.uint64):
+    count = 0
+    while bb:
+        bb &= bb - 1  # Clear the least significant bit set
+        count += 1
+    return count
+
 def reverse_mask(x: np.uint64):
     x = np.uint64(x)
     x = ((x & np.uint64(0x5555555555555555)) << np.uint8(1)) | ((x & np.uint64(0xAAAAAAAAAAAAAAAA)) >> np.uint8(1))

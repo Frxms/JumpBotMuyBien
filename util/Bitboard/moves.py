@@ -11,23 +11,29 @@ gh_column = np.uint64(0xC1C0C0C0C0C0C0C1)
 corner = np.uint64(0x8100000000000081)
 
 
-# returns set of (piece, starting bit, goal bit, moveset String) when true
-#  and else a set of (starting bit, piece type, all moves in bb)
+# returns set of (piece, starting bit, goal bit) when false
+#  and else a set of (piece, starting bit, goal bit, moveset String)
+# todo weniger for loops machen
 def gen_moves(board: Bitboard, moveset_flag: bool):
     legal_moves = []
     moveset = []
     for piece_type in {Piece.PAWN, Piece.ALLTOWERS}:
         for piece_bb in get_bits(board.pieces[board.color][piece_type]):
             legal_moves.append((piece_bb, piece_type, piece_moves(board, piece_bb, piece_type)))
-    if moveset_flag:
+    if not moveset_flag:
         for move in legal_moves:
-            # piece_index = get_index(move[0], True)
             for target in get_bits(move[2]):
-                # moveset_str = piece_index + "-" + get_index(target, True)
-                # moveset.append((move[1], move[0], target, moveset_str))
                 moveset.append((move[1], move[0], target))
         return moveset
-    return legal_moves
+    else:
+        for move in legal_moves:
+            piece_index = get_index(move[0], True)
+            for target in get_bits(move[2]):
+                moveset_str = piece_index + "-" + get_index(target, True)
+                moveset.append((move[1], move[0], target, moveset_str))
+                # moveset.append((move[1], move[0], target))
+        return moveset
+
 # todo mit yield umsetzten ist wahrscheinlich schneller
 
 

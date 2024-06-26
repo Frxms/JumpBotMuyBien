@@ -241,7 +241,7 @@ class GameBoard:
             self.each_side[self.color] |= reverse_set[3]
             return self.unmove_start(reverse_set[0], reverse_set[2])
         # if goal matches with one tower, there had to be a pawn of the same color here before
-        elif goal & self.pieces[self.color][Piece.TOWER] != EMPTY_BB:
+        elif reverse_set[3] & self.pieces[self.color][Piece.TOWER] != EMPTY_BB:
             self.pieces[self.color][Piece.TOWER] ^= reverse_set[3]
             self.pieces[self.color][Piece.ALLTOWERS] ^= reverse_set[3]
             self.pieces[self.color][Piece.PAWN] |= reverse_set[3]

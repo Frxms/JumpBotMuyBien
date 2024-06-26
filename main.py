@@ -42,7 +42,16 @@ def main_bitboard(depth=3, best_move="C1-H1"):
     tree.create_bb_tree(tree.root, board, depth)
 
 
+def test_move_user():
+    fen = "6/8/3bb04/8/2r05/8/8/6 b"
+    board = GameBoard(fen)
+    board.__str__()
+    moveset = gen_moves(board, True)
+    print(moveset)
+    board.use_move(moveset[2])
+    board.__str__()
+
 
 
 if __name__ == "__main__":
-    main_bitboard()
+    test_move_user()

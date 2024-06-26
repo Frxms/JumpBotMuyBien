@@ -3,6 +3,7 @@ from typing import List
 import numpy as np
 
 from util.Bitboard import Bitboard
+from util.Bitboard.moves import gen_moves
 from util.engine import refactor_to_readable, calcMove
 from util.generator import generateBoard
 
@@ -85,12 +86,13 @@ class Tree:
             return
         pboard = parent.value
         if not board.is_endgame():
-            # calculate the next moves
-            # if not moves:
-            #     return
-            pass
+            moves = gen_moves(pboard, True)
+            if not moves:
+                return
         else:
             return
+        for move in moves:
+            pboard.use_move(move)
         self.create_bb_tree(parent, board, depth)
 
 

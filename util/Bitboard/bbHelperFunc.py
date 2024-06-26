@@ -18,11 +18,10 @@ def corner_check(field):
 
 
 def get_bits(bb: np.uint64):    # returns every piece as its own bb
-    empty_board = np.uint64(0)
     results = []
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", RuntimeWarning)
-        while bb != empty_board:
+        while bb != EMPTY_BB:
             lsb = bb & -bb
             results.append(lsb)
             bb ^= lsb

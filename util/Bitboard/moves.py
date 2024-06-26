@@ -16,20 +16,21 @@ corner = np.uint64(0x8100000000000081)
 def gen_moves(board: Bitboard, moveset_flag: bool):
     legal_moves = []
     moveset = []
-    for p in {Piece.PAWN, Piece.ALLTOWERS}:
-        for piece_bb in get_bits(board.pieces[board.color][p]):
-            legal_moves.append((piece_bb, p, piece_moves(board, piece_bb, p)))
+    for piece_type in {Piece.PAWN, Piece.ALLTOWERS}:
+        for piece_bb in get_bits(board.pieces[board.color][piece_type]):
+            legal_moves.append((piece_bb, piece_type, piece_moves(board, piece_bb, piece_type)))
     if moveset_flag:
         for move in legal_moves:
             piece_index = get_index(move[0], True)
             for target in get_bits(move[2]):
                 moveset_str = piece_index + "-" + get_index(target, True)
-                moveset.append((move[0], target, moveset_str))
+                moveset.append((move[1], move[0], target, moveset_str))
         return moveset
     return legal_moves
 # todo mit yield umsetzten ist wahrscheinlich schneller
 
 
+# makes Piece specific function calls
 def piece_moves(board: Bitboard, piece_bb: np.uint64, piece: Piece):
     if piece == Piece.PAWN:
         return pawn_moves(board, piece_bb)

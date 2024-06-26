@@ -37,6 +37,7 @@ def main_bitboard(depth=3, best_move="C1-H1"):
     print(gen_moves(board, True))
     # todo um weitere moves zu generieren und um moves anzuwenden, immer mit board arbeiten
 
+
 def test_move_user():
     fen = "6/8/3rb4/2r05/2r05/8/8/6 b"
     board = GameBoard(fen)
@@ -57,7 +58,7 @@ def test_tree_insert(depth=2):
     if board.is_endgame():
         print("Game already ended")
         return
-    node = Node(board, False)
+    node = Node(board, True)
     tree = Tree(node)
     tree.create_bb_tree(tree.root, depth=depth)
 

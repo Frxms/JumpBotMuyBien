@@ -42,26 +42,26 @@ def alpha_beta(node, depth, alpha, beta, maximizing_player):
         node.eval = min_eval
         return min_eval
 
-def quiescenceSearch(alpha, beta, node):
-    pat = evaluate(node.value)
-    #fail hard
-    if (pat >= beta):
-        return beta
-
-    #fail soft
-    if(alpha < pat):
-        alpha = pat
-
-    # generate all capture Moves
-
-    for move in allCaptureMoves:
-        score = quiescenceSearch(-beta, -alpha, child)
-        if score >= beta:
-            return beta
-        if score > alpha:
-            alpha = score
-
-    return alpha
+# def quiescenceSearch(alpha, beta, node):
+#     pat = evaluate(node.value)
+#     #fail hard
+#     if (pat >= beta):
+#         return beta
+#
+#     #fail soft
+#     if(alpha < pat):
+#         alpha = pat
+#
+#     # generate all capture Moves
+#
+#     for move in allCaptureMoves:
+#         score = quiescenceSearch(-beta, -alpha, child)
+#         if score >= beta:
+#             return beta
+#         if score > alpha:
+#             alpha = score
+#
+#     return alpha
 
 
 def minimax(node: Node, depth: int, maximizing_player: bool):

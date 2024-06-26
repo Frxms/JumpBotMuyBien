@@ -5,7 +5,7 @@ from util.generator import createVis
 from util.search import rec_endgame, minimax, alpha_beta, print_global
 
 
-def alphabeta1Move(fen1="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01/r01r0r0r0r0 b"):
+def alphabeta_1_move(fen1="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01/r01r0r0r0r0 b"):
     splitted = fen1.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
@@ -13,6 +13,7 @@ def alphabeta1Move(fen1="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01
     node = Node(board)
     if not rec_endgame(board):
         print("Game already ended")
+
         return
     tree = Tree(node)
 
@@ -39,7 +40,7 @@ def alphabeta1Move(fen1="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01
     #     print(f"The move: {node.move} results in a board with {node.eval}pt.")
 
 
-def alphabeta1Move1(fen2="2b03/r07/3r04/6rr1/4bb3/2b04bb/3rr1rr2/5r0 b"):
+def alphabeta_1_move_1(fen2="2b03/r07/3r04/6rr1/4bb3/2b04bb/3rr1rr2/5r0 b"):
     splitted = fen2.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
@@ -71,7 +72,7 @@ def alphabeta1Move1(fen2="2b03/r07/3r04/6rr1/4bb3/2b04bb/3rr1rr2/5r0 b"):
     print("-----------------------------")
 
 
-def alphabeta2Moves(fen3="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r"):
+def alphabeta_2_moves(fen3="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r"):
     splitted = fen3.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
@@ -102,7 +103,7 @@ def alphabeta2Moves(fen3="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 
     print(f"2 moves to win took: {elapsed_time} seconds. F3-F2 --> res: {child.move}")
 
 
-def minimax1Move(fen1="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01/r01r0r0r0r0 b"):  #own test
+def minimax_1_move(fen1="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01/r01r0r0r0r0 b"):  #own test
     splitted = fen1.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
@@ -136,7 +137,7 @@ def minimax1Move(fen1="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01/r
     print("-----------------------------")
 
 
-def minimax1Move1(fen2="2b03/r07/3r04/6rr1/4bb3/2b04bb/3rr1rr2/5r0 b"):
+def minimax_1_move_1(fen2="2b03/r07/3r04/6rr1/4bb3/2b04bb/3rr1rr2/5r0 b"):
     splitted = fen2.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
@@ -168,7 +169,7 @@ def minimax1Move1(fen2="2b03/r07/3r04/6rr1/4bb3/2b04bb/3rr1rr2/5r0 b"):
     print("-----------------------------")
 
 
-def minimax2Moves(fen3="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r"):
+def minimax_2_moves(fen3="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r"):
     splitted = fen3.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
@@ -199,7 +200,7 @@ def minimax2Moves(fen3="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r"
     print(f"2 moves to win took: {elapsed_time} seconds. F3-F2 --> res: {child.move}")
 
 
-def minimaxTest(fen3="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestmove = "D6-D7", depth = 3):
+def minimax_test(fen3="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestmove ="D6-D7", depth = 3):
     splitted = fen3.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
@@ -230,7 +231,8 @@ def minimaxTest(fen3="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestmove = "D6-
     print(f"3 moves to win took: {elapsed_time} seconds {bestmove} --> res: {child.move}")
     print("-----------------------------")
 
-def alphaBetaTest(fen3="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestmove = "D6-D7", depth = 3):
+
+def alpha_beta_test(fen3="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestmove ="D6-D7", depth = 3):
     splitted = fen3.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
@@ -261,13 +263,14 @@ def alphaBetaTest(fen3="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestmove = "D
     print(f"3 moves to win took: {elapsed_time} seconds {bestmove} --> res: {child.move}")
     print("-----------------------------")
 
-def bothTests(fen="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestMove = "D6-D7", depth = 3):
-    minimaxTest(fen, bestMove, depth)
-    alphaBetaTest(fen, bestMove, depth)
+
+def both_tests(fen="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestMove ="D6-D7", depth = 3):
+    minimax_test(fen, bestMove, depth)
+    alpha_beta_test(fen, bestMove, depth)
     print_global()
 
 if __name__ == "__main__":
     # fen = "6/4b01b01/8/5b01b0/2b04r0/1b04r01/5r01rr/1r04 b"
     # bestMove = "C5-C6"
     # bothTests(fen, bestMove, 3)
-    bothTests()
+    both_tests()

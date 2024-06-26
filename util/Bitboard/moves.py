@@ -20,7 +20,7 @@ def gen_moves(board: Bitboard, moveset_flag: bool):
     for piece_type in {Piece.PAWN, Piece.ALLTOWERS}:
         for piece_bb in get_bits(board.pieces[board.color][piece_type]):
             legal_moves.append((piece_bb, piece_type, piece_moves(board, piece_bb, piece_type)))
-    if not moveset_flag:
+    if moveset_flag:
         for move in legal_moves:
             for target in get_bits(move[2]):
                 moveset.append((move[1], move[0], target))

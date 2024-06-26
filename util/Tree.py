@@ -14,6 +14,7 @@ class Node:
         self.children = []
         self.eval = 0
         self.move = ""
+        self.capture = bool
         self.parent = None
 
     def __repr__(self):

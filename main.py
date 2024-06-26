@@ -3,7 +3,7 @@ from util.Bitboard.bbHelperFunc import reverse_mask, get_index
 from util.Tree import Tree, create_tree
 from util.generator import createVis
 from util.search import Node, rec_endgame, alpha_beta
-from util.Bitboard.Bitboard import GameBoard, change_col
+from util.Bitboard.Bitboard import GameBoard
 from util.Bitboard.moves import get_bits, gen_moves, a_column, h_column, ab_column, gh_column
 from util.Bitboard.constants import Color, Piece
 import numpy as np
@@ -74,4 +74,4 @@ def test_tree_insert():
 
 
 if __name__ == "__main__":
-    test_tree_insert()
+    test_move_user()

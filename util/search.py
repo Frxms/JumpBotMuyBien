@@ -114,6 +114,7 @@ def alpha_beta(node, depth, alpha, beta, maximizing_player):
         node.eval = min_eval
         return min_eval
 
+
 def quiescenceSearch(alpha, beta, node):
     pat = evaluate(node.value)
     #fail hard
@@ -121,7 +122,7 @@ def quiescenceSearch(alpha, beta, node):
         return beta
 
     #fail soft
-    if(alpha < pat):
+    if (alpha < pat):
         alpha = pat
 
     # generate all capture Moves

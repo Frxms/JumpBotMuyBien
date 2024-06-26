@@ -1,0 +1,984 @@
+
+
+expected: C5-C6
+result: C5-C6
+amount: 5642
+m_window: -100
+p_window: 100
+
+expected: C5-C6
+result: C5-C6
+amount: 5642
+m_window: -100
+p_window: 100
+
+expected: C5-C6
+result: C5-C6
+amount: 5642
+m_window: -100
+p_window: 100
+
+expected: C5-C6
+result: C5-C6
+amount: 5642
+m_window: -100
+p_window: 100
+
+expected: C5-C6
+result: C5-C6
+amount: 6612
+m_window: -100
+p_window: 100
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -100
+p_window: 100
+
+expected: C5-C6
+result: G2-H2
+amount: 2750
+m_window: -99
+p_window: 99
+
+expected: C5-C6
+result: G2-H2
+amount: 4125
+m_window: -98
+p_window: 98
+
+expected: C5-C6
+result: G2-H2
+amount: 5500
+m_window: -97
+p_window: 97
+
+expected: C5-C6
+result: G2-H2
+amount: 6875
+m_window: -96
+p_window: 96
+
+expected: C5-C6
+result: G2-H2
+amount: 8250
+m_window: -95
+p_window: 95
+
+expected: C5-C6
+result: G2-H2
+amount: 9625
+m_window: -94
+p_window: 94
+
+expected: C5-C6
+result: G2-H2
+amount: 11000
+m_window: -93
+p_window: 93
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -100
+p_window: 100
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -99
+p_window: 99
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -98
+p_window: 98
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -97
+p_window: 97
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -96
+p_window: 96
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -95
+p_window: 95
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -94
+p_window: 94
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -93
+p_window: 93
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -92
+p_window: 92
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -91
+p_window: 91
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -90
+p_window: 90
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -100
+p_window: 100
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -101
+p_window: 101
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -102
+p_window: 102
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -103
+p_window: 103
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -104
+p_window: 104
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -105
+p_window: 105
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -106
+p_window: 106
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -107
+p_window: 107
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -108
+p_window: 108
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -109
+p_window: 109
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -110
+p_window: 110
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -111
+p_window: 111
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -112
+p_window: 112
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -113
+p_window: 113
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -114
+p_window: 114
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -115
+p_window: 115
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -116
+p_window: 116
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -117
+p_window: 117
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -118
+p_window: 118
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -119
+p_window: 119
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -120
+p_window: 120
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -121
+p_window: 121
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -122
+p_window: 122
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -123
+p_window: 123
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -124
+p_window: 124
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -125
+p_window: 125
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -126
+p_window: 126
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -127
+p_window: 127
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -128
+p_window: 128
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -129
+p_window: 129
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -130
+p_window: 130
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -50
+p_window: 50
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -51
+p_window: 51
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -52
+p_window: 52
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -53
+p_window: 53
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -10
+p_window: 10
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -11
+p_window: 11
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -12
+p_window: 12
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -13
+p_window: 13
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -14
+p_window: 14
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+m_window: -15
+p_window: 15
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 100
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 99
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 98
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 97
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 96
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 50
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 50
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 49
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 48
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 47
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 46
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 45
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 44
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 43
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 42
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 41
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 40
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 39
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 38
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 37
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 36
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 35
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 34
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 33
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 32
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 31
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 30
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 29
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 28
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 27
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 26
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 25
+
+
+expected: C5-C6
+result: B6-B7
+amount: 597
+window: 24
+
+
+expected: C5-C6
+result: C5-C6
+amount: 5614
+window: 50
+
+
+expected: C5-C6
+result: C5-C6
+amount: 5614
+window: 100
+
+
+expected: C5-C6
+result: C5-C6
+amount: 5614
+window: 50
+
+
+expected: C5-C6
+result: C5-C6
+amount: 5614
+window: 1000
+
+
+expected: C5-C6
+result: C5-C6
+amount: 5614
+window: 2
+
+
+expected: C5-C6
+result: C5-C6
+amount: 5614
+window: 2
+
+
+expected: C5-C6
+result: C5-C6
+amount: 5614
+window: 50
+
+
+expected: C5-C6
+result: C5-C6
+amount: 43504
+window: 50
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 50
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 49
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 48
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 47
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 46
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 45
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 0.3
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: -0.7
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: -1.7
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: -2.7
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 0
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: -1
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: -2
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: -3
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: -4
+
+
+expected: C5-C6
+result: C5-C6
+amount: 5642
+window: 0
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 100
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 99
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 98
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 97
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 96
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 50
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1375
+window: 49
+
+
+expected: C5-C6
+result: G2-H2
+amount: 2039
+window: 1
+
+
+expected: C5-C6
+result: C5-C6
+amount: 5642
+window: 0
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1573
+window: 2
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1584
+window: 1.99
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1584
+window: 1.98
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1584
+window: 1.97
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1584
+window: 1.96
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1584
+window: 1.95
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1585
+window: 1.94
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1585
+window: 1.93
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1585
+window: 1.92
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1585
+window: 1.91
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1585
+window: 1.9
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1585
+window: 1.89
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1585
+window: 1.88
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1573
+window: 2
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1585
+window: 1.89
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1585
+window: 1.7799999999999998
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1589
+window: 1.6699999999999997
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1631
+window: 1.5599999999999996
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1676
+window: 1.4499999999999995
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1749
+window: 1.3399999999999994
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1750
+window: 1.2299999999999993
+
+
+expected: C5-C6
+result: G2-H2
+amount: 1801
+window: 1.1199999999999992
+
+
+expected: C5-C6
+result: G2-H2
+amount: 2039
+window: 1.0099999999999991
+
+
+expected: C5-C6
+result: G2-H2
+amount: 2135
+window: 0.8999999999999991
+
+
+expected: C5-C6
+result: G2-H2
+amount: 2259
+window: 0.7899999999999991
+
+
+expected: C5-C6
+result: G2-H2
+amount: 2487
+window: 0.6799999999999992
+
+
+expected: C5-C6
+result: G2-H2
+amount: 2757
+window: 0.5699999999999992
+
+
+expected: C5-C6
+result: G2-H2
+amount: 3345
+window: 0.4599999999999992
+
+
+expected: C5-C6
+result: G2-H2
+amount: 4866
+window: 0.3499999999999992
+
+
+expected: C5-C6
+result: G2-H2
+amount: 5954
+window: 0.23999999999999921
+
+
+expected: C5-C6
+result: G2-H2
+amount: 5680
+window: 0.12999999999999923
+
+
+expected: C5-C6
+result: G2-H2
+amount: 6987
+window: 0.019999999999999227
+
+
+expected: C5-C6
+result: C5-C6
+amount: 5773
+window: -0.09000000000000077

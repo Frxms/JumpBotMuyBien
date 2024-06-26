@@ -61,3 +61,11 @@ Deliverables:
 - Was planen Sie für den 4. Meilenstein?
 2. Screencast, der demonstriert, wie Sie Ihre Performancetests durchführen, z.B. durch recording der Konsole.
 3. Dokumentation der Performance Ihrer aktuellen KI im Wiki.
+
+
+## aspiration windows tests
+- without: 5642
+- 2 move to win tree took 3.7085649967193604
+- 3 moves to win took: 0.037438154220581055 seconds C5-C6 --> res: C5-C6
+
+- with: 

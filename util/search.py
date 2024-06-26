@@ -6,6 +6,7 @@ from util.evaluate import evaluate
 global_count = 0
 global_count_minimax = 0
 
+
 class Node:
     def __init__(self, value):
         self.value = tuple(value) if isinstance(value, list) else value  # Ensure the value is hashable
@@ -30,7 +31,6 @@ class Node:
             else:
                 stack.extend(current_node.children)
         return leafs
-
 
 
 class Tree:
@@ -116,6 +116,45 @@ def alphaBeta(node, depth, alpha, beta, maximizing_player):
         return min_eval
 
 
+def alphaBeta_windows(node, depth, alpha, beta, maximizing_player, window):
+    global global_count
+    if depth == 0:  #&& isGameOver(node):
+        node.eval = evaluate(node.value)
+
+        global_count += 1
+        return node.eval
+
+    if len(node.children) == 0:
+        node.eval = evaluate(node.value)
+        global_count += 1
+        return node.eval
+
+    if node is None:
+        return 0  # In case the node is None, return 0
+
+    if maximizing_player:
+        global_count += 1
+        max_eval = alpha
+        for child in node.children:
+            max_eval = max(max_eval,
+                           alphaBeta_windows(child, depth - 1, max_eval, beta - window, False, window))
+            if max_eval >= beta:
+                break
+        node.eval = max_eval
+        return max_eval
+
+    else:
+        global_count += 1
+        min_eval = beta
+        for child in node.children:
+            min_eval = min(min_eval,
+                           alphaBeta_windows(child, depth - 1, alpha + window, min_eval, True, window))
+            if min_eval <= alpha:
+                break
+        node.eval = min_eval
+        return min_eval
+
+
 def minimax(node: Node, depth: int, maximizing_player: bool):
     global global_count_minimax
     if depth == 0:  #&& isGameOver(node):
@@ -182,11 +221,21 @@ def recEndgame(board: List):
     #     pass
     return True
 
-def printGlobal():
-    print("minimax:")
-    print(global_count_minimax)
-    print("alphabeta:")
-    print(global_count)
+
+def printGlobal(p=True):
+    if p:
+        print("minimax:")
+        print(global_count_minimax)
+        print("alphabeta:")
+        print(global_count)
+    return global_count
+
+
+def clear_global():
+    global global_count
+    global global_count_minimax
+    global_count = 0
+    global_count_minimax = 0
 
 
 if __name__ == '__main__':

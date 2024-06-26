@@ -3,7 +3,7 @@ from util.Bitboard.bbHelperFunc import reverse_mask, get_index
 from util.Tree import Tree, create_tree
 from util.generator import createVis
 from util.search import Node, rec_endgame, alpha_beta
-from util.Bitboard.Bitboard import GameBoard
+from util.Bitboard.Bitboard import GameBoard, change_col
 from util.Bitboard.moves import get_bits, gen_moves, a_column, h_column, ab_column, gh_column
 from util.Bitboard.constants import Color, Piece
 import numpy as np
@@ -52,9 +52,24 @@ def test_move_user():
     reverse_set = board.use_move(moveset[2])
     print(f"Applied move: {moveset[3]}")
     board.__str__()
-    print(f"Revert the move: {board.unmove(reverse_set[0], reverse_set[1], reverse_set[2], reverse_set[3])}")
+    print(f"Revert the move: {board.unmove(reverse_set)}")
     board.__str__()
 
+def test_tree_insert():
+    fen = "6/8/3rb4/2r05/2r05/8/8/6 b"
+    board = GameBoard(fen)
+    print("Starting Board:")
+    board.__str__()
+    node = Node(board)
+    tree = Tree(node)
+    moves = gen_moves(board, True)
+    for moveset in moves:
+        reverse_set = board.use_move(moveset)
+        new_node = Node(board)
+        new_node.value.change_col()
+        node.move = moveset[3]
+        tree.insert(board, new_node)
+        board.unmove(reverse_set)
 
 if __name__ == "__main__":
-    test_move_user()
+    test_tree_insert()

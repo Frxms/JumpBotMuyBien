@@ -10,7 +10,7 @@ from util.generator import generateBoard
 
 class Node:
     def __init__(self, value):
-        self.value = tuple(value) if isinstance(value, list) else value  # Ensure the value is hashable
+        self.value = Bitboard  # Ensure the value is hashable
         self.children = []
         self.eval = 0
         self.move = ""
@@ -81,19 +81,26 @@ class Tree:
             else:
                 print("could not store node")
 
-    def create_bb_tree(self, parent: Node, board: Bitboard, depth: int):
+    def create_bb_tree(self, parent: Node, depth: int):
         if depth == 0:
             return
         pboard = parent.value
-        if not board.is_endgame():
+        if not pboard.is_endgame():
             moves = gen_moves(pboard, True)
             if not moves:
                 return
         else:
             return
-        for move in moves:
-            pboard.use_move(move)
-        self.create_bb_tree(parent, board, depth)
+        for moveset in moves:
+            reverse_set = pboard.use_move(moveset)
+            node = Node(pboard)
+            node.value.change_col()
+            node.move = moveset[3]
+            self.insert(pboard, node)
+            pboard.unmove(reverse_set)
+        depth -= 1
+        for child in parent.get_leafs():
+            self.create_bb_tree(child, depth)
 
 
 def create_tree(parent: Node, depth: int, turn: str, tree: Tree):

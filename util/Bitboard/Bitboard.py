@@ -1,6 +1,7 @@
 import numpy as np
 import re
 
+from util import Bitboard
 from util.Bitboard.bbHelperFunc import corner_check, to_bitboard, is_set, EMPTY_BB
 from util.Bitboard.constants import Color, Row, Column, Piece
 
@@ -72,6 +73,12 @@ class GameBoard:
         else:
             return Color.BLUE
 
+    def change_col(self):
+        if self.color == Color.RED:
+            self.color = Color.BLUE
+        else:
+            self.color = Color.RED
+
     # 0b0000000000000000000000000000000000000000000000000111111001111110
     # msb is h8, lsb is a1, bit at msb - 7 is h7
     def gameStart(self):
@@ -132,6 +139,7 @@ class GameBoard:
         return False
 
     def use_move(self, moveset):
+        # moveset[0] is the piece, moveset[1] the starting point, moveset[2] the target field
         if moveset[0] == Piece.PAWN:
             return self.move_start(Piece.PAWN, moveset[1], moveset[2])
         else:
@@ -205,42 +213,43 @@ class GameBoard:
             return None
 
 # piece is the piece that was moved, goal_piece is the piece that was changed
-    def unmove(self, start_piece: Piece, goal_piece: Piece, start: np.uint64, goal: np.uint64):
+    def unmove(self, reverse_set):
+        # start_piece: Piece, goal_piece: Piece, start: np.uint64, goal: np.uint64
         # a pawn in goal field means, current color also has a pawn in this field
-        if goal_piece == Piece.PAWN:
-            self.pieces[self.color][Piece.PAWN] ^= goal
-            self.each_side[self.color] ^= goal
-            self.pieces[self.opp_color][Piece.PAWN] |= goal
-            self.each_side[self.opp_color] |= goal
-            return self.unmove_start(start_piece, start)
+        if reverse_set[1] == Piece.PAWN:
+            self.pieces[self.color][Piece.PAWN] ^= reverse_set[3]
+            self.each_side[self.color] ^= reverse_set[3]
+            self.pieces[self.opp_color][Piece.PAWN] |= reverse_set[3]
+            self.each_side[self.opp_color] |= reverse_set[3]
+            return self.unmove_start(reverse_set[0], reverse_set[2])
         # a tower in goal field means, current color has a twocol tower in this field
-        elif goal_piece == Piece.TOWER:
-            self.pieces[self.color][Piece.TWOCOLTOWER] ^= goal
-            self.pieces[self.color][Piece.ALLTOWERS] ^= goal
-            self.each_side[self.color] ^= goal
-            self.pieces[self.opp_color][Piece.TOWER] |= goal
-            self.pieces[self.opp_color][Piece.ALLTOWERS] |= goal
-            self.each_side[self.color] |= goal
-            return self.unmove_start(start_piece, start)
+        elif reverse_set[1] == Piece.TOWER:
+            self.pieces[self.color][Piece.TWOCOLTOWER] ^= reverse_set[3]
+            self.pieces[self.color][Piece.ALLTOWERS] ^= reverse_set[3]
+            self.each_side[self.color] ^= reverse_set[3]
+            self.pieces[self.opp_color][Piece.TOWER] |= reverse_set[3]
+            self.pieces[self.opp_color][Piece.ALLTOWERS] |= reverse_set[3]
+            self.each_side[self.color] |= reverse_set[3]
+            return self.unmove_start(reverse_set[0], reverse_set[2])
         # a twocol tower in goal field means, current color has a tower in this field
-        elif goal_piece == Piece.TWOCOLTOWER:
-            self.pieces[self.color][Piece.TOWER] ^= goal
-            self.pieces[self.color][Piece.ALLTOWERS] ^= goal
-            self.each_side[self.color] ^= goal
-            self.pieces[self.opp_color][Piece.TWOCOLTOWER] |= goal
-            self.pieces[self.opp_color][Piece.ALLTOWERS] |= goal
-            self.each_side[self.color] |= goal
-            return self.unmove_start(start_piece, start)
+        elif reverse_set[1] == Piece.TWOCOLTOWER:
+            self.pieces[self.color][Piece.TOWER] ^= reverse_set[3]
+            self.pieces[self.color][Piece.ALLTOWERS] ^= reverse_set[3]
+            self.each_side[self.color] ^= reverse_set[3]
+            self.pieces[self.opp_color][Piece.TWOCOLTOWER] |= reverse_set[3]
+            self.pieces[self.opp_color][Piece.ALLTOWERS] |= reverse_set[3]
+            self.each_side[self.color] |= reverse_set[3]
+            return self.unmove_start(reverse_set[0], reverse_set[2])
         # if goal matches with one tower, there had to be a pawn of the same color here before
         elif goal & self.pieces[self.color][Piece.TOWER] != EMPTY_BB:
-            self.pieces[self.color][Piece.TOWER] ^= goal
-            self.pieces[self.color][Piece.ALLTOWERS] ^= goal
-            self.pieces[self.color][Piece.PAWN] |= goal
-            return self.unmove_start(start_piece, start)
+            self.pieces[self.color][Piece.TOWER] ^= reverse_set[3]
+            self.pieces[self.color][Piece.ALLTOWERS] ^= reverse_set[3]
+            self.pieces[self.color][Piece.PAWN] |= reverse_set[3]
+            return self.unmove_start(reverse_set[0], reverse_set[2])
         else:
-            self.pieces[self.color][Piece.PAWN] ^= goal
-            self.each_side[self.color] ^= goal
-            self.board ^= goal
+            self.pieces[self.color][Piece.PAWN] ^= reverse_set[3]
+            self.each_side[self.color] ^= reverse_set[3]
+            self.board ^= reverse_set[3]
             return True
             # todo diesen Aufruf nach ganz vorne
 

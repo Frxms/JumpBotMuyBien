@@ -55,6 +55,7 @@ Weniger Komplexe:
 - Erweitern der Bewertungsfunktion (Zentrumskontrolle, Piece Square Tables, Mobilität/Felderkontrolle, vllt TWOCOLTOEWR noch mehr Punkte geben)
 - Verbesserung des Inserts (vllt auch concurrency beim Tree create/insert?)
 - zufällige Auswahl von moves, falls es einen anderen move mit der gleichen eval Punktzahl existiert
+- 3 Fache Wiederholung erkennen
 - vielleicht noch Effizienzerhöhung durch
   (# Precompute the KING_MOVES array at import time
 KING_MOVES = np.fromiter(

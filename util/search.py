@@ -1,6 +1,5 @@
 from typing import Any, List
-from util.engine import calcMove, refactor_to_readable
-from util.generator import generateBoard
+from util.Tree import Node, rec_endgame
 from util.evaluate import evaluate
 
 global_count = 0
@@ -79,11 +78,11 @@ class Tree:
                 return print("insert Problem!")
 
 
-def alphaBeta(node, depth, alpha, beta, maximizing_player):
+def alpha_beta(node, depth, alpha, beta, maximizing_player):
     global global_count
     if depth == 0:  #&& isGameOver(node):
         node.eval = evaluate(node.value)
-
+        #quiescenceSearch
         global_count += 1
         return node.eval
 
@@ -99,7 +98,7 @@ def alphaBeta(node, depth, alpha, beta, maximizing_player):
         global_count += 1
         max_eval = alpha
         for child in node.children:
-            max_eval = max(max_eval, alphaBeta(child, depth - 1, max_eval, beta, False))
+            max_eval = max(max_eval, alpha_beta(child, depth - 1, max_eval, beta, False))
             if max_eval >= beta:
                 break
         node.eval = max_eval
@@ -109,11 +108,32 @@ def alphaBeta(node, depth, alpha, beta, maximizing_player):
         global_count += 1
         min_eval = beta
         for child in node.children:
-            min_eval = min(min_eval, alphaBeta(child, depth - 1, alpha, min_eval, True))
+            min_eval = min(min_eval, alpha_beta(child, depth - 1, alpha, min_eval, True))
             if min_eval <= alpha:
                 break
         node.eval = min_eval
         return min_eval
+
+def quiescenceSearch(alpha, beta, node):
+    pat = evaluate(node.value)
+    #fail hard
+    if (pat >= beta):
+        return beta
+
+    #fail soft
+    if(alpha < pat):
+        alpha = pat
+
+    # generate all capture Moves
+
+    for move in allCaptureMoves:
+        score = quiescenceSearch(-beta, -alpha, child)
+        if score >= beta:
+            return beta
+        if score > alpha:
+            alpha = score
+
+    return alpha
 
 
 def alphaBeta_windows(node, depth, alpha, beta, maximizing_player, window):
@@ -243,4 +263,4 @@ if __name__ == '__main__':
          ['', '', '', '', '', '', '', ''], ['', '', '', '', '', '', '', ''], ['', '', '', '', '', '', '', ''],
          ['', '', '', '', '', '', '', ''], ['X', '', '', '', '', '', '', 'X']]
     fen = "1r0r02r0/2r02r02/8/1bb4r01/3brb03/1b03r02/4b03/b01b03"
-    print(recEndgame(a))
+    print(rec_endgame(a))

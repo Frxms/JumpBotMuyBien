@@ -21,10 +21,11 @@ def gen_moves(board: Bitboard, moveset_flag: bool):
             legal_moves.append((piece_bb, piece_type, piece_moves(board, piece_bb, piece_type)))
     if moveset_flag:
         for move in legal_moves:
-            piece_index = get_index(move[0], True)
+            # piece_index = get_index(move[0], True)
             for target in get_bits(move[2]):
-                moveset_str = piece_index + "-" + get_index(target, True)
-                moveset.append((move[1], move[0], target, moveset_str))
+                # moveset_str = piece_index + "-" + get_index(target, True)
+                # moveset.append((move[1], move[0], target, moveset_str))
+                moveset.append((move[1], move[0], target))
         return moveset
     return legal_moves
 # todo mit yield umsetzten ist wahrscheinlich schneller

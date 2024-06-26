@@ -19,14 +19,28 @@ def corner_check(field):
     return None if (to_bitboard(field) & ~corner_restriction) != EMPTY_BB else True
 
 
+bit_count_table = [bin(i).count('1') for i in range(256)]
+
+
+def count_set_bits_lookup_uint64(n):
+    return (bit_count_table[n & 0xff] +
+            bit_count_table[(n >> 8) & 0xff] +
+            bit_count_table[(n >> 16) & 0xff] +
+            bit_count_table[(n >> 24) & 0xff] +
+            bit_count_table[(n >> 32) & 0xff] +
+            bit_count_table[(n >> 40) & 0xff] +
+            bit_count_table[(n >> 48) & 0xff] +
+            bit_count_table[(n >> 56) & 0xff])
+
+
 def get_bits(bb: np.uint64):    # returns every piece as its own bb
     results = []
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", RuntimeWarning)
-        while bb != EMPTY_BB:
-            lsb = bb & -bb
-            results.append(lsb)
-            bb ^= lsb
+    # with warnings.catch_warnings():
+    #     warnings.simplefilter("ignore", RuntimeWarning)
+    while bb != EMPTY_BB:
+        lsb = bb & -bb
+        results.append(lsb)
+        bb ^= lsb
     return results
 
 

@@ -63,4 +63,7 @@ def test_tree_insert(depth=2):
 
 
 if __name__ == "__main__":
-    test_tree_insert()
+    # test_tree_insert()
+    byte_array = np.array([np.uint64(0b101010)], dtype='uint64').view('uint8')
+    count = np.count_nonzero(np.unpackbits(byte_array))
+    print(count)

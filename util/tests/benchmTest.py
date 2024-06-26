@@ -1,3 +1,5 @@
+from util.Bitboard.Bitboard import GameBoard
+from util.Bitboard.moves import gen_moves
 from util.engine import calcMove
 from util.generator import createVis
 from util.evaluate import evaluate
@@ -7,7 +9,7 @@ from util.tests.minmaxTestFunc import (minimax1Move, minimax1Move1, minimax2Move
 import time
 
 
-def movePerformance():
+def move_performance():
     fen = "b01b0b01b0/1b0bb1b0b0b01/3b04/2r05/4b0r02/8/1r0r0r0r0r0r01/1r0r0r0r01 b"
     splitted = fen.split(" ")
     turn = splitted[1]
@@ -38,8 +40,38 @@ def movePerformance():
     elapsed_time = end_time - start_time
     print(f"end Game took: {elapsed_time} seconds")
 
+def bb_move_performance():
+    fen = "b01b0b01b0/1b0bb1b0b0b01/3b04/2r05/4b0r02/8/1r0r0r0r0r0r01/1r0r0r0r01 b"
+    start_time = time.time()
+    board = GameBoard(fen)
+    board.__str__()
+    for i in range(1000):
+        gen_moves(board, True)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"early Game took: {elapsed_time} seconds")
 
-def evalPerformance():
+    fen = "b02b01b0/3b01b02/b02b02b01/b01b05/5r02/1r02r02r0/2rrr02r01/r03r01 b"
+    start_time = time.time()
+    board = GameBoard(fen)
+    board.__str__()
+    for i in range(1000):
+        gen_moves(board, True)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"mid Game took: {elapsed_time} seconds")
+
+    fen = "3b02/2b05/1b06/1r0rr2b02/8/5r02/1r0r03b01/3r02 b"
+    board = GameBoard(fen)
+    board.__str__()
+    start_time = time.time()
+    for i in range(1000):
+        gen_moves(board, True)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"end Game took: {elapsed_time} seconds")
+
+def eval_performance():
     fen = "b01b0b01b0/1b0bb1b0b0b01/3b04/2r05/4b0r02/8/1r0r0r0r0r0r01/1r0r0r0r01 b"
     splitted = fen.split(" ")
     result = []
@@ -80,37 +112,40 @@ def evalPerformance():
     print(f"Array length: {len(result)} with {result[0]}")
 
 
-def minimaxPerformance():
+def minimax_performance():
     minimax1Move()
     minimax1Move1()
     minimax2Moves()
 
 
-def alphabetaPerformance():
+def alphabeta_performance():
     alphabeta1Move()
     alphabeta1Move1()
     alphabeta2Moves()
 
 
-def testBothPerformances():
+def test_both_performances():
     print("minimax Algorithm")
-    minimaxPerformance()
+    minimax_performance()
     print("*****************************************************")
     print("Alpha-Beta Algorithm:")
-    alphabetaPerformance()
+    alphabeta_performance()
 
-def testAllPerformances():
+def test_all_performances():
     print("Move generation test:")
-    movePerformance()
+    move_performance()
     print("********************************************************")
     print("Evaluation test:")
-    evalPerformance()
+    eval_performance()
     print("********************************************************")
     print("minimax Algorithm:")
-    minimaxPerformance()
+    minimax_performance()
     print("********************************************************")
     print("Alpha-Beta Algorithm:")
-    alphabetaPerformance()
+    alphabeta_performance()
+    print("----------------------------------------------------------------------------")
+
 
 if __name__ == "__main__":
-    testAllPerformances()
+    move_performance()
+    bb_move_performance()

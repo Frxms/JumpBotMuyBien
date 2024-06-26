@@ -43,15 +43,17 @@ def main_bitboard(depth=3, best_move="C1-H1"):
 
 
 def test_move_user():
-    fen = "6/8/3rb04/8/2r05/8/8/6 b"
+    fen = "6/8/3rb4/2r05/2r05/8/8/6 b"
     board = GameBoard(fen)
+    print("Starting Board:")
     board.__str__()
     moveset = gen_moves(board, True)
     print(moveset)
     reverse_set = board.use_move(moveset[2])
+    print(f"Applied move: {moveset[3]}")
     board.__str__()
-    board.unmove(reverse_set)
-
+    print(f"Revert the move: {board.unmove(reverse_set[0], reverse_set[1], reverse_set[2], reverse_set[3])}")
+    board.__str__()
 
 
 if __name__ == "__main__":

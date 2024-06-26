@@ -140,65 +140,6 @@ class GameBoard:
             else:
                 return self.move_start(Piece.TWOCOLTOWER, moveset[1], moveset[2])
 
-    # piece is the piece that was moved, goal_piece is the piece that was changed
-    def unmove(self, start_piece: Piece, goal_piece: Piece, start: np.uint64, goal: np.uint64):
-        # a pawn in goal field means, current color also has a pawn in this field
-        if goal_piece == Piece.PAWN:
-            self.pieces[self.color][Piece.PAWN] ^= goal
-            self.each_side[self.color] ^= goal
-            self.pieces[self.opp_color][Piece.PAWN] |= goal
-            self.each_side[self.opp_color] |= goal
-            return self.unmove_start(start_piece, start)
-        # a tower in goal field means, current color has a twocol tower in this field
-        elif goal_piece == Piece.TOWER:
-            self.pieces[self.color][Piece.TWOCOLTOWER] ^= goal
-            self.pieces[self.color][Piece.ALLTOWERS] ^= goal
-            self.each_side[self.color] ^= goal
-            self.pieces[self.opp_color][Piece.TOWER] |= goal
-            self.pieces[self.opp_color][Piece.ALLTOWERS] |= goal
-            self.each_side[self.color] |= goal
-            return self.unmove_start(start_piece, start)
-        # a twocol tower in goal field means, current color has a tower in this field
-        elif goal_piece == Piece.TWOCOLTOWER:
-            self.pieces[self.color][Piece.TOWER] ^= goal
-            self.pieces[self.color][Piece.ALLTOWERS] ^= goal
-            self.each_side[self.color] ^= goal
-            self.pieces[self.opp_color][Piece.TWOCOLTOWER] |= goal
-            self.pieces[self.opp_color][Piece.ALLTOWERS] |= goal
-            self.each_side[self.color] |= goal
-            return self.unmove_start(start_piece, start)
-        # if goal matches with one tower, there had to be a pawn of the same color here before
-        elif goal & self.pieces[self.color][Piece.TOWER] != EMPTY_BB:
-            self.pieces[self.color][Piece.TOWER] ^= goal
-            self.pieces[self.color][Piece.ALLTOWERS] ^= goal
-            self.pieces[self.color][Piece.PAWN] |= goal
-            return self.unmove_start(start_piece, start)
-        else:
-            self.pieces[self.color][Piece.PAWN] ^= goal
-            self.each_side[self.color] ^= goal
-            self.board ^= goal
-            return True
-            # todo diesen Aufruf nach ganz vorne
-
-    def unmove_start(self, start_piece: Piece, start: np.uint64):
-            if start_piece == Piece.PAWN:
-                self.pieces[self.color][start_piece] |= start
-                self.each_side[self.color] |= start
-                self.board |= start
-                return True
-            elif start_piece == Piece.TOWER:
-                self.pieces[self.color][Piece.PAWN] ^= start
-                self.pieces[self.color][start_piece] |= start
-                self.pieces[self.color][Piece.ALLTOWERS] |= start
-                return True
-            elif start_piece == Piece.TWOCOLTOWER:
-                self.pieces[self.opp_color][Piece.PAWN] ^= start
-                self.each_side[self.opp_color] ^= start
-                self.pieces[self.color][start_piece] |= start
-                self.pieces[self.color][Piece.ALLTOWERS] |= start
-                self.each_side[self.color] |= start
-                return True
-
     # handles the necessary functions for the starting field
     def move_start(self, piece: Piece, start: np.uint64, goal: np.uint64):
         if piece == Piece.PAWN:
@@ -263,3 +204,61 @@ class GameBoard:
             self.pieces[self.color][Piece.ALLTOWERS] |= goal
             return None
 
+# piece is the piece that was moved, goal_piece is the piece that was changed
+    def unmove(self, start_piece: Piece, goal_piece: Piece, start: np.uint64, goal: np.uint64):
+        # a pawn in goal field means, current color also has a pawn in this field
+        if goal_piece == Piece.PAWN:
+            self.pieces[self.color][Piece.PAWN] ^= goal
+            self.each_side[self.color] ^= goal
+            self.pieces[self.opp_color][Piece.PAWN] |= goal
+            self.each_side[self.opp_color] |= goal
+            return self.unmove_start(start_piece, start)
+        # a tower in goal field means, current color has a twocol tower in this field
+        elif goal_piece == Piece.TOWER:
+            self.pieces[self.color][Piece.TWOCOLTOWER] ^= goal
+            self.pieces[self.color][Piece.ALLTOWERS] ^= goal
+            self.each_side[self.color] ^= goal
+            self.pieces[self.opp_color][Piece.TOWER] |= goal
+            self.pieces[self.opp_color][Piece.ALLTOWERS] |= goal
+            self.each_side[self.color] |= goal
+            return self.unmove_start(start_piece, start)
+        # a twocol tower in goal field means, current color has a tower in this field
+        elif goal_piece == Piece.TWOCOLTOWER:
+            self.pieces[self.color][Piece.TOWER] ^= goal
+            self.pieces[self.color][Piece.ALLTOWERS] ^= goal
+            self.each_side[self.color] ^= goal
+            self.pieces[self.opp_color][Piece.TWOCOLTOWER] |= goal
+            self.pieces[self.opp_color][Piece.ALLTOWERS] |= goal
+            self.each_side[self.color] |= goal
+            return self.unmove_start(start_piece, start)
+        # if goal matches with one tower, there had to be a pawn of the same color here before
+        elif goal & self.pieces[self.color][Piece.TOWER] != EMPTY_BB:
+            self.pieces[self.color][Piece.TOWER] ^= goal
+            self.pieces[self.color][Piece.ALLTOWERS] ^= goal
+            self.pieces[self.color][Piece.PAWN] |= goal
+            return self.unmove_start(start_piece, start)
+        else:
+            self.pieces[self.color][Piece.PAWN] ^= goal
+            self.each_side[self.color] ^= goal
+            self.board ^= goal
+            return True
+            # todo diesen Aufruf nach ganz vorne
+
+    def unmove_start(self, start_piece: Piece, start: np.uint64):
+            if start_piece == Piece.PAWN:
+                self.pieces[self.color][start_piece] |= start
+                self.each_side[self.color] |= start
+                self.board |= start
+                return True
+            elif start_piece == Piece.TOWER:
+                self.pieces[self.color][Piece.PAWN] ^= start
+                self.pieces[self.color][start_piece] |= start
+                self.pieces[self.color][Piece.ALLTOWERS] |= start
+                return True
+            elif start_piece == Piece.TWOCOLTOWER:
+                self.pieces[self.opp_color][Piece.PAWN] ^= start
+                self.each_side[self.opp_color] ^= start
+                self.pieces[self.color][start_piece] |= start
+                self.pieces[self.color][Piece.ALLTOWERS] |= start
+                self.each_side[self.color] |= start
+                return True

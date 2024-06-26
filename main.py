@@ -1,9 +1,11 @@
+import copy
+
 from util.Bitboard import Bitboard
 from util.Bitboard.bbHelperFunc import reverse_mask, get_index
 from util.Tree import Tree, create_tree
 from util.generator import createVis
 from util.search import Node, rec_endgame, alpha_beta
-from util.Bitboard.Bitboard import GameBoard, change_col
+from util.Bitboard.Bitboard import GameBoard
 from util.Bitboard.moves import get_bits, gen_moves, a_column, h_column, ab_column, gh_column
 from util.Bitboard.constants import Color, Piece
 import numpy as np
@@ -34,43 +36,30 @@ def main_bitboard(depth=3, best_move="C1-H1"):
     board.__str__()
     print(gen_moves(board, True))
     # todo um weitere moves zu generieren und um moves anzuwenden, immer mit board arbeiten
-    node = Node(board)
-    if board.is_endgame():
-        print("Game already ended")
-        return
-    tree = Tree(node)
-    tree.create_bb_tree(tree.root, board, depth)
 
 def test_move_user():
     fen = "6/8/3rb4/2r05/2r05/8/8/6 b"
     board = GameBoard(fen)
     print("Starting Board:")
-    board.__str__()
+    print(board.__str__())
     moveset = gen_moves(board, True)
     print(moveset)
     reverse_set = board.use_move(moveset[2])
     print(f"Applied move: {moveset[3]}")
-    board.__str__()
+    print(board.__str__())
     print(f"Revert the move: {board.unmove(reverse_set)}")
-    board.__str__()
+    print(board.__str__())
 
 
-def test_tree_insert():
-    fen = "6/8/3rb4/2r05/2r05/8/8/6 b"
+def test_tree_insert(depth=2):
+    fen = "b0b0b0b0b0b0/1b0b0b0b0b0b01/8/8/8/8/1r0r0r0r0r0r01/r0r0r0r0r0r0 b"
     board = GameBoard(fen)
-    print("Starting Board:")
-    board.__str__()
-    node = Node(board)
+    if board.is_endgame():
+        print("Game already ended")
+        return
+    node = Node(board, False)
     tree = Tree(node)
-    moves = gen_moves(board, True)
-    for moveset in moves:
-        reverse_set = board.use_move(moveset)
-        new_node = Node(board)
-        new_node.capture = True if reverse_set[1] is not None else False
-        new_node.value.change_col()
-        node.move = moveset[3]
-        tree.insert(board, new_node)
-        board.unmove(reverse_set)
+    tree.create_bb_tree(tree.root, depth=depth)
 
 
 if __name__ == "__main__":

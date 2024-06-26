@@ -11,7 +11,7 @@ gh_column = np.uint64(0xC1C0C0C0C0C0C0C1)
 corner = np.uint64(0x8100000000000081)
 
 
-# returns set of (starting bit, goal bit, moveset String) when true
+# returns set of (piece, starting bit, goal bit, moveset String) when true
 #  and else a set of (starting bit, piece type, all moves in bb)
 def gen_moves(board: Bitboard, moveset_flag: bool):
     legal_moves = []

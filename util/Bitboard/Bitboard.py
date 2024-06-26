@@ -35,7 +35,7 @@ class GameBoard:
                     board.append(".")
             board.append("\n")
         board = ''.join(board)
-        print(board)
+        return board
 
     def current_game_board(self, fen: str):  # hier mit field_index in die richtige Position einfügen
         # gleichzeitig in mehrere Bitboards eintragen (All, Farbe, Piece/Tower/TwoColTower)
@@ -116,14 +116,14 @@ class GameBoard:
     def piece_str(self, color, piece):
         if color == Color.BLUE:
             if piece == Piece.PAWN:
-                return "b"
+                return "B"
             elif piece == Piece.TOWER:
                 return "bb"
             elif piece == Piece.TWOCOLTOWER:
                 return "rb"
         elif color == Color.RED:
             if piece == Piece.PAWN:
-                return "r"
+                return "R"
             elif piece == Piece.TOWER:
                 return "rr"
             elif piece == Piece.TWOCOLTOWER:
@@ -250,7 +250,7 @@ class GameBoard:
             self.pieces[self.color][Piece.PAWN] ^= reverse_set[3]
             self.each_side[self.color] ^= reverse_set[3]
             self.board ^= reverse_set[3]
-            return True
+            return self.unmove_start(reverse_set[0], reverse_set[2])
             # todo diesen Aufruf nach ganz vorne
 
     def unmove_start(self, start_piece: Piece, start: np.uint64):

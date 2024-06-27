@@ -46,8 +46,9 @@ def get_bits(bb: np.uint64):    # returns every piece as its own bb
 
 def set_bits(bb: np.uint64):
     count = 0
-    while bb:
-        bb &= bb - 1  # Clear the least significant bit set
+    while bb != EMPTY_BB:
+        lsb = bb = -bb  # Clear the least significant bit set
+        bb ^= lsb
         count += 1
     return count
 

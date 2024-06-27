@@ -1,7 +1,7 @@
 import copy
 
 from util.Bitboard import Bitboard
-from util.Bitboard.bb_helper import reverse_mask, get_index, set_bits
+from util.Bitboard.bb_helper import reverse_mask, get_index
 from util.Tree import Tree, create_tree
 from util.generator import createVis
 from util.search import Node, rec_endgame, alpha_beta

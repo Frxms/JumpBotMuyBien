@@ -82,6 +82,7 @@ def placement_eval(board: GameBoard):
         red_eval += red_tower[np.uint8(np.log2(piece))]
     return red_eval - blue_eval
 
+
 def center_eval(board: GameBoard):
     red_center = set_bits(board.each_side[Color.RED] & CENTER)
     blue_center = set_bits(board.each_side[Color.BLUE] & CENTER)

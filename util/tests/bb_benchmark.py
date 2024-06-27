@@ -1,6 +1,7 @@
 import time
 
 from util.Bitboard.Bitboard import GameBoard
+from util.Bitboard.bb_helper import get_index
 from util.Bitboard.moves import gen_moves
 from util.Tree import Node, rec_endgame, Tree
 from util.search import alpha_beta, bb_alpha_beta
@@ -58,15 +59,45 @@ def alphabeta_1_move(fen="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r0
 
     start_time = time.time()
 
-    search_value = bb_alpha_beta(tree.root, 2, -100000, 100000, False)
+    search_value = bb_alpha_beta(tree.root, depth, -100000, 100000, False)
     child: Node = tree.get_root_children(search_value)
 
     end_time = time.time()
 
     elapsed_time = end_time - start_time
-    print(f"1.1 move to win took: {elapsed_time} seconds. D6-E8 --> res: {child.move}")
+    print(f"1.1 move to win took: {elapsed_time} seconds. D6-E8 --> res: {get_index(child.move1, True)}-{get_index(child.move2, True)}")
+    print("-----------------------------")
+
+
+def alphabeta_2_moves(fen="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r", depth=3):
+    board = GameBoard(fen)
+    print(board.__str__())
+    node = Node(board, True)
+    if board.is_endgame():
+        print("Game already ended")
+
+        return
+    tree = Tree(node)
+    start_time1 = time.time()
+
+    tree.create_bb_tree(node, depth)
+    # print(tree.root)
+
+    end_time1 = time.time()
+    elapsed_time1 = end_time1 - start_time1
+    print(f"1.1 move to win tree took {elapsed_time1}")
+
+    start_time = time.time()
+
+    search_value = bb_alpha_beta(tree.root, depth, -100000, 100000, False)
+    child: Node = tree.get_root_children(search_value)
+
+    end_time = time.time()
+
+    elapsed_time = end_time - start_time
+    print(f"1.1 move to win took: {elapsed_time} seconds. D6-E8 --> res: {get_index(child.move1, True)}-{get_index(child.move2, True)}")
     print("-----------------------------")
 
 
 if __name__ == "__main__":
-    alphabeta_1_move()
+    alphabeta_1_move("2b03/r07/3r04/6rr1/4bb3/2b04bb/3rr1rr2/5r0 b")

@@ -1,83 +1,15 @@
+import copy
 from typing import Any, List
 
 from util.Bitboard.bb_evaluate import bb_evaluate
-from util.Tree import Node, rec_endgame
+from util.Tree import Node, rec_endgame, Tree
+from util.engine import calcMove, refactor_to_readable
 from util.evaluate import evaluate
+from util.generator import generateBoard
+from util.move_ordering import organize_moves_by_importance, organize_moves_quiet
 
 global_count = 0
 global_count_minimax = 0
-
-
-class Node:
-    def __init__(self, value):
-        self.value = tuple(value) if isinstance(value, list) else value  # Ensure the value is hashable
-        self.children = []
-        self.eval = 0
-        self.move = ""
-        self.parent = None
-
-    # def __repr__(self):
-    #     return "\n".join(self.value)
-
-    def add_child(self, node):
-        self.children.append(node)
-
-    def get_leafs(self):
-        leafs = []
-        stack = [self]
-        while stack:
-            current_node = stack.pop()
-            if not current_node.children:
-                leafs.append(current_node)
-            else:
-                stack.extend(current_node.children)
-        return leafs
-
-
-class Tree:
-    def __init__(self, root=None):
-        self.root = root
-        self.nodes = {}
-
-    def get_leafs(self):
-        if self.root is None:
-            return []
-        elif not self.root.children:
-            return [self.root]
-        return self.root.get_leafs()
-
-    def get_root_children(self, minmaxVal):
-        if self.root is None:
-            return []
-        for child in self.root.children:
-            if child.eval == minmaxVal:
-                return child
-
-    def insert(self, parent_value, new_node):
-        # ggf nur leafs durchsuchen wegen runtime
-        if self.root is None:
-            self.root = new_node
-            return True
-        queue = [self.root]
-        while queue:
-            current_node = queue.pop(0)
-            if current_node.value == parent_value:
-                current_node.add_child(new_node)
-                return True
-            queue.extend(current_node.children)
-        return False
-
-    def newInsert(self, parent, node):
-        if self.root is None:
-            self.root = node
-        leafs = self.get_leafs()
-        for leaf in leafs:
-            if leaf.parent == parent:
-                parent.add_child(node)
-            elif leaf.value == parent:
-                leaf.add_child(node)
-            else:
-                return print("insert Problem!")
 
 
 def alpha_beta(node, depth, alpha, beta, maximizing_player):
@@ -174,6 +106,7 @@ def bb_alpha_beta(node, depth, alpha, beta, maximizing_player):
                 break
         node.eval = min_eval
         return min_eval
+
 
 
 def alphaBeta_windows(node, depth, alpha, beta, maximizing_player, window):

@@ -72,8 +72,8 @@ def alphabeta_1_move_1(fen2="2b03/r07/3r04/6rr1/4bb3/2b04bb/3rr1rr2/5r0 b"):
     print("-----------------------------")
 
 
-def alphabeta_2_moves(fen3="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r"):
-    splitted = fen3.split(" ")
+def alphabeta_2_moves(fen="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r", depth=3):
+    splitted = fen.split(" ")
     turn = splitted[1]
     board = createVis(splitted[0])
     # print(board)
@@ -85,7 +85,7 @@ def alphabeta_2_moves(fen3="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r
 
     start_time1 = time.time()
 
-    create_tree(parent=tree.root, depth=3, turn=turn, tree=tree)
+    create_tree(parent=tree.root, depth=depth, turn=turn, tree=tree)
     # print(tree.root)
 
     end_time1 = time.time()
@@ -94,7 +94,7 @@ def alphabeta_2_moves(fen3="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r
 
     start_time = time.time()
 
-    search_value = alpha_beta(tree.root, 3, -10000, 10000, True)
+    search_value = alpha_beta(tree.root, depth, -10000, 10000, True)
     child: Node = tree.get_root_children(search_value)
 
     end_time = time.time()
@@ -174,7 +174,7 @@ def minimax_2_moves(fen3="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 
     turn = splitted[1]
     board = createVis(splitted[0])
     # print(board)
-    node = Node(board)
+    node = Node(board, True)
     if not rec_endgame(board):
         print("Game already ended")
         return
@@ -273,4 +273,4 @@ if __name__ == "__main__":
     # fen = "6/4b01b01/8/5b01b0/2b04r0/1b04r01/5r01rr/1r04 b"
     # bestMove = "C5-C6"
     # bothTests(fen, bestMove, 3)
-    both_tests()
+    both_tests(depth=4)

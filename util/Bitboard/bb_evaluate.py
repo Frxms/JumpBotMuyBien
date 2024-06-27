@@ -58,7 +58,7 @@ def bb_evaluate(board: GameBoard):
 
 
 def piece_eval(board: GameBoard):
-    pawn_count = set_bits(board.pieces[Color.RED][Piece.PAWN]) - board.pieces[Color.BLUE][Piece.PAWN]
+    pawn_count = set_bits(board.pieces[Color.RED][Piece.PAWN]) - set_bits(board.pieces[Color.BLUE][Piece.PAWN])
     tower_count = set_bits(board.pieces[Color.RED][Piece.TOWER]) - set_bits(board.pieces[Color.BLUE][Piece.TOWER])
     twocol_tower_count = (set_bits(board.pieces[Color.RED][Piece.TWOCOLTOWER])
                           - set_bits(board.pieces[Color.BLUE][Piece.TWOCOLTOWER]))

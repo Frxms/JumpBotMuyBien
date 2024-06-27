@@ -15,8 +15,7 @@ class Node:
         self.value: GameBoard = value
         if flag:
             self.value.change_col()
-        self.move1 = np.uint64
-        self.move2 = np.uint64
+        self.move = 0
         self.eval = 0
         self.children = []
         self.parent = None
@@ -111,8 +110,7 @@ class Tree:
             reverse_set = board_copy.use_move(moveset)
             new_node = Node(board_copy, True)
             new_node.capture = True if reverse_set[1] is not None else False
-            new_node.move1 = moveset[1]
-            new_node.move2 = moveset[2]
+            new_node.move = moveset[1], moveset[2]
             self.insert(pboard, new_node)
 
         depth -= 1

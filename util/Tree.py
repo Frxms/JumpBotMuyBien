@@ -1,24 +1,27 @@
+import copy
 from typing import List
 
 import numpy as np
 
 from util.Bitboard import Bitboard
+from util.Bitboard.Bitboard import GameBoard
 from util.Bitboard.moves import gen_moves
 from util.engine import refactor_to_readable, calcMove
 from util.generator import generateBoard
 
 
 class Node:
-    def __init__(self, value):
-        self.value = Bitboard  # Ensure the value is hashable
-        self.children = []
+    def __init__(self, value, flag):
+        self.value: GameBoard = value
+        if flag:
+            self.value.change_col()
+        self.move = 0
         self.eval = 0
-        self.move = ""
-        self.capture = bool
+        self.children = []
         self.parent = None
 
     def __repr__(self):
-        return "\n".join(self.value)
+        return self.value.board
 
     def add_child(self, node):
         self.children.append(node)
@@ -49,12 +52,21 @@ class Tree:
             return [self.root]
         return self.root.get_leafs()
 
-    def get_root_children(self, minmaxVal):
+    def get_root_children(self, minimax_val):
         if self.root is None:
             return []
         for child in self.root.children:
-            if child.eval == minmaxVal:
+            if child.eval == minimax_val:
                 return child
+
+    def get_minimax_moves(self, minimax_val):
+        result = []
+        if self.root is None:
+            return []
+        for child in self.root.children:
+            if child.eval == minimax_val:
+                result.append(child)
+        return result
 
     def insert(self, parent_value, new_node):
         # ggf nur leafs durchsuchen wegen runtime
@@ -92,16 +104,19 @@ class Tree:
                 return
         else:
             return
+
         for moveset in moves:
-            reverse_set = pboard.use_move(moveset)
-            node = Node(pboard)
-            node.value.change_col()
-            node.move = moveset[3]
-            self.insert(pboard, node)
-            pboard.unmove(reverse_set)
+            board_copy = copy.deepcopy(pboard)
+            reverse_set = board_copy.use_move(moveset)
+            new_node = Node(board_copy, True)
+            new_node.capture = True if reverse_set[1] is not None else False
+            new_node.move = moveset[1], moveset[2]
+            self.insert(pboard, new_node)
+
         depth -= 1
         for child in parent.get_leafs():
             self.create_bb_tree(child, depth)
+
 
 
 def create_tree(parent: Node, depth: int, turn: str, tree: Tree):
@@ -137,7 +152,3 @@ def rec_endgame(board: List):
         return False
     #     pass
     return True
-
-
-# todo so implementieren, dass man es nicht in ein FEN umstrukturiert;
-#  nur ganz am Anfang als String annehmen und dann den richtigen move zurückgeben

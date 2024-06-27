@@ -1,13 +1,15 @@
+from util.Bitboard.Bitboard import GameBoard
+from util.Bitboard.moves import gen_moves
 from util.engine import calcMove
 from util.generator import createVis
 from util.evaluate import evaluate
-from util.tests.minmaxTestFunc import (minimax1Move, minimax1Move1, minimax2Moves,
-                                       alphabeta2Moves, alphabeta1Move, alphabeta1Move1)
+from util.tests.minmaxTestFunc import (minimax_1_move, minimax_1_move_1, minimax_2_moves,
+                                       alphabeta_2_moves, alphabeta_1_move_1, alphabeta_1_move)
 
 import time
 
 
-def movePerformance():
+def move_performance():
     fen = "b01b0b01b0/1b0bb1b0b0b01/3b04/2r05/4b0r02/8/1r0r0r0r0r0r01/1r0r0r0r01 b"
     splitted = fen.split(" ")
     turn = splitted[1]
@@ -39,7 +41,7 @@ def movePerformance():
     print(f"end Game took: {elapsed_time} seconds")
 
 
-def evalPerformance():
+def eval_performance():
     fen = "b01b0b01b0/1b0bb1b0b0b01/3b04/2r05/4b0r02/8/1r0r0r0r0r0r01/1r0r0r0r01 b"
     splitted = fen.split(" ")
     result = []
@@ -80,37 +82,38 @@ def evalPerformance():
     print(f"Array length: {len(result)} with {result[0]}")
 
 
-def minimaxPerformance():
-    minimax1Move()
-    minimax1Move1()
-    minimax2Moves()
+def minimax_performance():
+    minimax_1_move()
+    minimax_1_move_1()
+    minimax_2_moves()
 
 
-def alphabetaPerformance():
-    alphabeta1Move()
-    alphabeta1Move1()
-    alphabeta2Moves()
+def alphabeta_performance():
+    alphabeta_1_move()
+    alphabeta_1_move_1()
+    alphabeta_2_moves()
 
 
-def testBothPerformances():
+def test_both_performances():
     print("minimax Algorithm")
-    minimaxPerformance()
+    minimax_performance()
     print("*****************************************************")
     print("Alpha-Beta Algorithm:")
-    alphabetaPerformance()
+    alphabeta_performance()
 
-def testAllPerformances():
+def test_all_performances():
     print("Move generation test:")
-    movePerformance()
+    move_performance()
     print("********************************************************")
     print("Evaluation test:")
-    evalPerformance()
+    eval_performance()
     print("********************************************************")
     print("minimax Algorithm:")
-    minimaxPerformance()
+    minimax_performance()
     print("********************************************************")
     print("Alpha-Beta Algorithm:")
-    alphabetaPerformance()
+    alphabeta_performance()
+
 
 if __name__ == "__main__":
-    testAllPerformances()
+    alphabeta_performance()

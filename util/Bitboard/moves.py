@@ -2,7 +2,7 @@ import numpy as np
 
 from util.Bitboard import Bitboard
 from util.Bitboard.constants import Color, Piece, Row, Column
-from util.Bitboard.bbHelperFunc import to_bitboard, reverse_mask, get_bits, get_index
+from util.Bitboard.bb_helper import to_bitboard, reverse_mask, get_bits, get_index
 
 a_column = np.uint64(0x8101010101010181)
 ab_column = np.uint64(0x8303030303030383)
@@ -11,8 +11,9 @@ gh_column = np.uint64(0xC1C0C0C0C0C0C0C1)
 corner = np.uint64(0x8100000000000081)
 
 
-# returns set of (starting bit, goal bit, moveset String) when true
-#  and else a set of (starting bit, piece type, all moves in bb)
+# returns set of (piece, starting bit, goal bit) when false
+#  and else a set of (piece, starting bit, goal bit, moveset String)
+# todo weniger for loops machen
 def gen_moves(board: Bitboard, moveset_flag: bool):
     legal_moves = []
     moveset = []
@@ -21,12 +22,18 @@ def gen_moves(board: Bitboard, moveset_flag: bool):
             legal_moves.append((piece_bb, piece_type, piece_moves(board, piece_bb, piece_type)))
     if moveset_flag:
         for move in legal_moves:
+            for target in get_bits(move[2]):
+                moveset.append((move[1], move[0], target))
+        return moveset
+    else:
+        for move in legal_moves:
             piece_index = get_index(move[0], True)
             for target in get_bits(move[2]):
                 moveset_str = piece_index + "-" + get_index(target, True)
                 moveset.append((move[1], move[0], target, moveset_str))
+                # moveset.append((move[1], move[0], target))
         return moveset
-    return legal_moves
+
 # todo mit yield umsetzten ist wahrscheinlich schneller
 
 

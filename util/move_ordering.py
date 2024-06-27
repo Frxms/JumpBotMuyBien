@@ -56,3 +56,26 @@ def organize_moves_quiet(board: GameBoard):
 
     sortedMoves = mvv_lva(board, non_quiet_moves)
     return sortedMoves
+
+
+point_attribution = {(Piece.PAWN, 10), (Piece.TOWER, 20), (Piece.TOWER, 25)}
+
+
+# value beaten - value beater
+def mvv_lva(board, moves):
+    beater = 0
+    beaten = 0
+    movelist = []
+    for move in moves:
+        reverse_set = board.use_move(move)
+        if reverse_set[1] is not None:
+            for piece, points in point_attribution:
+                if piece == reverse_set[0]:
+                    beater = points
+            for piece, points in point_attribution:
+                if piece == reverse_set[1]:
+                    beaten = points
+            val1 = beaten - beater
+            movelist.append(move, val1)
+            board.unmove(reverse_set)
+    return sorted(movelist, key=lambda x: x[3])

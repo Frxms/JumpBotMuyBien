@@ -2,7 +2,7 @@ import time
 
 from util.Tree import Node, create_tree, Tree
 from util.generator import createVis
-from util.search import rec_endgame, minimax, alpha_beta, print_global
+from util.search import rec_endgame, minimax, alpha_beta
 
 
 def alphabeta_1_move(fen1="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01/r01r0r0r0r0 b"):

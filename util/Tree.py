@@ -11,13 +11,13 @@ from util.generator import generateBoard
 
 
 class Node:
-    def __init__(self, value, flag):
+    def __init__(self, value, flag=True):
         self.value: GameBoard = value
         if flag:
             self.value.change_col()
-        self.move = 0
+        self.move = None
         self.eval = 0
-        self.children = []
+        self.children = []  # needed to reverse this board to the previous
         self.parent = None
 
     def __repr__(self):
@@ -108,8 +108,7 @@ class Tree:
         for moveset in moves:
             board_copy = copy.deepcopy(pboard)
             reverse_set = board_copy.use_move(moveset)
-            new_node = Node(board_copy, True)
-            new_node.capture = True if reverse_set[1] is not None else False
+            new_node = Node(board_copy)
             new_node.move = moveset[1], moveset[2]
             self.insert(pboard, new_node)
 

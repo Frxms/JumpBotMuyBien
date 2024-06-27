@@ -130,4 +130,4 @@ def alphabeta_2_moves(fen="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0
 
 
 if __name__ == "__main__":
-    alphabeta_2_moves(depth=4)
+    alphabeta_1_move(depth=3)

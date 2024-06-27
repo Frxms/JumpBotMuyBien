@@ -42,7 +42,7 @@ def bb_move_performance():
 def alphabeta_1_move(fen="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01/r01r0r0r0r0 b", depth=2):
     board = GameBoard(fen)
     print(board.__str__())
-    node = Node(board, True)
+    node = Node(board, False)
     if board.is_endgame():
         print("Game already ended")
 
@@ -72,7 +72,7 @@ def alphabeta_1_move(fen="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r0
 def alphabeta_2_moves(fen="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r", depth=3):
     board = GameBoard(fen)
     print(board.__str__())
-    node = Node(board, True)
+    node = Node(board, False)
     if board.is_endgame():
         print("Game already ended")
 

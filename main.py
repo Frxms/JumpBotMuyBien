@@ -58,7 +58,7 @@ def test_tree_insert(depth=2):
     if board.is_endgame():
         print("Game already ended")
         return
-    node = Node(board, True)
+    node = Node(board, False)
     tree = Tree(node)
     tree.create_bb_tree(tree.root, depth=depth)
 

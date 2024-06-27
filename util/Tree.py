@@ -53,12 +53,21 @@ class Tree:
             return [self.root]
         return self.root.get_leafs()
 
-    def get_root_children(self, minmaxVal):
+    def get_root_children(self, minimax_val):
         if self.root is None:
             return []
         for child in self.root.children:
-            if child.eval == minmaxVal:
+            if child.eval == minimax_val:
                 return child
+
+    def get_minimax_moves(self, minimax_val):
+        result = []
+        if self.root is None:
+            return []
+        for child in self.root.children:
+            if child.eval == minimax_val:
+                result.append(child)
+        return result
 
     def insert(self, parent_value, new_node):
         # ggf nur leafs durchsuchen wegen runtime

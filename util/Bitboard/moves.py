@@ -2,7 +2,7 @@ import numpy as np
 
 from util.Bitboard import Bitboard
 from util.Bitboard.constants import Color, Piece, Row, Column
-from util.Bitboard.bbHelperFunc import to_bitboard, reverse_mask, get_bits, get_index
+from util.Bitboard.bb_helper import to_bitboard, reverse_mask, get_bits, get_index
 
 a_column = np.uint64(0x8101010101010181)
 ab_column = np.uint64(0x8303030303030383)

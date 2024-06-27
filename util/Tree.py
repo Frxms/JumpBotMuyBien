@@ -95,20 +95,14 @@ class Tree:
                 return
         else:
             return
-        print(f"Game board before at depth {depth}:")
-        print(pboard.__str__())
+
         for moveset in moves:
-            reverse_set = pboard.use_move(moveset)
             board_copy = copy.deepcopy(pboard)
+            reverse_set = board_copy.use_move(moveset)
             new_node = Node(board_copy, True)
             new_node.capture = True if reverse_set[1] is not None else False
-            new_node.move = moveset[3]
+            new_node.move =  f"{moveset[1]} - {moveset[0]}"
             self.insert(pboard, new_node)
-            print(f"Game after move: {moveset[3]}")
-            print(pboard.__str__())
-            pboard.unmove(reverse_set)
-            print("Game board after unmove:")
-            print(pboard.__str__())
 
         depth -= 1
         for child in parent.get_leafs():

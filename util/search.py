@@ -1,4 +1,6 @@
 from typing import Any, List
+
+from util.Bitboard.bb_evaluate import bb_evaluate
 from util.Tree import Node, rec_endgame
 from util.evaluate import evaluate
 
@@ -62,6 +64,43 @@ def alpha_beta(node, depth, alpha, beta, maximizing_player):
 #             alpha = score
 #
 #     return alpha
+
+
+def bb_alpha_beta(node, depth, alpha, beta, maximizing_player):
+    global global_count
+    if depth == 0:
+        node.eval = bb_evaluate(node.value)
+        #quiescenceSearch
+        global_count += 1
+        return node.eval
+
+    if len(node.children) == 0:
+        node.eval = bb_evaluate(node.value)
+        global_count += 1
+        return node.eval
+
+    if node is None:
+        return 0  # In case the node is None, return 0
+
+    if maximizing_player:
+        global_count += 1
+        max_eval = alpha
+        for child in node.children:
+            max_eval = max(max_eval, bb_alpha_beta(child, depth - 1, max_eval, beta, False))
+            if max_eval >= beta:
+                break
+        node.eval = max_eval
+        return max_eval
+
+    else:
+        global_count += 1
+        min_eval = beta
+        for child in node.children:
+            min_eval = min(min_eval, bb_alpha_beta(child, depth - 1, alpha, min_eval, True))
+            if min_eval <= alpha:
+                break
+        node.eval = min_eval
+        return min_eval
 
 
 def minimax(node: Node, depth: int, maximizing_player: bool):

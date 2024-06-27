@@ -1,7 +1,7 @@
 import copy
 
 from util.Bitboard import Bitboard
-from util.Bitboard.bbHelperFunc import reverse_mask, get_index, set_bits
+from util.Bitboard.bb_helper import reverse_mask, get_index, set_bits
 from util.Tree import Tree, create_tree
 from util.generator import createVis
 from util.search import Node, rec_endgame, alpha_beta
@@ -63,6 +63,6 @@ def test_tree_insert(depth=2):
     tree.create_bb_tree(tree.root, depth=depth)
 
 
+
 if __name__ == "__main__":
-    # test_tree_insert()
-    print(set_bits(0b101010101010101010101010101010))
+    test_tree_insert()

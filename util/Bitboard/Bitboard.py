@@ -2,7 +2,7 @@ import numpy as np
 import re
 
 from util import Bitboard
-from util.Bitboard.bbHelperFunc import corner_check, to_bitboard, is_set, EMPTY_BB
+from util.Bitboard.bb_helper import corner_check, to_bitboard, is_set, EMPTY_BB
 from util.Bitboard.constants import Color, Row, Column, Piece
 
 

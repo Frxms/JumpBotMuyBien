@@ -3,7 +3,7 @@ import time
 from util.Bitboard.Bitboard import GameBoard
 from util.Bitboard.moves import gen_moves
 from util.Tree import Node, rec_endgame, Tree
-from util.search import alpha_beta
+from util.search import alpha_beta, bb_alpha_beta
 
 
 def bb_move_performance():
@@ -42,7 +42,7 @@ def alphabeta_1_move(fen="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r0
     board = GameBoard(fen)
     print(board.__str__())
     node = Node(board, True)
-    if not rec_endgame(board):
+    if board.is_endgame():
         print("Game already ended")
 
         return
@@ -58,7 +58,7 @@ def alphabeta_1_move(fen="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r0
 
     start_time = time.time()
 
-    search_value = alpha_beta(tree.root, 2, -100000, 100000, False)
+    search_value = bb_alpha_beta(tree.root, 2, -100000, 100000, False)
     child: Node = tree.get_root_children(search_value)
 
     end_time = time.time()
@@ -69,4 +69,4 @@ def alphabeta_1_move(fen="b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r0
 
 
 if __name__ == "__main__":
-    bb_move_performance()
+    alphabeta_1_move()

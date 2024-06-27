@@ -1,7 +1,7 @@
 import numpy as np
 
 from util.Bitboard.Bitboard import GameBoard
-from util.Bitboard.bbHelperFunc import set_bits, get_bits
+from util.Bitboard.bb_helper import set_bits, get_bits
 from util.Bitboard.constants import Color, Piece
 
 CENTER = np.uint64(0x183C3C180000)
@@ -47,7 +47,7 @@ blue_tower = np.array(
      ], dtype='uint64')
 
 
-def evaluate(board: GameBoard):
+def bb_evaluate(board: GameBoard):
     # red is positive
     # blue is negative
     result = endgame(board)

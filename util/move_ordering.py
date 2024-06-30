@@ -1,9 +1,8 @@
 import numpy as np
 
-from evaluate import evaluate
-from Bitboard.constants import Color, Piece
-from Bitboard.moves import gen_moves, h_column, a_column
-from Bitboard.Bitboard import GameBoard
+from .Bitboard.constants import Color, Piece
+from .Bitboard.moves import gen_moves, h_column, a_column
+from .Bitboard.Bitboard import GameBoard
 
 #for blue
 mask_above_4th_rank = np.uint64(0xFFFFFFFF00000000)

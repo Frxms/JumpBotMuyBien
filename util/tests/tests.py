@@ -1,6 +1,6 @@
 import unittest
-from util.Array.engine import calcMove
-from util.Array.generator import create_vis
+from util.twod_array.engine import calcMove
+from util.twod_array.generator import create_vis
 
 
 class Maintests(unittest.TestCase):

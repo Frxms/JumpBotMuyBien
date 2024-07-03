@@ -1,8 +1,8 @@
 import numpy as np
 
-from util.Bitboard import Bitboard
-from util.Bitboard.constants import Color, Piece, Row, Column
-from util.Bitboard.bb_helper import to_bitboard, reverse_mask, get_bits, get_index
+from util.bitboard import bitboard
+from util.bitboard.constants import Color, Piece, Row, Column
+from util.bitboard.bb_helper import to_bitboard, reverse_mask, get_bits, get_index
 
 a_column = np.uint64(0x8101010101010181)
 ab_column = np.uint64(0x8303030303030383)
@@ -14,7 +14,7 @@ corner = np.uint64(0x8100000000000081)
 # returns set of (piece, starting bit, goal bit) when false
 #  and else a set of (piece, starting bit, goal bit, moveset String)
 # todo weniger for loops machen
-def gen_moves(board: Bitboard, moveset_flag: bool):
+def gen_moves(board: bitboard, moveset_flag: bool):
     legal_moves = []
     moveset = []
     for piece_type in {Piece.PAWN, Piece.ALLTOWERS}:
@@ -38,7 +38,7 @@ def gen_moves(board: Bitboard, moveset_flag: bool):
 
 
 # makes Piece specific function calls
-def piece_moves(board: Bitboard, piece_bb: np.uint64, piece: Piece):
+def piece_moves(board: bitboard, piece_bb: np.uint64, piece: Piece):
     if piece == Piece.PAWN:
         return pawn_moves(board, piece_bb)
     elif piece == Piece.ALLTOWERS:
@@ -46,7 +46,7 @@ def piece_moves(board: Bitboard, piece_bb: np.uint64, piece: Piece):
         return tower_moveset & ~board.pieces[board.color][Piece.ALLTOWERS]
 
 
-def pawn_moves(board: Bitboard, piece_bb: np.uint64):
+def pawn_moves(board: bitboard, piece_bb: np.uint64):
     normal = blue_pawn_normal(piece_bb) if board.color == Color.BLUE else red_pawn_normal(piece_bb)
     normal &= ~(board.pieces[board.color][Piece.ALLTOWERS] | board.each_side[board.opp_color])
     diag = blue_pawn_diag(piece_bb) if board.color == Color.BLUE else red_pawn_diag(piece_bb)

@@ -1,13 +1,11 @@
-import time
-
 import pygame
 import json
 
 from main import clientRun
-from gameServer.network import Network
-from util.Bitboard.Bitboard import GameBoard
-from util.Bitboard.bb_helper import get_index
-from util.Tree import Node, Tree
+from game_server.network import Network
+from util.bitboard.bitboard import GameBoard
+from util.bitboard.bb_helper import get_index
+from util.twod_array.tree import Node, Tree
 from util.search import bb_alpha_beta
 
 pygame.font.init()

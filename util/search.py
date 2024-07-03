@@ -1,11 +1,8 @@
 import copy
-from typing import Any, List
 
-from util.Bitboard.bb_evaluate import bb_evaluate
-from util.Tree import Node, rec_endgame, Tree
-from util.engine import calcMove, refactor_to_readable
-from util.evaluate import evaluate
-from util.generator import generateBoard
+from util.bitboard.bb_evaluate import bb_evaluate
+from util.twod_array.tree import Node, rec_endgame
+from util.twod_array.evaluate import evaluate
 from util.move_ordering import organize_moves_quiet
 
 global_count = 0
@@ -145,6 +142,7 @@ def alpha_beta_quiet(node, depth, alpha, beta, maximizing_player):
                 break
         node.eval = min_eval
         return min_eval
+
 
 def alphaBeta_windows(node, depth, alpha, beta, maximizing_player, window):
     global global_count

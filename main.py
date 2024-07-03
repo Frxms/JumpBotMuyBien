@@ -1,8 +1,8 @@
-from util.Tree import Tree, create_tree
+from util.twod_array.tree import Tree, create_tree
 from util.generator import create_vis
 from util.search import Node, rec_endgame, alpha_beta
-from util.Bitboard.Bitboard import GameBoard
-from util.Bitboard.moves import gen_moves
+from util.bitboard.bitboard import GameBoard
+from util.bitboard.moves import gen_moves
 
 
 def main_2_arrays(depth=3, best_move="C1-H1"):

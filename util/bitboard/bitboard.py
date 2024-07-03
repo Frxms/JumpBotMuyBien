@@ -1,8 +1,8 @@
 import numpy as np
 import re
 
-from util.Bitboard.bb_helper import corner_check, to_bitboard, is_set, EMPTY_BB
-from util.Bitboard.constants import Color, Row, Column, Piece
+from util.bitboard.bb_helper import corner_check, to_bitboard, is_set, EMPTY_BB
+from util.bitboard.constants import Color, Row, Column, Piece
 
 
 class GameBoard:
@@ -77,6 +77,12 @@ class GameBoard:
             self.color = Color.BLUE
         else:
             self.color = Color.RED
+
+    def alpha_beta_bool(self):
+        if self.color == Color.BLUE:
+            return False
+        else:
+            return True
 
     # 0b0000000000000000000000000000000000000000000000000111111001111110
     # msb is h8, lsb is a1, bit at msb - 7 is h7

@@ -1,7 +1,7 @@
 import time
 
-from util.Bitboard.Bitboard import GameBoard
-from util.Bitboard.bb_helper import get_index
+from util.bitboard.bitboard import GameBoard
+from util.bitboard.bb_helper import get_index
 from util.search import Node, Tree, printGlobal, clear_global, alphaBeta_windows
 
 expected = "C5-C6"

@@ -1,8 +1,8 @@
 import numpy as np
 
-from .Bitboard.constants import Color, Piece
-from .Bitboard.moves import gen_moves, h_column, a_column
-from .Bitboard.Bitboard import GameBoard
+from .bitboard.constants import Color, Piece
+from .bitboard.moves import gen_moves, h_column, a_column
+from .bitboard.bitboard import GameBoard
 
 #for blue
 mask_above_4th_rank = np.uint64(0xFFFFFFFF00000000)
@@ -10,7 +10,8 @@ mask_above_4th_rank = np.uint64(0xFFFFFFFF00000000)
 mask_below_or_in_4th_rank =np.uint64(0x00000000FFFFFFFF)
 def organize_moves_by_importance(moves):
     quiet_moves = []
-    capture_moves = []
+    first_rows_moves = []
+    last_rows_moves = []
 
     for move in moves:
         current_pos = np.uint64(move[1])
@@ -19,17 +20,19 @@ def organize_moves_by_importance(moves):
         if ((current_pos & ~h_column) << np.uint8(1)) == target_pos or ((current_pos & ~a_column) >> np.uint8(1)) == target_pos:
             quiet_moves.append(move)
 
-        # capture moves
-        elif ((current_pos & ~mask_below_or_in_4th_rank) and (((current_pos & ~a_column) >> np.uint8(1)) == target_pos)) or ((current_pos & ~mask_above_4th_rank) and (((current_pos & ~h_column) << np.uint8(1)) == target_pos)):
-            capture_moves.append(move)
+        #important moves
+        elif ((current_pos & ~mask_below_or_in_4th_rank) and ((current_pos >> np.uint8(8)) == target_pos)) or ((current_pos & ~mask_above_4th_rank) and ((current_pos << np.uint8(8)) == target_pos)):
+            last_rows_moves.append(move)
 
-        elif (((current_pos & ~a_column) << np.uint8(7)) == target_pos or ((current_pos & ~h_column) << np.uint8(9)) == target_pos) or ((current_pos & ~h_column) >> np.uint8(7) == target_pos or (current_pos & ~a_column) >> np.uint8(9) == target_pos):
-            capture_moves.append(move)
+        elif (current_pos & ~mask_below_or_in_4th_rank) and ((((current_pos & ~a_column) << np.uint8(7)) == target_pos) or (((current_pos & ~h_column) << np.uint8(9)) == target_pos)):
+            first_rows_moves.append(move)
 
+        elif (current_pos & ~mask_above_4th_rank)  and ((((current_pos & ~h_column) >> np.uint8(7)) == target_pos) or (((current_pos & ~a_column) >> np.uint8(9)) == target_pos)):
+            first_rows_moves.append(move)
         else:
             quiet_moves.append(move)
 
-    return capture_moves + quiet_moves
+    return last_rows_moves + first_rows_moves + quiet_moves
 
 
 def organize_moves_quiet(board: GameBoard):
@@ -40,9 +43,13 @@ def organize_moves_quiet(board: GameBoard):
         current_pos = np.uint64(move[1])
         target_pos = np.uint64(move[2])
 
-        if ((current_pos & ~mask_below_or_in_4th_rank) and (((current_pos & ~a_column) >> np.uint8(1)) == target_pos)) or ((current_pos & ~mask_above_4th_rank) and (((current_pos & ~h_column) << np.uint8(1)) == target_pos)):(
-            non_quiet_moves.append(move))
-        elif (((current_pos & ~a_column) << np.uint8(7)) == target_pos or ((current_pos & ~h_column) << np.uint8(9)) == target_pos) or ((current_pos & ~h_column) >> np.uint8(7) == target_pos or (current_pos & ~a_column) >> np.uint8(9) == target_pos):
+        if ((current_pos & ~mask_below_or_in_4th_rank) and ((current_pos >> np.uint8(8)) == target_pos)) or ((current_pos & ~mask_above_4th_rank) and ((current_pos << np.uint8(8)) == target_pos)):
+            non_quiet_moves.append(move)
+
+        elif (current_pos & ~mask_below_or_in_4th_rank) and ((((current_pos & ~a_column) << np.uint8(7)) == target_pos) or (((current_pos & ~h_column) << np.uint8(9)) == target_pos)):
+            non_quiet_moves.append(move)
+
+        elif (current_pos & ~mask_above_4th_rank) and ((((current_pos & ~h_column) >> np.uint8(7)) == target_pos) or (((current_pos & ~a_column) >> np.uint8(9)) == target_pos)):
             non_quiet_moves.append(move)
 
 

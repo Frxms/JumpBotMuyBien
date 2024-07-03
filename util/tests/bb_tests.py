@@ -1,7 +1,7 @@
 import unittest
 
-from util.Bitboard.Bitboard import GameBoard
-from util.Bitboard.moves import gen_moves
+from util.bitboard.bitboard import GameBoard
+from util.bitboard.moves import gen_moves
 
 
 class Maintest(unittest.TestCase):

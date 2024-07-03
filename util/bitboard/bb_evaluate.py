@@ -1,8 +1,8 @@
 import numpy as np
 
-from util.Bitboard.Bitboard import GameBoard
-from util.Bitboard.bb_helper import set_bits, get_bits
-from util.Bitboard.constants import Color, Piece
+from util.bitboard.bitboard import GameBoard
+from util.bitboard.bb_helper import set_bits, get_bits
+from util.bitboard.constants import Color, Piece
 
 CENTER = np.uint64(0x183C3C180000)
 red_pawn = np.array(

@@ -3,7 +3,7 @@ import warnings
 import numpy as np
 
 EMPTY_BB = np.uint64(0)
-
+ONE = np.uint8(1)
 
 def to_bitboard(index): # returns the piece in a bb
     return np.uint64(1) << np.uint8(index)
@@ -38,7 +38,9 @@ def get_bits(bb: np.uint64):    # returns every piece as its own bb
     # with warnings.catch_warnings():
     #     warnings.simplefilter("ignore", RuntimeWarning)
     while bb != EMPTY_BB:
-        lsb = bb & -bb
+        lsb = bb & (~bb + np.uint8(1))
+        # lsb = bb & (~bb + ONE)
+        # lsb = bb & -bb
         results.append(lsb)
         bb ^= lsb
     return results
@@ -47,7 +49,10 @@ def get_bits(bb: np.uint64):    # returns every piece as its own bb
 def set_bits(bb: np.uint64):
     count = 0
     while bb != EMPTY_BB:
-        lsb = bb = -bb  # Clear the least significant bit set
+        # Clear the least significant bit set
+        lsb = bb & (~bb + np.uint8(1))
+        # lsb = bb & (~bb + ONE)
+        # lsb = bb & -bb
         bb ^= lsb
         count += 1
     return count

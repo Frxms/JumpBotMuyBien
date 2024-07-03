@@ -1,17 +1,15 @@
 import copy
 from typing import List
 
-from util.Bitboard.Bitboard import GameBoard
-from util.Bitboard.moves import gen_moves
-from util.Array.engine import refactor_to_readable, calcMove
-from util.Array.generator import generateBoard
+from util.bitboard.bitboard import GameBoard
+from util.bitboard.moves import gen_moves
+from util.twod_array.engine import refactor_to_readable, calcMove
+from util.twod_array.generator import generateBoard
 
 
 class Node:
-    def __init__(self, value, flag=True):
-        self.value: GameBoard = value
-        if flag:
-            self.value.change_col()
+    def __init__(self, value):
+        self.value = value
         self.move = None
         self.eval = 0
         self.children = []  # needed to reverse this board to the previous
@@ -95,30 +93,6 @@ class Tree:
             if self._insert_dfs(child, parent_value, new_node):
                 return True
         return False
-
-
-    def create_bb_tree(self, parent: Node, depth: int):
-        if depth == 0:
-            return
-        pboard = parent.value
-        if not pboard.is_endgame():
-            moves = gen_moves(pboard, True)
-            if not moves:
-                return
-        else:
-            return
-
-        for moveset in moves:
-            board_copy = copy.deepcopy(pboard)
-            reverse_set = board_copy.use_move(moveset)
-            new_node = Node(board_copy)
-            new_node.move = moveset[1], moveset[2]
-            self.insert(pboard, new_node)
-
-        depth -= 1
-        for child in parent.get_leafs():
-            self.create_bb_tree(child, depth)
-
 
 
 def create_tree(parent: Node, depth: int, turn: str, tree: Tree):

@@ -39,8 +39,6 @@ def get_bits(bb: np.uint64):    # returns every piece as its own bb
     #     warnings.simplefilter("ignore", RuntimeWarning)
     while bb != EMPTY_BB:
         lsb = bb & (~bb + np.uint8(1))
-        # lsb = bb & (~bb + ONE)
-        # lsb = bb & -bb
         results.append(lsb)
         bb ^= lsb
     return results
@@ -51,8 +49,6 @@ def set_bits(bb: np.uint64):
     while bb != EMPTY_BB:
         # Clear the least significant bit set
         lsb = bb & (~bb + np.uint8(1))
-        # lsb = bb & (~bb + ONE)
-        # lsb = bb & -bb
         bb ^= lsb
         count += 1
     return count

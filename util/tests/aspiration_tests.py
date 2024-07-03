@@ -2,7 +2,7 @@ import time
 
 from util.bitboard.bitboard import GameBoard
 from util.bitboard.bb_helper import get_index
-from util.search import Node, Tree, printGlobal, clear_global, alphaBeta_windows
+from util.search import Node, Tree, print_global, clear_global, alphaBeta_windows
 
 expected = "C5-C6"
 window = 100
@@ -49,12 +49,12 @@ if __name__ == "__main__":
     while True:
         result = alphaBetaTest_windows(fen, bestMove, 3, window)
         with open(file_path, "a") as file:
-            file.write(f"\n\nexpected: {expected}\nresult: {result}\namount: {printGlobal(False)}\nwindow: {window}\n")
+            file.write(f"\n\nexpected: {expected}\nresult: {result}\namount: {print_global(False)}\nwindow: {window}\n")
 
         if result == expected:
-            print(f"Expected value {expected} obtained with {printGlobal()} iterations and window: {window}")
+            print(f"Expected value {expected} obtained with {print_global()} iterations and window: {window}")
             break
         else:
-            print(f"Expected value {expected} not obtained with {printGlobal()} iterations and window: {window}")
+            print(f"Expected value {expected} not obtained with {print_global()} iterations and window: {window}")
             window -= 2
             clear_global()

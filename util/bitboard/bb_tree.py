@@ -96,7 +96,9 @@ class Tree:
         else:
             return
 
-        moves = organize_moves_by_importance(moves)
+        # moves = organize_moves_by_importance(moves)
+        # if depth == 1:
+        #     print("hi")
 
         for moveset in moves:
             board_copy = copy.deepcopy(pboard)

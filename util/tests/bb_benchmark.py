@@ -1,11 +1,12 @@
 import time
 
+from util.bitboard.bb_search import bb_alpha_beta_count, bb_quiet_count
 from util.bitboard.bitboard import GameBoard
 from util.bitboard.bb_evaluate import bb_evaluate
 from util.bitboard.bb_helper import get_index
 from util.bitboard.moves import gen_moves
 from util.bitboard.bb_tree import Node, Tree
-from util.search import bb_alpha_beta, alpha_beta_quiet
+from util.bitboard.bb_search import bb_alpha_beta, alpha_beta_quiet
 
 
 def bb_move_test(fen, game_type):
@@ -32,7 +33,7 @@ def bb_eval_test(fen, game_type):
     print(f"array length: {len(result)} with {result[0]}")
 
 
-def bb_alpha_beta_test(fen: str, move_count: int, expected: str, depth: int):
+def bb_alpha_beta_test(fen: str, move_count: int, expected: str, depth: int, counter: bool):
     board = GameBoard(fen)
     node = Node(board, False)
     if board.is_endgame():
@@ -50,6 +51,8 @@ def bb_alpha_beta_test(fen: str, move_count: int, expected: str, depth: int):
     start_time = time.time()
 
     search_value = bb_alpha_beta(tree.root, depth, -100000, 100000, board.alpha_beta_bool())
+    if counter:
+        bb_alpha_beta_count()
     child: Node = tree.get_root_children(search_value)
 
     end_time = time.time()
@@ -59,7 +62,7 @@ def bb_alpha_beta_test(fen: str, move_count: int, expected: str, depth: int):
           f"{expected} --> res: {get_index(child.move[0], True)}-{get_index(child.move[1], True)}")
 
 
-def bb_alpha_beta_quiet_test(fen: str, move_count: int, expected: str, depth: int):
+def bb_alpha_beta_quiet_test(fen: str, move_count: int, expected: str, depth: int, counter: bool):
     board = GameBoard(fen)
     node = Node(board, False)
     if board.is_endgame():
@@ -76,7 +79,9 @@ def bb_alpha_beta_quiet_test(fen: str, move_count: int, expected: str, depth: in
     print(f"{move_count} move(s) to win tree took {elapsed_time1}")
     start_time = time.time()
 
-    search_value = alpha_beta_quiet(tree.root, depth, -100000, 100000, False)
+    search_value = alpha_beta_quiet(tree.root, depth, -100000, 100000, board.alpha_beta_bool())
+    if counter:
+        bb_quiet_count()
     child: Node = tree.get_root_children(search_value)
 
     end_time = time.time()
@@ -106,28 +111,27 @@ def bb_eval_perf():
     print("**************************************************************************************")
 
 
-def bb_alpha_beta_perf():
+def bb_alpha_beta_perf(counter):
     print("bitboard alpha-beta performance")
-    bb_alpha_beta_test("b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01/r01r0r0r0r0 b", 1, "D6-E8", 2)
+    bb_alpha_beta_test("b0b0b0b0b01/1b01b02b01/2r05/2r01b03/1r06/3bb4/2r0r02r01/r01r0r0r0r0 b", 1, "D6-E8", 2, counter)
     print("-----------------------------")
-    bb_alpha_beta_test("2b03/r07/3r04/6rr1/4bb3/2b04bb/3rr1rr2/5r0 b", 1, "H6-G8", 2)
+    bb_alpha_beta_test("2b03/r07/3r04/6rr1/4bb3/2b04bb/3rr1rr2/5r0 b", 1, "H6-G8", 2, counter)
     print("-----------------------------")
-    bb_alpha_beta_test("b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r", 2, "F3-F2", 3)
+    bb_alpha_beta_test("b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r", 2, "F3-F2", 3, counter)
     print("**************************************************************************************")
     
     
-def bb_alpha_beta_quiet_perf():
+def bb_alpha_beta_quiet_perf(counter):
     print("bitboard alpha-beta quiet performance")
-    bb_alpha_beta_quiet_test("b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r", 2, "F3-F2", 3)
+    bb_alpha_beta_quiet_test("b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r", 2, "F3-F2", 3, counter)
     print("**************************************************************************************")
 
 
 def bb_general_test():
     bb_move_perf()
     bb_eval_perf()
-    bb_alpha_beta_perf()
+    bb_alpha_beta_perf(True)
 
 
 if __name__ == "__main__":
-    # bb_general_test()
-    bb_alpha_beta_perf()
+    bb_alpha_beta_test("b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r", 2, "F3-F2", 4, True)

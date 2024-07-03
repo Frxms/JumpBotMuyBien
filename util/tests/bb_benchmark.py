@@ -134,4 +134,4 @@ def bb_general_test():
 
 
 if __name__ == "__main__":
-    bb_alpha_beta_test("b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r", 2, "F3-F2", 4, True)
+    bb_alpha_beta_test("1b04/1bb2b0bb2/2bb1b03/3rr4/2r02b01r0/1b02r0rr1b0/1rr2r03/6 r", 2, "D4-E2", 4, True)

@@ -90,5 +90,5 @@ optimierte KI:
 - bitboards optimieren
 - Ruhesuche parameter überarbeiten -> zugsortierung
 - aspiration windows fix (maybe)
-- Tree optimieren
+- Tree optimieren (vielleicht durch Parallelisierung)
 - Zeitmanagement

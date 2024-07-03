@@ -33,10 +33,9 @@ def count_set_bits_lookup_uint64(n):
             bit_count_table[(n >> 56) & 0xff])
 
 
-def get_bits(bb: np.uint64):    # returns every piece as its own bb
+# returns every piece as its own bb
+def get_bits(bb: np.uint64):
     results = []
-    # with warnings.catch_warnings():
-    #     warnings.simplefilter("ignore", RuntimeWarning)
     while bb != EMPTY_BB:
         lsb = bb & (~bb + np.uint8(1))
         results.append(lsb)

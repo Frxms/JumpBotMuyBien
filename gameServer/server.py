@@ -1,11 +1,8 @@
-import datetime
 import socket
 from _thread import *
 import json
 import random
 from game import Game
-import os
-import datetime
 
 server = "localhost"
 port = 5555
@@ -24,14 +21,15 @@ connected = set()
 games = {}
 idCount = 0
 
+
 def threaded_client(conn, p, gameId):
-    fileLog = open(os.path.join("./log/", str(int(datetime.datetime.now().timestamp())) + str(gameId) + str(p) + ".txt"), "a")
+    fileLog = open(str(gameId) + str(p) + str(random.randint(1, 999999)) + ".txt", "a")
     global idCount
     conn.send(str.encode(str(p)))
 
     if gameId in games:
         game = games[gameId]
-        if p==0:
+        if p == 0:
             print("P1 connected")
             fileLog.write("P1 connected \n")
             game.connectP1()
@@ -39,7 +37,7 @@ def threaded_client(conn, p, gameId):
             print("P2 connected")
             fileLog.write("P2 connected \n")
             game.connectP2()
-    
+
     reply = ""
     while True:
         try:
@@ -51,9 +49,9 @@ def threaded_client(conn, p, gameId):
                     break
                 else:
                     if data != "get":
-                        if p==0 and game.getP1Turn():
+                        if p == 0 and game.getP1Turn():
                             game.playTurn(p, data)
-                        elif p==1 and not game.getP1Turn():
+                        elif p == 1 and not game.getP1Turn():
                             game.playTurn(p, data)
                         fileLog.write(game.getBoard())
                         fileLog.write("\n")
@@ -63,17 +61,21 @@ def threaded_client(conn, p, gameId):
                             if game.getCurrentPlayer() == "r":
                                 game.reset()
                                 print("Game finished, win: b")
+                                break
                                 fileLog.write("Game finished, win: b \n")
                             if game.getCurrentPlayer() == "b":
                                 game.reset()
                                 print("Game finished, win: r")
+                                break
                                 fileLog.write("Game finished, win: r \n")
                         win = game.winnerDeter()
                         if not win == "0":
                             game.reset()
-                            print("Game finished, win: ",win)
-                            fileLog.write("Game finished, win: ",win, "\n")
-                    output = dict(board = game.getBoard(), player1 = game.getP1Turn(), player2 = game.getP2Turn(), bothConnected = game.bothConnected())
+                            print("Game finished, win: ", win)
+                            break
+                            fileLog.write("Game finished, win: ", win, "\n")
+                    output = dict(board=game.getBoard(), player1=game.getP1Turn(), player2=game.getP2Turn(),
+                                  bothConnected=game.bothConnected())
                     output = json.dumps(output)
                     output = output.encode('utf-8')
                     conn.sendall(output)
@@ -91,19 +93,19 @@ def threaded_client(conn, p, gameId):
     idCount -= 1
     conn.close()
 
+
 while True:
     conn, addr = s.accept()
     print("Connected to:", addr)
 
     idCount += 1
     p = 0
-    gameId = (idCount - 1)//2
+    gameId = (idCount - 1) // 2
     if idCount % 2 == 1:
         games[gameId] = Game(gameId)
         print("Creating a new game...")
     else:
         games[gameId].ready = True
         p = 1
-
 
     start_new_thread(threaded_client, (conn, p, gameId))

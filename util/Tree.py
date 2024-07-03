@@ -1,13 +1,10 @@
 import copy
 from typing import List
 
-import numpy as np
-
-from util.Bitboard import Bitboard
 from util.Bitboard.Bitboard import GameBoard
 from util.Bitboard.moves import gen_moves
-from util.engine import refactor_to_readable, calcMove
-from util.generator import generateBoard
+from util.Array.engine import refactor_to_readable, calcMove
+from util.Array.generator import generateBoard
 
 
 class Node:
@@ -41,9 +38,9 @@ class Node:
 class Tree:
     def __init__(self, root=None):
         self.root = root
-        self.nodes = {}
-        self.currentBottom: Node = []
         self.counter = 0
+        self.leaf_nodes = set()
+
 
     def get_leafs(self):
         if self.root is None:
@@ -82,17 +79,23 @@ class Tree:
             queue.extend(current_node.children)
         return False
 
-
-    def new_insert(self, parent: Node, node: Node):
+    def _insert(self, parent_value, new_node):
         if self.root is None:
-            self.root = node
+            self.root = new_node
+            self.leaf_nodes.add(new_node)
             return True
-        leafs = self.tree.currentBottom
-        for leaf in leafs:
-            if leaf == parent:
-                leaf.add_child(node)
-            else:
-                print("could not store node")
+        return self._insert_dfs(self.root, parent_value, new_node)
+
+    def _insert_dfs(self, current_node, parent_value, new_node):
+        if current_node.value == parent_value:
+            current_node.add_child(new_node)
+            self.leaf_nodes.add(new_node)
+            return True
+        for child in current_node.children:
+            if self._insert_dfs(child, parent_value, new_node):
+                return True
+        return False
+
 
     def create_bb_tree(self, parent: Node, depth: int):
         if depth == 0:

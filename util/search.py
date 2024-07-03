@@ -6,7 +6,7 @@ from util.Tree import Node, rec_endgame, Tree
 from util.engine import calcMove, refactor_to_readable
 from util.evaluate import evaluate
 from util.generator import generateBoard
-from util.move_ordering import organize_moves_by_importance, organize_moves_quiet
+from util.move_ordering import organize_moves_quiet
 
 global_count = 0
 global_count_minimax = 0
@@ -49,8 +49,8 @@ def alpha_beta(node, depth, alpha, beta, maximizing_player):
         return min_eval
 
 
-def quiescenceSearch(alpha, beta, node):
-    pat = evaluate(node.value)
+def quiescenceSearch(alpha, beta, depth, node):
+    pat = bb_evaluate(node.value)
     #fail hard
     if (pat >= beta):
         return beta
@@ -60,9 +60,13 @@ def quiescenceSearch(alpha, beta, node):
         alpha = pat
 
     # generate all capture Moves
+    allCaptureMoves = organize_moves_quiet(node.value)
 
     for move in allCaptureMoves:
-        score = quiescenceSearch(-beta, -alpha, child)
+        new_board = copy.deepcopy(node.value)
+        new_board.use_move(move)
+        score = quiescenceSearch(-alpha, -beta, depth-1,  Node(new_board))
+
         if score >= beta:
             return beta
         if score > alpha:
@@ -75,7 +79,6 @@ def bb_alpha_beta(node, depth, alpha, beta, maximizing_player):
     global global_count
     if depth == 0:
         node.eval = bb_evaluate(node.value)
-        #quiescenceSearch
         global_count += 1
         return node.eval
 
@@ -108,17 +111,15 @@ def bb_alpha_beta(node, depth, alpha, beta, maximizing_player):
         return min_eval
 
 
-
-def alphaBeta_windows(node, depth, alpha, beta, maximizing_player, window):
+def alpha_beta_quiet(node, depth, alpha, beta, maximizing_player):
     global global_count
-    if depth == 0:  #&& isGameOver(node):
-        node.eval = evaluate(node.value)
-
+    if depth == 0:
+        node.eval = quiescenceSearch(alpha, beta, 3, node)
         global_count += 1
         return node.eval
 
     if len(node.children) == 0:
-        node.eval = evaluate(node.value)
+        node.eval = bb_evaluate(node.value)
         global_count += 1
         return node.eval
 
@@ -129,8 +130,7 @@ def alphaBeta_windows(node, depth, alpha, beta, maximizing_player, window):
         global_count += 1
         max_eval = alpha
         for child in node.children:
-            max_eval = max(max_eval,
-                           alphaBeta_windows(child, depth - 1, max_eval, beta - window, False, window))
+            max_eval = max(max_eval, alpha_beta_quiet(child, depth - 1, max_eval, beta, False))
             if max_eval >= beta:
                 break
         node.eval = max_eval
@@ -140,8 +140,42 @@ def alphaBeta_windows(node, depth, alpha, beta, maximizing_player, window):
         global_count += 1
         min_eval = beta
         for child in node.children:
-            min_eval = min(min_eval,
-                           alphaBeta_windows(child, depth - 1, alpha + window, min_eval, True, window))
+            min_eval = min(min_eval, alpha_beta_quiet(child, depth - 1, alpha, min_eval, True))
+            if min_eval <= alpha:
+                break
+        node.eval = min_eval
+        return min_eval
+
+def alphaBeta_windows(node, depth, alpha, beta, maximizing_player, window):
+    global global_count
+    if depth == 0:
+        node.eval = quiescenceSearch(alpha, beta, node)
+        global_count += 1
+        return node.eval
+
+    if len(node.children) == 0:
+        node.eval = bb_evaluate(node.value)
+        global_count += 1
+        return node.eval
+
+    if node is None:
+        return 0  # In case the node is None, return 0
+
+    if maximizing_player:
+        global_count += 1
+        max_eval = alpha
+        for child in node.children:
+            max_eval = max(max_eval, alphaBeta_windows(child, depth - 1, max_eval, beta - window, False, window))
+            if max_eval >= beta:
+                break
+        node.eval = max_eval
+        return max_eval
+
+    else:
+        global_count += 1
+        min_eval = beta
+        for child in node.children:
+            min_eval = min(min_eval, alphaBeta_windows(child, depth - 1, alpha + window, min_eval, True, window))
             if min_eval <= alpha:
                 break
         node.eval = min_eval
@@ -178,42 +212,6 @@ def minimax(node: Node, depth: int, maximizing_player: bool):
             min_eval = min(min_eval, minimax(child, depth - 1, True))
         node.eval = min_eval
         return min_eval
-
-
-def createTree(parent: Node, depth: int, turn: str, tree: Tree) -> Any:
-    if depth == 0:
-        return
-    pboard = parent.value
-    if recEndgame(pboard):
-        moves = calcMove(pboard, turn)
-        if not moves:
-            return
-    else:
-        return
-
-    for move in moves:
-        nboard = generateBoard(pboard, move, turn)
-        node = Node(nboard)
-        node.move = refactor_to_readable(move)
-        tree.insert(pboard, node)
-    if turn == "b":
-        turn = "r"
-    else:
-        turn = "b"
-    depth -= 1
-    for child in parent.get_leafs():
-        createTree(child, depth, turn, tree)
-
-
-def recEndgame(board: List):
-    if "r" in board[7] or "b" in board[0]:
-        return False
-    if not (any('r' in cell or 'rr' in cell for row in board for cell in row) and any(
-            'b' in cell or 'bb' in cell for row in board for cell in row)):
-        return False
-    #     pass
-    return True
-
 
 def printGlobal(p=True):
     if p:

@@ -1,9 +1,16 @@
+import time
+
 import pygame
 import json
 
-from main import clientRun
 from gameServer.network import Network
+from util.Bitboard.Bitboard import GameBoard
+from util.Bitboard.bb_helper import get_index
+from util.Tree import Node, Tree
+from util.search import bb_alpha_beta
+
 pygame.font.init()
+
 
 def main():
     run = True
@@ -39,7 +46,7 @@ def main():
 
                 #change to any input you like. This one is just console input. Change it here to respond with your Ai's answer. 
                 #Answer must have format: start-end like E7-F7
-                i = clientRun(game["board"], 3)
+                i = client_run(game["board"], 3)
 
                 #json.dumps(i) transforms the input into a json. You can print it, if you want to see the difference
                 data = json.dumps(i)
@@ -49,9 +56,28 @@ def main():
 
             elif player == 1 and game["player2"]:
                 print("New Board: " + game["board"])
-                i = clientRun(game["board"])
+                i = client_run(game["board"])
                 data = json.dumps(i)
                 n.send(data)
+
+
+def client_run(fen, depth=3):
+    board = GameBoard(fen)
+    # print(board.__str__())
+    node = Node(board, False)
+    if board.is_endgame():
+        print("Game already ended")
+
+        return
+    tree = Tree(node)
+
+    tree.create_bb_tree(node, depth)
+
+    search_value = bb_alpha_beta(tree.root, depth, -100000, 100000, False)
+    child: Node = tree.get_root_children(search_value)
+
+    return f"{get_index(child.move[0], True)}-{get_index(child.move[1], True)}"
+
 
 while True:
     main()

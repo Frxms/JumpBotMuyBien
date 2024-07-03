@@ -85,3 +85,10 @@ Deliverables:
 BitBoard Dokumentation
 - 
 
+optimierte KI:
+- benchmark Tests sauber implementieren (so umschreiben, dass man alphabeta und minimax laufen lassen kann und bitboard und 2D array auch in einem)
+- bitboards optimieren
+- Ruhesuche parameter überarbeiten -> zugsortierung
+- aspiration windows fix (maybe)
+- Tree optimieren
+- Zeitmanagement

@@ -1,29 +1,26 @@
 import time
-from util.engine import calcMove
-from util.generator import createVis
-from util.search import Node, recEndgame, Tree, createTree, minimax, global_count, \
-    global_count_minimax, \
-    printGlobal, clear_global, alphaBeta_windows
+
+from util.Bitboard.Bitboard import GameBoard
+from util.Bitboard.bb_helper import get_index
+from util.search import Node, Tree, printGlobal, clear_global, alphaBeta_windows
 
 expected = "C5-C6"
-window = 2
+window = 100
 file_path = "aspiration_output.txt"
 
 
-def alphaBetaTest_windows(fen3="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestmove="D6-D7", depth=3, window=10):
-    splitted = fen3.split(" ")
-    turn = splitted[1]
-    board = createVis(splitted[0])
-    # print(board)
-    node = Node(board)
-    if not recEndgame(board):
+def alphaBetaTest_windows(fen3="b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r", bestmove="D6-D7", depth=3, window=10):
+    board = GameBoard(fen3)
+    #print(board.__str__())
+    node = Node(board, False)
+    if board.is_endgame():
         print("Game already ended")
+
         return
     tree = Tree(node)
-
     start_time1 = time.time()
 
-    createTree(parent=tree.root, depth=depth, turn=turn, tree=tree)
+    tree.create_bb_tree(node, depth)
     # print(tree.root)
 
     end_time1 = time.time()
@@ -32,31 +29,32 @@ def alphaBetaTest_windows(fen3="3b01b0/3bb1b02/8/8/8/2r0b0r02/8/0r04r0 b", bestm
 
     start_time = time.time()
 
-    search_value = alphaBeta_windows(tree.root, depth, -10000, 10000, False if turn == "b" else True, window)
+    search_value = alphaBeta_windows(tree.root, depth, -10000, 10000, True, window)
+    #search_value = bb_alpha_beta(tree.root, depth, -10000, 10000, True)
     child: Node = tree.get_root_children(search_value)
 
     end_time = time.time()
 
     elapsed_time = end_time - start_time
-    print(f"3 moves to win took: {elapsed_time} seconds {bestmove} --> res: {child.move}")
+    print(
+        f"2 move to win took: {elapsed_time} seconds. F3-F2 --> res: {get_index(child.move[0], True)}-{get_index(child.move[1], True)}")
     print("-----------------------------")
-    return child.move
-
+    return f"{get_index(child.move[0], True)}-{get_index(child.move[1], True)}"
 
 if __name__ == "__main__":
-    fen = "6/4b01b01/8/5b01b0/2b04r0/1b04r01/5r01rr/1r04 b"
-    bestMove = "C5-C6"
+    fen = "b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r"
+    bestMove = "F3-F2"
     #alphaBetaTest(fen, bestMove, 4)
 
     while True:
-        result = alphaBetaTest_windows(fen, bestMove, 4, window)
+        result = alphaBetaTest_windows(fen, bestMove, 3, window)
         with open(file_path, "a") as file:
             file.write(f"\n\nexpected: {expected}\nresult: {result}\namount: {printGlobal(False)}\nwindow: {window}\n")
 
         if result == expected:
-            print(f"Expected value {expected} obtained with {printGlobal(False)} iterations and window: {window}")
+            print(f"Expected value {expected} obtained with {printGlobal()} iterations and window: {window}")
             break
         else:
-            print(f"Expected value {expected} not obtained with {printGlobal(False)} iterations and window: {window}")
-            window -= 0.11
+            print(f"Expected value {expected} not obtained with {printGlobal()} iterations and window: {window}")
+            window -= 2
             clear_global()

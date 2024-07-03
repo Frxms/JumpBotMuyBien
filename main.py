@@ -1,14 +1,9 @@
-import copy
-
-from util.Bitboard import Bitboard
-from util.Bitboard.bb_helper import reverse_mask, get_index
 from util.Tree import Tree, create_tree
-from util.generator import createVis
+from util.generator import create_vis
 from util.search import Node, rec_endgame, alpha_beta
 from util.Bitboard.Bitboard import GameBoard
-from util.Bitboard.moves import get_bits, gen_moves, a_column, h_column, ab_column, gh_column
-from util.Bitboard.constants import Color, Piece
-import numpy as np
+from util.Bitboard.moves import gen_moves
+
 
 def main_2_arrays(depth=3, best_move="C1-H1"):
     fen1 = "6/rr7/6r01/8/8/8/b0b0b05/6 r"
@@ -17,7 +12,7 @@ def main_2_arrays(depth=3, best_move="C1-H1"):
 
     splitted = fen2.split(" ")
     turn = splitted[1]
-    board = createVis(splitted[0])
+    board = create_vis(splitted[0])
     node = Node(board)
     if not rec_endgame(board):
         print("Game already ended")

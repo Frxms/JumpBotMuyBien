@@ -132,7 +132,8 @@ def bb_general_test():
     bb_eval_perf()
     bb_alpha_beta_perf(True)
 
-
+    # depth=5 Fen String "6/1b06/5b02/2b05/2b05/4r03/2r05/6 b"
 if __name__ == "__main__":
     # bb_alpha_beta_perf(True)
-    bb_alpha_beta_test("4b0b0/2b0br4/3b04/2b0b01b02/8/4r03/1r03r02/r0r0r01r0r0 r", 2, "D2-F1", 3, True)
+    bb_alpha_beta_test("6/1b06/5b02/2b05/2b05/4r03/2r05/6 b", 3, "C4-C5", 5, True)
+    bb_alpha_beta_quiet_test("6/1b06/5b02/2b05/2b05/4r03/2r05/6 b", 3, "C4-C5", 5, True)

@@ -26,6 +26,7 @@ def organize_moves_by_importance(moves, color):
     fifth = []
     last = []
     for move in moves:
+        #todo more precise ordering in below 3rd and above 5th
         if color == Color.BLUE:
             if move[2] & below_3rd_rank != EMPTY_BB:
                 last.append(move)

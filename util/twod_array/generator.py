@@ -69,7 +69,7 @@ def generateBoard(boardc, move, turn):
     return board
 
 
-def createVis(FEN):
+def create_vis(FEN):
     boardArray = []
     lines = FEN.split("/")
     for index, row in enumerate(reversed(lines)):

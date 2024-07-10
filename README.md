@@ -43,14 +43,26 @@ Blau ist negative bei EVAL
 
 ## Erweiterte KI:
 - 3-5 weitere KI Techniken implementieren (darunter 1-2 komplexe)
+
 Komplexe Beispiele:
 - Aspiration Windows
-- Board durch Bitboard ersetzen 
+- Board durch Bitboard ersetzen (Quelle: https://github.com/cglouch/snakefish)
   - sehr sinnvoll, weil wir eine sehr schlechte Laufzeit haben
-- vllt auch concurrency beim Tree create ?
 - Transposition Table scheint mir auch sehr sinnvoll
-weniger Komplexe:
+
+Weniger Komplexe:
 - Zugsortierung
+- Erweitern der Bewertungsfunktion (Zentrumskontrolle, Piece Square Tables, Mobilität/Felderkontrolle, vllt TWOCOLTOEWR noch mehr Punkte geben)
+- Verbesserung des Inserts (vllt auch concurrency beim Tree create/insert?)
+- zufällige Auswahl von moves, falls es einen anderen move mit der gleichen eval Punktzahl existiert
+- 3 Fache Wiederholung erkennen
+- vielleicht noch Effizienzerhöhung durch
+  (# Precompute the KING_MOVES array at import time
+KING_MOVES = np.fromiter(
+    (compute_king_moves(i) for i in range(64)),
+    dtype=np.uint64,
+    count=64
+)) aus snakefish
 
 Screencast:
 Deliverables:
@@ -61,3 +73,22 @@ Deliverables:
 - Was planen Sie für den 4. Meilenstein?
 2. Screencast, der demonstriert, wie Sie Ihre Performancetests durchführen, z.B. durch recording der Konsole.
 3. Dokumentation der Performance Ihrer aktuellen KI im Wiki.
+
+
+
+## aspiration windows tests
+- without: 5642
+- 2 move to win tree took 3.7085649967193604
+- 3 moves to win took: 0.037438154220581055 seconds C5-C6 --> res: C5-C6
+
+- with: 
+BitBoard Dokumentation
+- 
+
+optimierte KI:
+- benchmark Tests sauber implementieren (so umschreiben, dass man alphabeta und minimax laufen lassen kann und bitboard und 2D array auch in einem)
+- bitboards optimieren
+- Ruhesuche parameter überarbeiten -> zugsortierung
+- aspiration windows fix (maybe)
+- Tree optimieren (vielleicht durch Parallelisierung)
+- Zeitmanagement

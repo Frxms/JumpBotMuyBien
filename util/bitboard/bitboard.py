@@ -293,15 +293,17 @@ class GameBoard:
         return new_board
 
     def pieces_in_end_zone(self, color):
-        end_zone = 0xFF if color == Color.RED else 0xFF00000000000000
-        return bin(self.each_side[color] & end_zone).count('1')
+        end_zone = np.uint64(0xFF) if color == Color.RED else np.uint64(0xFF00000000000000)
+        return np.uint64(self.each_side[color] & end_zone).bit_count()
 
     def distance_to_end_zone(self, color):
         pieces = self.each_side[color]
+        if pieces == 0:  # No pieces on the board
+            return 8  # Maximum possible distance
         if color == Color.RED:
-            return min(7 - (i // 8) for i in range(64) if (pieces & (1 << i)))
+            return min((7 - (i // 8) for i in range(64) if (pieces & (1 << i))), default=8)
         else:
-            return min(i // 8 for i in range(64) if (pieces & (1 << i)))
+            return min((i // 8 for i in range(64) if (pieces & (1 << i))), default=8)
 
     def get_result(self, player):
         if self.is_endgame():
@@ -314,5 +316,25 @@ class GameBoard:
     def clone(self):
         return copy.deepcopy(self)
 
+    def distance_to_end_zone_for_piece(self, color, position):
+        if color == Color.RED:
+            return 7 - (position // 8)
+        else:
+            return position // 8
+
+    def get_tower_positions(self, color):
+        towers = self.pieces[color][Piece.ALLTOWERS]
+        return [i for i in range(64) if (towers & (1 << i))]
+
+    def potential_tower_positions(self, color):
+        pawns = np.uint64(self.pieces[color][Piece.PAWN])
+        potential_positions = []
+        for i in range(64):
+            if pawns & (np.uint64(1) << i):
+                # Check forward position
+                forward = i + 8 if color == Color.RED else i - 8
+                if 0 <= forward < 64 and pawns & (np.uint64(1) << forward):
+                    potential_positions.append(i)
+        return potential_positions
 
 

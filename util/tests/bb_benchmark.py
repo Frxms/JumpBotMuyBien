@@ -160,9 +160,25 @@ def bb_general_test():
 
     # depth=5 Fen String "6/1b06/5b02/2b05/2b05/4r03/2r05/6 b"
 
+def bb_mcts(fen, exp, play: bool):
+    board = GameBoard(fen)
+    print(f"Current player: {'Red' if board.color == Color.RED else 'Blue'}")
+    print(board)
+    best_move = get_best_move(board, iterations=5000)
+    board = board.make_move(best_move)
+    print(f"Expected: {exp} --> Move: {get_index(best_move[1], True)}-{get_index(best_move[2], True)}")
+
+    print(board)
+    if play:
+        while not board.is_terminal():
+            print(f"Current player: {'Red' if board.color == Color.RED else 'Blue'}")
+            best_move = get_best_move(board, iterations=5000)
+            board = board.make_move(best_move)
+            print(f"Move: {get_index(best_move[1], True)}-{get_index(best_move[2], True)}")
+            print(board)
 
 if __name__ == "__main__":
-    bb_MCTS_test()
-    #bb_alpha_beta_perf(True)
+    bb_mcts("6/1b06/5b02/2b05/2b05/4r03/2r05/6 b", "C4-C5", True)
+    # bb_alpha_beta_perf(True)
     #bb_alpha_beta_test("6/1b06/5b02/2b05/2b05/4r03/2r05/6 b", 3, "C4-C5", 5, True)
     #bb_alpha_beta_quiet_test("6/1b06/5b02/2b05/2b05/4r03/2r05/6 b", 3, "C4-C5", 5, True)

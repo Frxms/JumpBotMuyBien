@@ -5,6 +5,7 @@ from util.bitboard.bitboard import GameBoard
 from util.bitboard.moves import gen_moves
 from util.move_ordering import organize_moves_by_importance
 
+
 class Node:
     def __init__(self, value, flag=True):
         self.value: GameBoard = value
@@ -83,7 +84,6 @@ class Tree:
             if self._insert_dfs(child, parent_value, new_node):
                 return True
         return False
-
 
     def create_bb_tree(self, parent: Node, depth: int):
         if depth == 0:

@@ -1,8 +1,11 @@
+import copy
+
 import numpy as np
 import re
 
 from util.bitboard.bb_helper import corner_check, to_bitboard, is_set, EMPTY_BB
 from util.bitboard.constants import Color, Row, Column, Piece
+from util.bitboard.moves import gen_moves
 
 
 class GameBoard:
@@ -276,3 +279,40 @@ class GameBoard:
                 self.pieces[self.color][Piece.ALLTOWERS] |= start
                 self.each_side[self.color] |= start
                 return True
+
+    def is_terminal(self):
+        return self.is_endgame()
+
+    def get_legal_moves(self):
+        return gen_moves(self, True)
+
+    def make_move(self, move):
+        new_board = copy.deepcopy(self)
+        new_board.use_move(move)
+        new_board.change_col()
+        return new_board
+
+    def pieces_in_end_zone(self, color):
+        end_zone = 0xFF if color == Color.RED else 0xFF00000000000000
+        return bin(self.each_side[color] & end_zone).count('1')
+
+    def distance_to_end_zone(self, color):
+        pieces = self.each_side[color]
+        if color == Color.RED:
+            return min(7 - (i // 8) for i in range(64) if (pieces & (1 << i)))
+        else:
+            return min(i // 8 for i in range(64) if (pieces & (1 << i)))
+
+    def get_result(self, player):
+        if self.is_endgame():
+            if self.pieces_in_end_zone(player) > 0:
+                return 1  # Win for the current player
+            elif self.pieces_in_end_zone(Color.RED if player == Color.BLUE else Color.BLUE) > 0:
+                return 0  # Loss for the current player
+        return 0.5  # Game not ended or draw
+
+    def clone(self):
+        return copy.deepcopy(self)
+
+
+

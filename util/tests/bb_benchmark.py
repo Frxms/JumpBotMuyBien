@@ -1,9 +1,11 @@
 import time
 
+from util.MCTS.mcts import MCTS
 from util.bitboard.bb_search import bb_alpha_beta_count, bb_quiet_count
 from util.bitboard.bitboard import GameBoard
 from util.bitboard.bb_evaluate import bb_evaluate
 from util.bitboard.bb_helper import get_index
+from util.bitboard.constants import Color
 from util.bitboard.moves import gen_moves
 from util.bitboard.bb_tree import Node, Tree
 from util.bitboard.bb_search import bb_alpha_beta, alpha_beta_quiet
@@ -91,6 +93,30 @@ def bb_alpha_beta_quiet_test(fen: str, move_count: int, expected: str, depth: in
           f"{expected} --> res: {get_index(child.move[0], True)}-{get_index(child.move[1], True)}")
 
 
+def bb_MCTS_test():
+    board = GameBoard()
+    while not board.is_terminal():
+        print(f"Current player: {'Red' if board.color == Color.RED else 'Blue'}")
+        best_move = get_best_move(board, iterations=1000)
+        board = board.make_move(best_move)
+        print(f"Move: {get_index(best_move[1], True)}-{get_index(best_move[2], True)}")
+        print(f"Move: {best_move}")
+        print(board)
+
+    result = board.get_result(Color.RED)
+    if result == 1:
+        print("Red wins!")
+    elif result == 0:
+        print("Blue wins!")
+    else:
+        print("It's a draw!")
+
+
+def get_best_move(board, iterations=1000):
+    mcts = MCTS(board, iterations=iterations)
+    return mcts.search()
+
+
 def bb_move_perf():
     print("bitboard move generation:")
     bb_move_test("b01b0b01b0/1b0bb1b0b0b01/3b04/2r05/4b0r02/8/1r0r0r0r0r0r01/1r0r0r0r01 b", "early")
@@ -119,8 +145,8 @@ def bb_alpha_beta_perf(counter):
     print("-----------------------------")
     bb_alpha_beta_test("b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r", 2, "F3-F2", 3, counter)
     print("**************************************************************************************")
-    
-    
+
+
 def bb_alpha_beta_quiet_perf(counter):
     print("bitboard alpha-beta quiet performance")
     bb_alpha_beta_quiet_test("b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r", 2, "F3-F2", 3, counter)
@@ -133,7 +159,10 @@ def bb_general_test():
     bb_alpha_beta_perf(True)
 
     # depth=5 Fen String "6/1b06/5b02/2b05/2b05/4r03/2r05/6 b"
+
+
 if __name__ == "__main__":
-    # bb_alpha_beta_perf(True)
-    bb_alpha_beta_test("6/1b06/5b02/2b05/2b05/4r03/2r05/6 b", 3, "C4-C5", 5, True)
-    bb_alpha_beta_quiet_test("6/1b06/5b02/2b05/2b05/4r03/2r05/6 b", 3, "C4-C5", 5, True)
+    bb_MCTS_test()
+    #bb_alpha_beta_perf(True)
+    #bb_alpha_beta_test("6/1b06/5b02/2b05/2b05/4r03/2r05/6 b", 3, "C4-C5", 5, True)
+    #bb_alpha_beta_quiet_test("6/1b06/5b02/2b05/2b05/4r03/2r05/6 b", 3, "C4-C5", 5, True)

@@ -1,5 +1,7 @@
 import random
 
+import numpy as np
+
 from util.MCTS.mcts_node import MCTSNode
 from util.bitboard.bb_evaluate import bb_evaluate
 from util.bitboard.constants import Color
@@ -25,25 +27,38 @@ class MCTS:
             if not node.fully_expanded():
                 return node
             node = node.best_child(self.exploration_weight)
+            reverse_set = node.game_state.use_move(node.move)
+            node.reverse_set = reverse_set
         return node
 
     def expand(self, node):
         move = random.choice(node.untried_moves)
-        new_state = node.game_state.make_move(move)
-        return node.add_child(move, new_state)
+        reverse_set = node.game_state.use_move(move)
+        child = node.add_child(move, reverse_set)
+        return child
 
     def simulate(self, node):
-        state = node.game_state.clone()
+        state = node.game_state
+        moves_made = []
         while not state.is_terminal():
             move = node.rollout_policy(state.get_legal_moves())
-            state = state.make_move(move)
-
-        return bb_evaluate(state) # Use your evaluate method
+            reverse_set = state.use_move(move)
+            moves_made.append(reverse_set)
+        result = bb_evaluate(state)
+        # Undo all moves made during simulation
+        for reverse_set in reversed(moves_made):
+            state.unmove(reverse_set)
+        return result
 
     def backpropagate(self, node, result):
         while node is not None:
             node.visits += 1
-            node.value += result if node.game_state.color == Color.RED else -result
+            if node.game_state.color == Color.RED:
+                node.value = np.int64(node.value) + np.int64(result)
+            else:
+                node.value = np.int64(node.value) - np.int64(result)
+            if node.parent:
+                node.game_state.unmove(node.reverse_set)
             node = node.parent
 
     def get_best_move(self):
@@ -51,4 +66,3 @@ class MCTS:
             return max(self.root.children, key=lambda c: c.value / c.visits).move
         else:
             return min(self.root.children, key=lambda c: c.value / c.visits).move
-

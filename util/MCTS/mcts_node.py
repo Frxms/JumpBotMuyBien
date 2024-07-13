@@ -1,21 +1,24 @@
 import math
 import random
 
+import numpy as np
+
 from util.bitboard.constants import Color
 
 
 class MCTSNode:
-    def __init__(self, game_state, parent=None, move=None):
+    def __init__(self, game_state, parent=None, move=None, reverse_set=None):
         self.game_state = game_state
         self.parent = parent
         self.move = move
+        self.reverse_set = reverse_set
         self.children = []
         self.visits = 0
-        self.value = 0
+        self.value = np.int64(0)
         self.untried_moves = game_state.get_legal_moves()
 
-    def add_child(self, move, game_state):
-        child = MCTSNode(game_state, self, move)
+    def add_child(self, move, reverse_set):
+        child = MCTSNode(self.game_state, self, move, reverse_set)
         self.untried_moves.remove(move)
         self.children.append(child)
         return child

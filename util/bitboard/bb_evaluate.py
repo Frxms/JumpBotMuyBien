@@ -50,10 +50,11 @@ blue_tower = np.array(
 def bb_evaluate(board: GameBoard):
     # red is positive
     # blue is negative
-    result = endgame(board)
-    result += piece_eval(board)
-    result += center_eval(board)
-    result += placement_eval(board)
+    result = np.int64(0)
+    result += np.int64(endgame(board))
+    result += np.int64(piece_eval(board))
+    result += np.int64(center_eval(board))
+    result += np.int64(placement_eval(board))
     return result
 
 
@@ -65,22 +66,22 @@ def piece_eval(board: GameBoard):
     return pawn_count * 10 + tower_count * 20 + twocol_tower_count * 25
 
 
-def placement_eval(board: GameBoard):
+def placement_eval(board):
     blue_p = get_bits(board.pieces[Color.BLUE][Piece.PAWN])
     blue_t = get_bits(board.pieces[Color.BLUE][Piece.ALLTOWERS])
     red_p = get_bits(board.pieces[Color.RED][Piece.PAWN])
     red_t = get_bits(board.pieces[Color.RED][Piece.ALLTOWERS])
-    blue_eval = 0
-    red_eval = 0
+    blue_eval = np.uint64(0)
+    red_eval = np.uint64(0)
     for piece in blue_p:
-        blue_eval += blue_pawn[np.uint8(np.log2(piece))]
+        blue_eval += np.uint64(blue_pawn[np.uint8(np.log2(piece))])
     for piece in blue_t:
-        blue_eval += blue_tower[np.uint8(np.log2(piece))]
+        blue_eval += np.uint64(blue_tower[np.uint8(np.log2(piece))])
     for piece in red_p:
-        red_eval += red_pawn[np.uint8(np.log2(piece))]
+        red_eval += np.uint64(red_pawn[np.uint8(np.log2(piece))])
     for piece in red_t:
-        red_eval += red_tower[np.uint8(np.log2(piece))]
-    return red_eval - blue_eval
+        red_eval += np.uint64(red_tower[np.uint8(np.log2(piece))])
+    return np.int64(red_eval) - np.int64(blue_eval)  # Convert to signed int64 before subtraction
 
 
 def center_eval(board: GameBoard):

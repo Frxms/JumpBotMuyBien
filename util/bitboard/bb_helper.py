@@ -50,7 +50,7 @@ def set_bits(bb: np.uint64):
         lsb = bb & (~bb + np.uint8(1))
         bb ^= lsb
         count += 1
-    return count
+    return np.int64(count)
 
 def reverse_mask(x: np.uint64):
     x = np.uint64(x)

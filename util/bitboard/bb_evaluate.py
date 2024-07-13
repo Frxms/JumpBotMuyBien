@@ -80,13 +80,13 @@ def placement_eval(board: GameBoard):
         red_eval += red_pawn[np.uint8(np.log2(piece))]
     for piece in red_t:
         red_eval += red_tower[np.uint8(np.log2(piece))]
-    return red_eval - blue_eval
+    return np.int64(red_eval) - np.int64(blue_eval)
 
 
 def center_eval(board: GameBoard):
     red_center = set_bits(board.each_side[Color.RED] & CENTER)
     blue_center = set_bits(board.each_side[Color.BLUE] & CENTER)
-    return red_center * 5 - blue_center * 5
+    return np.int64(red_center * 5) - np.int64(blue_center * 5)
 
 
 def endgame(board: GameBoard):

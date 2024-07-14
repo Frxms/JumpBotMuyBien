@@ -144,35 +144,44 @@ def alphaBeta_windows(node, depth, alpha, beta, maximizing_player, window):
         return min_eval
 
 
+count_bb_other_tree = 0
+
+
 def bb_ab_other_tree(node: Other_Node, depth, alpha, beta, maximizing_player, tree:Other_Tree):
+    global count_bb_other_tree
     if depth == 0:
         eval = bb_evaluate(node.data[0])
         node.data = node.data, eval
+        count_bb_other_tree += 1
         return eval
 
-    # if len(node.children) == 0:
-    #     node.eval = bb_evaluate(tree.get_node(node.identifier))
-    #     return node.eval
+    if len(tree.children(node.identifier)) == 0:
+        eval = bb_evaluate(node.data[0])
+        node.data = node.data, eval
+        count_bb_other_tree += 1
+        return eval
 
     if node is None:
         return 0  # In case the node is None, return 0
 
     if maximizing_player:
+        count_bb_other_tree += 1
         max_eval = alpha
         for child in tree.children(node.identifier):
             max_eval = max(max_eval, bb_ab_other_tree(child, depth - 1, max_eval, beta, False, tree))
             if max_eval >= beta:
                 break
-        node.eval = max_eval
+        node.data = node.data, max_eval
         return max_eval
 
     else:
+        count_bb_other_tree += 1
         min_eval = beta
         for child in tree.children(node.identifier):
             min_eval = min(min_eval, bb_ab_other_tree(child, depth - 1, alpha, min_eval, True, tree))
             if min_eval <= alpha:
                 break
-        node.eval = min_eval
+        node.data = node.data, min_eval
         return min_eval
 
 
@@ -184,3 +193,8 @@ def bb_alpha_beta_count():
 def bb_quiet_count():
     print("Status count:")
     print(count_bb_quiet)
+
+
+def bb_other_tree_count():
+    print("Status count:")
+    print(count_bb_other_tree)

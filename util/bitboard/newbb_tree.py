@@ -12,7 +12,10 @@ def create_other_bb_tree(tree: Tree, parent: Node, depth: int):
     global global_count
     if depth == 0:
         return
-    pboard = parent.tag
+    if parent.identifier == tree.root:
+        pboard = parent.data
+    else:
+        pboard = parent.data[0]
     if not pboard.is_endgame():
         moves = gen_moves(pboard, True)
         if not moves:
@@ -31,7 +34,7 @@ def create_other_bb_tree(tree: Tree, parent: Node, depth: int):
         tree.create_node(global_count, global_count, parent=parent.identifier, data=data_set)
 
     depth -= 1
-    for child in tree.children(parent):
+    for child in tree.children(parent.identifier):
         parent = tree.get_node(child.identifier)
         create_other_bb_tree(tree, parent, depth)
 
@@ -39,6 +42,6 @@ def create_other_bb_tree(tree: Tree, parent: Node, depth: int):
 def get_eval_move(tree: Tree, eval_num):
     moves = []
     for node in tree.children(tree.root):
-        if node.data[2] == eval_num:
+        if node.data[len(node.data)-1] == eval_num:
             moves.append(node.identifier)
     return moves

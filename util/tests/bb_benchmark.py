@@ -1,6 +1,6 @@
 import time
 
-from util.bitboard.bb_search import bb_alpha_beta_count, bb_quiet_count
+from util.bitboard.bb_search import bb_alpha_beta_count, bb_quiet_count, bb_ab_other_tree, bb_other_tree_count
 from util.bitboard.bitboard import GameBoard
 from util.bitboard.bb_evaluate import bb_evaluate
 from util.bitboard.bb_helper import get_index
@@ -67,7 +67,7 @@ def bb_alpha_beta_test(fen: str, move_count: int, expected: str, depth: int, cou
 def bb_other_tree_test(fen: str, move_count: int, expected: str, depth: int, counter: bool):
     board = GameBoard(fen)
     tree = Other_Tree()
-    tree.create_node(board, "root")
+    tree.create_node("root", "root", data=board)
     if board.is_endgame():
         print("Game already ended")
         return
@@ -81,16 +81,15 @@ def bb_other_tree_test(fen: str, move_count: int, expected: str, depth: int, cou
     print(f"{move_count} move(s) to win tree took {elapsed_time1}")
     start_time = time.time()
 
-    search_value = bb_alpha_beta(tree.root, depth, -100000, 100000, board.alpha_beta_bool())
+    search_value = bb_ab_other_tree(tree.get_node(tree.root), depth, -100000, 100000, board.alpha_beta_bool(), tree)
     if counter:
-        bb_alpha_beta_count()
+        bb_other_tree_count()
     moves = []
-    for child in get_eval_move(tree, search_value):
-        moves.append(f"{get_index(tree.get_node(child).data[1][0], True)}-{get_index(tree.get_node(child).data[1][1], True)}")
-
+    move_nodes = get_eval_move(tree, search_value)
+    for child in move_nodes:
+        moves.append(f"{get_index(tree.get_node(child).data[0][1][0], True)}-{get_index(tree.get_node(child).data[0][1][1], True)}")
     end_time = time.time()
     elapsed_time = end_time - start_time
-
     print(f"{move_count} move(s) to win with depth {depth} took: {elapsed_time} seconds. ")
     for move in moves:
         print(f"{expected} --> res: {move}")
@@ -168,6 +167,8 @@ def bb_general_test():
 
     # depth=5 Fen String "6/1b06/5b02/2b05/2b05/4r03/2r05/6 b"
 if __name__ == "__main__":
-    bb_alpha_beta_perf(True)
+    # bb_alpha_beta_perf(True)
     # bb_alpha_beta_test("6/1b06/5b02/2b05/2b05/4r03/2r05/6 b", 3, "C4-C5", 5, True)
     # bb_alpha_beta_quiet_test("6/1b06/5b02/2b05/2b05/4r03/2r05/6 b", 3, "C4-C5", 5, True)
+    bb_alpha_beta_test("b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r", 2, "F3-F2", 3, True)
+    bb_other_tree_test("b01b03/4b03/1b03r02/3rbb03/1bb4r01/8/2r02r02/1r0r02r0 r", 2, "F3-F2", 3, True)

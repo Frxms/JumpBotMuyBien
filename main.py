@@ -1,10 +1,13 @@
 from util.bitboard.bb_helper import get_index
-from util.bitboard.bb_search import bb_alpha_beta
+from util.bitboard.bb_search import bb_alpha_beta, bb_ab_other_tree_quiet
+from util.bitboard.newbb_tree import create_other_bb_tree, get_eval_one_move
 # from util.twod_array.tree import Tree, create_tree
-from util.bitboard.bb_tree import Tree, Node
+#from util.bitboard.bb_tree import Tree, Node
 from util.search import rec_endgame, alpha_beta
 from util.bitboard.bitboard import GameBoard
 from util.bitboard.moves import gen_moves
+from treelib import Tree, Node
+
 
 
 # def main_2_arrays(depth=3, best_move="C1-H1"):
@@ -55,18 +58,19 @@ def test_tree_insert(depth=2):
     if board.is_endgame():
         print("Game already ended")
         return
-    node = Node(board, False)
-    tree = Tree(node)
-    tree.create_bb_tree(tree.root, depth=depth)
+    #node = Node(board, False)
+    #tree = Tree(node)
+    #tree.create_bb_tree(tree.root, depth=depth)
 
-def client_run(fen, depth=3):
+def client_run(fen, depth=4):
     board = GameBoard(fen)
-    node = Node(board, False)
-    tree = Tree(node)
-    tree.create_bb_tree(node, 3)
-    search_value = bb_alpha_beta(tree.root, 3, -100000, 100000, board.alpha_beta_bool())
-    child: Node = tree.get_root_children(search_value)
-    return f"{get_index(child.move[0], True)}-{get_index(child.move[1], True)}"
+    tree = Tree()
+    tree.create_node("root", "root", data=board)
+    create_other_bb_tree(tree, tree.get_node("root"), depth)
+    search_value = bb_ab_other_tree_quiet(tree.get_node(tree.root), depth, -100000, 100000, board.alpha_beta_bool(), tree)
+    move = get_eval_one_move(tree, search_value)
+    return f"{get_index(tree.get_node(move).data[0][1][0], True)}-{get_index(tree.get_node(move).data[0][1][1], True)}"
+
 
 if __name__ == "__main__":
     test_tree_insert()

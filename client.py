@@ -1,5 +1,6 @@
 import json
 import pygame
+import treelib
 
 from main import client_run
 from game_server.network import Network

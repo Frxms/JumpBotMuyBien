@@ -82,15 +82,17 @@ def alpha_beta_quiet(node, depth, alpha, beta, maximizing_player):
         return min_eval
 
 
-def quiescenceSearch(alpha, beta, depth, node):
-    pat = bb_evaluate(node.value)
-    #fail hard
-    if (pat >= beta):
-        return beta
+def quiescenceSearch(alpha, beta, max_depth, node, depth = 0):
+    if max_depth <= depth:
+        bb_evaluate(node.value)
 
+    stand_pat = bb_evaluate(node.value)
+    #fail hard
+    if (stand_pat >= beta):
+        return beta
     #fail soft
-    if (alpha < pat):
-        alpha = pat
+    if (alpha < stand_pat):
+        alpha = stand_pat
 
     # generate all capture Moves
     allCaptureMoves = organize_moves_quiet(node.value)
@@ -98,7 +100,7 @@ def quiescenceSearch(alpha, beta, depth, node):
     for move in allCaptureMoves:
         new_board = copy.deepcopy(node.value)
         new_board.use_move(move)
-        score = quiescenceSearch(-alpha, -beta, depth-1,  Node(new_board))
+        score = -quiescenceSearch(-alpha, -beta, max_depth,  Node(new_board), depth+1)
 
         if score >= beta:
             return beta
@@ -184,6 +186,80 @@ def bb_ab_other_tree(node: Other_Node, depth, alpha, beta, maximizing_player, tr
         node.data = node.data, min_eval
         return min_eval
 
+def bb_ab_other_tree_quiet(node: Other_Node, depth, alpha, beta, maximizing_player, tree:Other_Tree):
+    global count_bb_other_tree
+    if depth == 0:
+        eval = quiescenceSearch(alpha, beta, 4, node)
+        node.data = node.data, eval
+        count_bb_other_tree += 1
+        return eval
+
+    if len(tree.children(node.identifier)) == 0:
+        eval = bb_evaluate(node.data[0])
+        node.data = node.data, eval
+        count_bb_other_tree += 1
+        return eval
+
+    if node is None:
+        return 0  # In case the node is None, return 0
+
+    if maximizing_player:
+        count_bb_other_tree += 1
+        max_eval = alpha
+        for child in tree.children(node.identifier):
+            max_eval = max(max_eval, bb_ab_other_tree(child, depth - 1, max_eval, beta, False, tree))
+            if max_eval >= beta:
+                break
+        node.data = node.data, max_eval
+        return max_eval
+
+    else:
+        count_bb_other_tree += 1
+        min_eval = beta
+        for child in tree.children(node.identifier):
+            min_eval = min(min_eval, bb_ab_other_tree(child, depth - 1, alpha, min_eval, True, tree))
+            if min_eval <= alpha:
+                break
+        node.data = node.data, min_eval
+        return min_eval
+
+
+def bb_ab_other_tree_asp(node: Other_Node, depth, alpha, beta, maximizing_player, tree:Other_Tree, window):
+    global count_bb_other_tree
+    if depth == 0:
+        eval = bb_evaluate(node.data[0])
+        node.data = node.data, eval
+        count_bb_other_tree += 1
+        return eval
+
+    if len(tree.children(node.identifier)) == 0:
+        eval = bb_evaluate(node.data[0])
+        node.data = node.data, eval
+        count_bb_other_tree += 1
+        return eval
+
+    if node is None:
+        return 0  # In case the node is None, return 0
+
+    if maximizing_player:
+        count_bb_other_tree += 1
+        max_eval = alpha
+        for child in tree.children(node.identifier):
+            max_eval = max(max_eval, bb_ab_other_tree_asp(child, depth - 1, max_eval, beta - window, False, tree, window))
+            if max_eval >= beta:
+                break
+        node.data = node.data, max_eval
+        return max_eval
+
+    else:
+        count_bb_other_tree += 1
+        min_eval = beta
+        for child in tree.children(node.identifier):
+            min_eval = min(min_eval, bb_ab_other_tree_asp(child, depth - 1, alpha + window, min_eval, True, tree, window))
+            if min_eval <= alpha:
+                break
+        node.data = node.data, min_eval
+        return min_eval
 
 def bb_alpha_beta_count():
     print("Status count:")

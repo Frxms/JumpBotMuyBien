@@ -1,7 +1,7 @@
 import numpy as np
 import re
 
-from util.bitboard.bb_helper import corner_check, to_bitboard, is_set, EMPTY_BB
+from util.bitboard.bb_helper import corner_check, to_bitboard, is_set, EMPTY_BB, set_bits
 from util.bitboard.constants import Color, Row, Column, Piece
 
 
@@ -84,6 +84,12 @@ class GameBoard:
         else:
             return True
 
+    def set_depth(self):
+        if set_bits(self.board) >= np.uint64(22):
+            return 3
+        else:
+            return 4
+    
     # 0b0000000000000000000000000000000000000000000000000111111001111110
     # msb is h8, lsb is a1, bit at msb - 7 is h7
     def gameStart(self):

@@ -7,6 +7,8 @@ from util.bitboard.bb_helper import get_index
 from util.bitboard.moves import gen_moves
 from util.bitboard.bb_tree import Node, Tree
 from util.bitboard.bb_search import bb_alpha_beta, alpha_beta_quiet
+from treelib import Tree as Other_Tree, Node as Other_Node
+from util.bitboard.newbb_tree import create_other_bb_tree, get_eval_move
 
 
 def bb_move_test(fen, game_type):
@@ -60,6 +62,38 @@ def bb_alpha_beta_test(fen: str, move_count: int, expected: str, depth: int, cou
 
     print(f"{move_count} move(s) to win with depth {depth} took: {elapsed_time} seconds. "
           f"{expected} --> res: {get_index(child.move[0], True)}-{get_index(child.move[1], True)}")
+
+
+def bb_other_tree_test(fen: str, move_count: int, expected: str, depth: int, counter: bool):
+    board = GameBoard(fen)
+    tree = Other_Tree()
+    tree.create_node(board, "root")
+    if board.is_endgame():
+        print("Game already ended")
+        return
+
+    start_time1 = time.time()
+
+    create_other_bb_tree(tree, tree.get_node("root"), depth)
+
+    end_time1 = time.time()
+    elapsed_time1 = end_time1 - start_time1
+    print(f"{move_count} move(s) to win tree took {elapsed_time1}")
+    start_time = time.time()
+
+    search_value = bb_alpha_beta(tree.root, depth, -100000, 100000, board.alpha_beta_bool())
+    if counter:
+        bb_alpha_beta_count()
+    moves = []
+    for child in get_eval_move(tree, search_value):
+        moves.append(f"{get_index(tree.get_node(child).data[1][0], True)}-{get_index(tree.get_node(child).data[1][1], True)}")
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+
+    print(f"{move_count} move(s) to win with depth {depth} took: {elapsed_time} seconds. ")
+    for move in moves:
+        print(f"{expected} --> res: {move}")
 
 
 def bb_alpha_beta_quiet_test(fen: str, move_count: int, expected: str, depth: int, counter: bool):

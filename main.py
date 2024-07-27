@@ -65,9 +65,9 @@ def test_tree_insert(depth=2):
 def client_run(fen, depth=4):
     board = GameBoard(fen)
     tree = Tree()
-    tree.create_node("root", "root", data=board)
+    tree.create_node("root", "root", data=board.set_depth())
     create_other_bb_tree(tree, tree.get_node("root"), depth)
-    search_value = bb_ab_other_tree_quiet(tree.get_node(tree.root), depth, -100000, 100000, board.alpha_beta_bool(), tree)
+    search_value = bb_ab_other_tree_quiet(tree.get_node(tree.root), board.set_depth(), -100000, 100000, board.alpha_beta_bool(), tree)
     move = get_eval_one_move(tree, search_value)
     return f"{get_index(tree.get_node(move).data[0][1][0], True)}-{get_index(tree.get_node(move).data[0][1][1], True)}"
 

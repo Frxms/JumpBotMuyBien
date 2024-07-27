@@ -1,5 +1,6 @@
 import unittest
 
+from util.bitboard.bb_helper import get_index
 from util.bitboard.bitboard import GameBoard
 from util.bitboard.moves import gen_moves
 
@@ -10,7 +11,7 @@ class Maintest(unittest.TestCase):
         board = GameBoard(fen)
         list = []
         for move in gen_moves(board, True):
-            list.append(move[2])
+            list.append(f"{get_index(move[1], True)}-{get_index(move[2], True)}")
         myList = sorted(list)
         expected = sorted(["B2-A2", "B2-B3", "B1-B2", "B1-C1", "C2-A3", "C2-B4", "C2-D4", "C2-E3", "D3-C3", "D3-C4",
                            "D3-D4", "D3-E3", "D1-C1", "D1-D2", "D1-E1", "E2-D2", "E2-E3", "E2-F2", "E1-D1", "E1-E2",
@@ -32,7 +33,7 @@ class Maintest(unittest.TestCase):
         board = GameBoard(fen)
         list = []
         for move in gen_moves(board, True):
-            list.append(move[2])
+            list.append(f"{get_index(move[1], True)}-{get_index(move[2], True)}")
         myList = sorted(list)
         expected = sorted(["B1-B2", "B1-C1", "E1-E2", "E1-D1", "E1-F1", "G1-G2", "G1-F1", "D2-D3", "D2-C2", "D2-E2",
                            "F2-F3", "F2-E2", "F2-G2", "A3-A4", "A3-B3", "D3-D4", "D3-C3", "D3-E3", "G3-G4", "G3-F3",
@@ -52,7 +53,7 @@ class Maintest(unittest.TestCase):
         board = GameBoard(fen)
         list = []
         for move in gen_moves(board, True):
-            list.append(move[2])
+            list.append(f"{get_index(move[1], True)}-{get_index(move[2], True)}")
         myList = sorted(list)
         expected = sorted(["E1-D1", "E1-E2", "E1-F1", "C2-B2", "C2-C3", "C2-D2", "B3-A3", "B3-C3", "B3-C4", "F4-E4",
                            "F4-F5", "F4-G4", "G7-F7", "G7-G8", "G7-H7"])
@@ -72,7 +73,7 @@ class EarlyGame(unittest.TestCase):
         board = GameBoard(fen)
         list = []
         for move in gen_moves(board, True):
-            list.append(move[2])
+            list.append(f"{get_index(move[1], True)}-{get_index(move[2], True)}")
         myList = sorted(list)
         expected = sorted(["C1-B1", "C1-D1", "C1-C2", "C2-B2", "C2-D2", "G2-F2", "G2-H2", "G2-G3", "A3-B3", "D4-C4",
                            "D4-E4", "D4-D5", "F4-E4", "F4-G4", "F4-F5", "B5-A5", "B5-C5", "E6-D6", "E6-F6", "E6-E7"])
@@ -93,7 +94,7 @@ class Endgame(unittest.TestCase):
         board = GameBoard(fen)
         list = []
         for move in gen_moves(board, True):
-            list.append(move[2])
+            list.append(f"{get_index(move[1], True)}-{get_index(move[2], True)}")
         myList = sorted(list)
         expected = sorted(["A2-C1", "G3-G2", "G3-F3", "G3-H3"])
 
@@ -112,7 +113,7 @@ class Endgame(unittest.TestCase):
         board = GameBoard(fen)
         list = []
         for move in gen_moves(board, True):
-            list.append(move[2])
+            list.append(f"{get_index(move[1], True)}-{get_index(move[2], True)}")
         myList = sorted(list)
         expected = sorted(["C6-B6", "C6-D6", "F6-E6", "F6-G6", "C2-B2", "C2-D2", "F2-E2", "F2-G2"])
 
@@ -131,7 +132,7 @@ class Endgame(unittest.TestCase):
             board = GameBoard(fen)
             list = []
             for move in gen_moves(board, True):
-                list.append(move[2])
+                list.append(f"{get_index(move[1], True)}-{get_index(move[2], True)}")
             myList = sorted(list)
             expected = sorted(["H2-G2", "H2-G1", "A3-B3", "A3-A2"])
 
@@ -150,7 +151,7 @@ class Endgame(unittest.TestCase):
             board = GameBoard(fen)
             list = []
             for move in gen_moves(board, True):
-                list.append(move[2])
+                list.append(f"{get_index(move[1], True)}-{get_index(move[2], True)}")
             myList = sorted(list)
             expected = sorted(["B2-A2", "B2-B3", "B2-C2", "C4-B4", "C4-D4", "C4-D5", "E4-C5", "E4-D6", "E4-F6", "E4-G5",
                                "F4-G5", "G4-E5", "G4-F6", "G4-H6", "B5-A7", "B5-C7", "B5-D6", "A7-B7"])

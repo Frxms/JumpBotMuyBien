@@ -9,14 +9,11 @@
     * `get_valid_directions()`
     * `get_steps()`
 - [ ] Same Size Array
-- [ ] Concurrency
 - [X] Min-Max Algorythm
 - [X] Alpha-Beta Algorythm
 - [X] Visualizer (maybe later)
 - [X] Unit Tests
 - [X] Benchmarks
-
-Blau ist negative bei EVAL
 
 ## Alpha-Beta-KI:
 ## Board Evalutation Criteria
@@ -85,7 +82,7 @@ Deliverables:
 BitBoard Dokumentation
 - 
 
-optimierte KI:
+## optimierte KI:
 - benchmark Tests sauber implementieren (so umschreiben, dass man alphabeta und minimax laufen lassen kann und bitboard und 2D array auch in einem)
 - bitboards optimieren
 - Ruhesuche parameter überarbeiten -> zugsortierung

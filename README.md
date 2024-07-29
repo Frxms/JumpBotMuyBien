@@ -2,7 +2,7 @@
 ## JumpSturdy KI
 ### The best bot out there!!!!
 
-!!!Disclaimer: Die angegebene Anzahl an Commits und Umfang der Commits sind nicht aussagekräftig über die Menge an absolvierter Arbeit pro COntributor, da das JetBrains - PyCharm Feature "Code Together" benutzt wurde!!!
+!!!Disclaimer: Die angegebene Anzahl an Commits und Umfang der Commits sind nicht aussagekräftig über die Menge an absolvierter Arbeit pro Contributor, da das JetBrains - PyCharm Feature "Code Together" benutzt wurde!!!
 
 ## Meilenstein 1 (Dummy KI):
 ### Anforderungen:
